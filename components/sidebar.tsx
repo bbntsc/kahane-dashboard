@@ -6,7 +6,7 @@ export function Sidebar() {
   return (
     <div className="flex h-full w-64 flex-col border-r border-[#ede9e1] bg-[#f8f3ef]">
       <div className="flex h-16 items-center border-b border-[#ede9e1] px-6">
-        <h1 className="text-xl font-semibold tracking-tight text-[#1b251d]">Kahune</h1>
+        <h1 className="text-xl font-semibold tracking-tight text-[#1b251d]">Kahane</h1>
       </div>
       <div className="flex-1 overflow-auto py-4">
         <nav className="space-y-1 px-2">

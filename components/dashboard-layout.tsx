@@ -41,7 +41,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           className={`fixed inset-y-0 left-0 w-64 bg-white transition-transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
         >
           <div className="flex h-16 items-center justify-between px-6 border-b">
-            <h1 className="text-xl font-bold text-gray-900">Kahune</h1>
+            <h1 className="text-xl font-bold text-gray-900">Kahane</h1>
             <button onClick={() => setSidebarOpen(false)} className="text-gray-500 hover:text-gray-700">
               <X className="h-6 w-6" />
             </button>
@@ -72,7 +72,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
         <div className="flex flex-col flex-grow border-r border-gray-200 bg-white overflow-y-auto">
           <div className="flex h-16 items-center px-6 border-b">
-            <h1 className="text-xl font-bold text-gray-900">Kahune</h1>
+            <h1 className="text-xl font-bold text-gray-900">Kahane</h1>
           </div>
           <nav className="mt-6 flex-1 px-3">
             {navigation.map((item) => {
