@@ -4,20 +4,25 @@ import { Menu, ChevronDown } from "lucide-react"
 import { useState } from "react"
 
 export function BankGutmannHeader() {
+  // State für das mobile Menü (offen/geschlossen)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
     <header className="bg-[#f8f3ef] border-b border-[#ede9e1] relative z-50">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="flex h-20 items-center justify-between">
-          {/* Left: Menu and Navigation */}
-          <div className="flex items-center gap-8 flex-1">
+        {/* Haupt-Navigationsleiste (relative Positionierung für Logo) */}
+        <div className="flex h-20 items-center justify-between relative">
+          
+          {/* Linke Sektion: Mobiles Menü-Icon & Desktop-Links */}
+          <div className="flex items-center gap-8">
+            {/* Mobiler Menü-Button (Hamburger) */}
             <button
-              className="p-2 hover:bg-[#ede9e1] rounded-md transition-colors"
+              className="p-2 hover:bg-[#ede9e1] rounded-md transition-colors lg:hidden"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               <Menu className="h-5 w-5 text-[#1b251d]" />
             </button>
+            {/* Desktop-Navigation (Links) */}
             <nav className="hidden lg:flex items-center gap-6 text-sm">
               <a href="#" className="text-[#1b251d] hover:opacity-70 transition-opacity whitespace-nowrap">
                 Private Banking
@@ -31,8 +36,8 @@ export function BankGutmannHeader() {
             </nav>
           </div>
 
-          {/* Center: Logo - No absolute positioning */}
-          <div className="flex-shrink-0 px-8">
+          {/* Mittlere Sektion: Absolut zentriertes Logo */}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <a href="/" className="block text-center">
               <div
                 className="font-serif italic text-2xl text-[#1b251d] leading-tight"
@@ -44,8 +49,9 @@ export function BankGutmannHeader() {
             </a>
           </div>
 
-          {/* Right: Navigation */}
-          <div className="flex items-center gap-6 text-sm flex-1 justify-end">
+          {/* Rechte Sektion: Desktop-Links & Login */}
+          <div className="flex items-center gap-6 text-sm justify-end">
+            {/* Desktop-Navigation (Rechts) */}
             <nav className="hidden lg:flex items-center gap-6">
               <a href="#" className="text-[#1b251d] hover:opacity-70 transition-opacity whitespace-nowrap">
                 Über uns
@@ -66,18 +72,13 @@ export function BankGutmannHeader() {
                 <ChevronDown className="h-3 w-3 text-[#1b251d]" />
               </div>
 
-              {/* Plus Button */}
-              <button className="w-7 h-7 rounded-full border border-[#1b251d] flex items-center justify-center text-[#1b251d] hover:bg-[#1b251d] hover:text-white transition-colors flex-shrink-0">
-                <span className="text-lg leading-none">+</span>
-              </button>
-
-              {/* Login Button */}
+              {/* Login Button (Desktop) */}
               <button className="px-4 py-1.5 rounded-full border border-[#1b251d] text-[#1b251d] text-sm hover:bg-[#1b251d] hover:text-white transition-colors whitespace-nowrap">
                 login
               </button>
             </nav>
 
-            {/* Mobile menu button */}
+            {/* Mobiler Login-Button (wird zum Menü-Trigger) */}
             <button
               className="lg:hidden px-4 py-1.5 rounded-full border border-[#1b251d] text-[#1b251d] text-sm"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -87,10 +88,11 @@ export function BankGutmannHeader() {
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobiles Dropdown-Menü (nur sichtbar, wenn 'mobileMenuOpen' true ist) */}
         {mobileMenuOpen && (
           <div className="lg:hidden py-4 border-t border-[#ede9e1]">
             <nav className="flex flex-col gap-3">
+              {/* Mobile Navigationslinks */}
               <a href="#" className="text-[#1b251d] hover:opacity-70 transition-opacity py-2">
                 Private Banking
               </a>
