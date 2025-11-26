@@ -101,7 +101,7 @@ export function ContactForm() {
 
         <AnimatedConcierge
           message="Ausgezeichnet! Wir freuen uns darauf, Sie bei Ihrer Anlageentscheidung zu unterstützen."
-          position="center"
+          position="right"
         />
       </div>
     )
@@ -279,7 +279,7 @@ export function ContactForm() {
           )}
         </motion.div>
 
-        <AnimatedConcierge message={getConciergeMessage()} position="center" />
+        <AnimatedConcierge message={getConciergeMessage()} position="right" />
       </div>
 
       {/* Feedback Modal */}

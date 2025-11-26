@@ -43,51 +43,54 @@ export function AnimatedConcierge({ message, onNext, onSkip, showOptions, positi
 
   const positionClass = {
     left: "left-4 md:left-8",
-    right: "right-4 md:right-8",
+    right: "right-4 md:right-12 lg:right-16",
     center: "left-1/2 -translate-x-1/2",
   }[position]
 
+  const bubbleOnLeft = position === "right"
+
   return (
-    <div className={`fixed bottom-24 ${positionClass} z-50 flex items-end gap-4 max-w-md`}>
-      {/* Speech Bubble */}
-      <AnimatePresence>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          transition={{ type: "spring", stiffness: 300, damping: 25 }}
-          className="relative bg-white border-2 border-[#8B4513] rounded-2xl shadow-xl p-4 max-w-sm"
-          style={{
-            filter: "drop-shadow(0 10px 25px rgba(0, 0, 0, 0.15))",
-          }}
-        >
-          {/* Speech bubble tail */}
-          <div className="absolute -bottom-3 left-8 w-6 h-6 bg-white border-r-2 border-b-2 border-[#8B4513] transform rotate-45" />
+    <div className={`fixed bottom-24 ${positionClass} z-40 flex items-end gap-4 max-w-md`}>
+      {bubbleOnLeft && (
+        <AnimatePresence>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            className="relative bg-white/95 backdrop-blur-sm border-2 border-[#8B4513] rounded-2xl shadow-xl p-4 max-w-xs"
+            style={{
+              filter: "drop-shadow(0 10px 25px rgba(0, 0, 0, 0.15))",
+            }}
+          >
+            {/* Speech bubble tail pointing right */}
+            <div className="absolute -right-3 bottom-8 w-6 h-6 bg-white/95 backdrop-blur-sm border-r-2 border-t-2 border-[#8B4513] transform rotate-45" />
 
-          <p className="text-sm md:text-base text-gray-800 leading-relaxed mb-3">{message}</p>
+            <p className="text-sm md:text-base text-gray-800 leading-relaxed mb-3">{message}</p>
 
-          {showOptions && (
-            <div className="flex gap-2 mt-4">
-              {onNext && (
-                <button
-                  onClick={onNext}
-                  className="flex-1 bg-[#8B4513] hover:bg-[#6B3410] text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-                >
-                  Verstanden
-                </button>
-              )}
-              {onSkip && (
-                <button
-                  onClick={onSkip}
-                  className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-                >
-                  Überspringen
-                </button>
-              )}
-            </div>
-          )}
-        </motion.div>
-      </AnimatePresence>
+            {showOptions && (
+              <div className="flex gap-2 mt-4">
+                {onNext && (
+                  <button
+                    onClick={onNext}
+                    className="flex-1 bg-[#8B4513] hover:bg-[#6B3410] text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                  >
+                    Verstanden
+                  </button>
+                )}
+                {onSkip && (
+                  <button
+                    onClick={onSkip}
+                    className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                  >
+                    Überspringen
+                  </button>
+                )}
+              </div>
+            )}
+          </motion.div>
+        </AnimatePresence>
+      )}
 
       {/* Animated Concierge Character */}
       <motion.div
@@ -125,6 +128,47 @@ export function AnimatedConcierge({ message, onNext, onSkip, showOptions, positi
           className="absolute inset-0 bg-gradient-to-br from-yellow-200/20 to-transparent rounded-full blur-lg"
         />
       </motion.div>
+
+      {!bubbleOnLeft && (
+        <AnimatePresence>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            className="relative bg-white/95 backdrop-blur-sm border-2 border-[#8B4513] rounded-2xl shadow-xl p-4 max-w-sm"
+            style={{
+              filter: "drop-shadow(0 10px 25px rgba(0, 0, 0, 0.15))",
+            }}
+          >
+            {/* Speech bubble tail */}
+            <div className="absolute -bottom-3 left-8 w-6 h-6 bg-white/95 backdrop-blur-sm border-r-2 border-b-2 border-[#8B4513] transform rotate-45" />
+
+            <p className="text-sm md:text-base text-gray-800 leading-relaxed mb-3">{message}</p>
+
+            {showOptions && (
+              <div className="flex gap-2 mt-4">
+                {onNext && (
+                  <button
+                    onClick={onNext}
+                    className="flex-1 bg-[#8B4513] hover:bg-[#6B3410] text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                  >
+                    Verstanden
+                  </button>
+                )}
+                {onSkip && (
+                  <button
+                    onClick={onSkip}
+                    className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                  >
+                    Überspringen
+                  </button>
+                )}
+              </div>
+            )}
+          </motion.div>
+        </AnimatePresence>
+      )}
     </div>
   )
 }
