@@ -1,14 +1,25 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Playfair_Display, Lora } from "next/font/google"
 import "./globals.css"
+import { AppSidebar } from "@/components/app-sidebar"
 
-const inter = Inter({ subsets: ["latin"] })
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-serif",
+  display: "swap",
+})
+
+const lora = Lora({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+})
 
 export const metadata: Metadata = {
-  title: "Kahane Financial Dashboard",
-  description: "Investment simulation and market analysis platform",
-    generator: 'v0.app'
+  title: "Bank Gutmann - Investment Simulation",
+  description: "Erleben Sie, wie sich Ihr Vermögen entwickeln könnte",
+  generator: "v0.app",
 }
 
 export default function RootLayout({
@@ -17,8 +28,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="de">
-      <body className={inter.className}>{children}</body>
+    <html lang="de" className={`${playfair.variable} ${lora.variable}`}>
+      <body className="font-sans antialiased">
+        <AppSidebar />
+        {children}
+      </body>
     </html>
   )
 }

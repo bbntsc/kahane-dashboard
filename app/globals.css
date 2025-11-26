@@ -1,10 +1,20 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Updated for serif fonts and elegant styling */
 body {
-  font-family: "Times New Roman", Times, serif;
+  font-family: var(--font-sans), "Lora", Georgia, serif;
   background-color: white;
   color: #1b251d;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-serif), "Playfair Display", Georgia, serif;
 }
 
 @layer utilities {
@@ -108,7 +118,8 @@ body {
 }
 
 @theme inline {
-  /* optional: --font-sans, --font-serif, --font-mono if they are applied in the layout.tsx */
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
