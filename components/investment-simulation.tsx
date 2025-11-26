@@ -460,17 +460,22 @@ export function InvestmentSimulation() {
           </div>
         </div>
 
-        <div
-          className="mt-8 bg-gradient-to-r from-[#1b251d] to-[#2a3529] rounded-xl p-6 text-white shadow-lg"
-          data-tour="cta"
-        >
-          <h3 className="text-xl font-serif mb-2">Wie hätte sich Ihre Investition in der Vergangenheit verhalten?</h3>
-          <p className="text-sm opacity-90 mb-4">
-            Entdecken Sie, wie sich Ihr Portfolio durch historische Krisen und Aufschwünge entwickelt hätte.
-          </p>
+        <div className="mt-8 bg-white border border-[#ede9e1] rounded-lg p-8 shadow-sm" data-tour="cta">
+          <div className="flex items-start gap-4">
+            <div className="flex-1">
+              <h3 className="text-2xl font-serif text-[#1b251d] mb-3 leading-tight">
+                Wie hätte sich Ihre Investition in der Vergangenheit verhalten?
+              </h3>
+              <p className="text-base text-gray-600 leading-relaxed">
+                Entdecken Sie, wie sich Ihr Portfolio durch historische Krisen und Aufschwünge entwickelt hätte.
+                Verstehen Sie Chancen und Risiken durch konkrete Beispiele aus der Finanzgeschichte.
+              </p>
+            </div>
+          </div>
           <Link href="/market">
-            <button className="w-full py-3 bg-[#ebf151] text-[#1b251d] rounded-lg hover:bg-[#d9df47] transition-colors font-medium">
-              Blick in den Markt →
+            <button className="mt-6 px-8 py-3 bg-[#4a5f52] text-white rounded-lg hover:bg-[#3a4f42] transition-colors font-medium inline-flex items-center gap-2">
+              Blick in den Markt
+              <span className="text-lg">→</span>
             </button>
           </Link>
         </div>

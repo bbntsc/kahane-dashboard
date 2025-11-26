@@ -6,8 +6,8 @@ import { MarketControls } from "./market/market-controls"
 import { MarketSummary } from "./market/market-summary"
 import { MarketChart } from "./market/market-chart"
 import { CrisisDetailModal } from "./crisis-detail-modal"
-import { ConciergeBell } from "@/components/concierge-bell"
 import { ConciergeHelpModal } from "@/components/concierge-help-modal"
+import { AppSidebar } from "@/components/app-sidebar"
 import type { Crisis } from "./market/market-data"
 import Link from "next/link"
 
@@ -27,9 +27,11 @@ export function MarketApp() {
     <div className="min-h-screen bg-[#f8f3ef]">
       <BankGutmannHeader />
 
+      <AppSidebar />
+
       {showHelp && <ConciergeHelpModal context="market" onClose={() => setShowHelp(false)} />}
 
-      <div className="mx-auto max-w-7xl px-4 py-8">
+      <div className="ml-20 mx-auto max-w-7xl px-4 py-8">
         <MarketControls
           timeframe={timeframe}
           setTimeframe={setTimeframe}
@@ -41,13 +43,13 @@ export function MarketApp() {
 
         <MarketChart timeframe={timeframe} showInsights={showInsights} onCrisisClick={handleCrisisClick} />
 
-        <div className="mt-8 bg-white rounded-xl p-6 border-2 border-[#1b251d]">
+        <div className="mt-8 bg-white rounded-xl p-6 border border-[#ede9e1] shadow-sm">
           <h3 className="text-xl font-serif text-[#1b251d] mb-2">Bereit, Ihre Anlagestrategie zu besprechen?</h3>
-          <p className="text-sm text-gray-600 mb-4">
+          <p className="text-sm text-gray-600 mb-4 leading-relaxed">
             Unsere Experten helfen Ihnen, eine maßgeschneiderte Strategie zu entwickeln.
           </p>
           <Link href="/contact">
-            <button className="w-full py-3 bg-[#ebf151] text-[#1b251d] rounded-lg hover:bg-[#d9df47] transition-colors font-medium">
+            <button className="px-8 py-3 bg-[#ebf151] text-[#1b251d] rounded-lg hover:bg-[#d9df47] transition-colors font-medium inline-flex items-center gap-2">
               Jetzt kontaktieren
             </button>
           </Link>
@@ -57,8 +59,6 @@ export function MarketApp() {
           <CrisisDetailModal crisis={selectedCrisis} isOpen={showModal} onClose={() => setShowModal(false)} />
         )}
       </div>
-
-      <ConciergeBell onHelp={() => setShowHelp(true)} />
     </div>
   )
 }
