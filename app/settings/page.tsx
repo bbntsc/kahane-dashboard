@@ -2,95 +2,85 @@
 
 import { DashboardLayout } from "@/components/dashboard-layout"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Moon, Sun, Monitor } from "lucide-react"
-import { useState } from "react"
+import { Moon, Sun } from "lucide-react"
+import { useSettings } from "@/lib/settings-context"
+import { useTranslation } from "@/lib/i18n"
 
 export default function SettingsPage() {
-  const [theme, setTheme] = useState<"light" | "dark" | "system">("light")
-  const [fontSize, setFontSize] = useState("medium")
+  const { language, theme, setTheme, fontSize, setFontSize } = useSettings()
+  const t = useTranslation(language)
+
+  const handleThemeChange = (newTheme: "light" | "dark") => {
+    setTheme(newTheme)
+  }
 
   return (
     <DashboardLayout>
       <div className="space-y-8 max-w-3xl">
         <div>
-          <h1 className="text-3xl font-serif text-[#1b251d]">Einstellungen</h1>
-          <p className="mt-2 text-[#6b7280]">Passen Sie die Darstellung nach Ihren Wünschen an</p>
+          <h1 className="text-3xl font-serif text-[#1b251d] dark:text-[#f8f3ef]">{t.settings.title}</h1>
+          <p className="mt-2 text-[#6b7280] dark:text-[#9ca3af]">Passen Sie die Darstellung nach Ihren Wünschen an</p>
         </div>
 
-        <Card>
+        <Card className="dark:bg-[#2a3529] dark:border-[#404a3f]">
           <CardHeader>
-            <CardTitle className="font-serif">Darstellung</CardTitle>
+            <CardTitle className="font-serif dark:text-[#f8f3ef]">{t.settings.appearance}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Theme Selection */}
             <div>
-              <label className="block text-sm font-medium text-[#1b251d] mb-3">Farbschema</label>
-              <div className="grid grid-cols-3 gap-3">
+              <label className="block text-sm font-medium text-[#1b251d] dark:text-[#f8f3ef] mb-3">
+                {t.settings.theme}
+              </label>
+              <div className="grid grid-cols-2 gap-3">
                 <button
-                  onClick={() => setTheme("light")}
+                  onClick={() => handleThemeChange("light")}
                   className={`flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-colors ${
-                    theme === "light" ? "border-[#1b251d] bg-[#f8f3ef]" : "border-[#ede9e1] hover:border-[#1b251d]/30"
+                    theme === "light"
+                      ? "border-[#1b251d] dark:border-[#f8f3ef] bg-[#f8f3ef] dark:bg-[#1b251d]"
+                      : "border-[#ede9e1] dark:border-[#404a3f] hover:border-[#1b251d]/30"
                   }`}
                 >
                   <Sun className="w-6 h-6" />
-                  <span className="text-sm">Hell</span>
+                  <span className="text-sm">{t.settings.light}</span>
                 </button>
                 <button
-                  onClick={() => setTheme("dark")}
+                  onClick={() => handleThemeChange("dark")}
                   className={`flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-colors ${
-                    theme === "dark" ? "border-[#1b251d] bg-[#f8f3ef]" : "border-[#ede9e1] hover:border-[#1b251d]/30"
+                    theme === "dark"
+                      ? "border-[#1b251d] dark:border-[#f8f3ef] bg-[#f8f3ef] dark:bg-[#1b251d]"
+                      : "border-[#ede9e1] dark:border-[#404a3f] hover:border-[#1b251d]/30"
                   }`}
                 >
                   <Moon className="w-6 h-6" />
-                  <span className="text-sm">Dunkel</span>
-                </button>
-                <button
-                  onClick={() => setTheme("system")}
-                  className={`flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-colors ${
-                    theme === "system" ? "border-[#1b251d] bg-[#f8f3ef]" : "border-[#ede9e1] hover:border-[#1b251d]/30"
-                  }`}
-                >
-                  <Monitor className="w-6 h-6" />
-                  <span className="text-sm">System</span>
+                  <span className="text-sm">{t.settings.dark}</span>
                 </button>
               </div>
-              <p className="text-xs text-[#6b7280] mt-2">
-                Wählen Sie das Farbschema, das am besten zu Ihrer Arbeitsumgebung passt
-              </p>
             </div>
 
             {/* Font Size */}
             <div>
-              <label className="block text-sm font-medium text-[#1b251d] mb-3">Schriftgröße</label>
+              <label className="block text-sm font-medium text-[#1b251d] dark:text-[#f8f3ef] mb-3">
+                {t.settings.fontSize}
+              </label>
               <div className="flex gap-3">
-                {["Klein", "Mittel", "Groß"].map((size, index) => (
+                {["small", "medium", "large"].map((size, index) => (
                   <button
                     key={size}
-                    onClick={() => setFontSize(["small", "medium", "large"][index])}
+                    onClick={() => setFontSize(size as "small" | "medium" | "large")}
                     className={`flex-1 py-3 px-4 rounded-lg border-2 transition-colors ${
-                      fontSize === ["small", "medium", "large"][index]
-                        ? "border-[#1b251d] bg-[#f8f3ef]"
-                        : "border-[#ede9e1] hover:border-[#1b251d]/30"
+                      fontSize === size
+                        ? "border-[#1b251d] dark:border-[#f8f3ef] bg-[#f8f3ef] dark:bg-[#1b251d]"
+                        : "border-[#ede9e1] dark:border-[#404a3f] hover:border-[#1b251d]/30"
                     }`}
                   >
-                    <span className={index === 0 ? "text-sm" : index === 1 ? "text-base" : "text-lg"}>{size}</span>
+                    <span className={index === 0 ? "text-sm" : index === 1 ? "text-base" : "text-lg"}>
+                      {index === 0 ? t.settings.small : index === 1 ? t.settings.medium : t.settings.large}
+                    </span>
                   </button>
                 ))}
               </div>
             </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="font-serif">Über die Simulation</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-[#6b7280] leading-relaxed">
-              Diese Simulation dient ausschließlich zu Informationszwecken. Die dargestellten Szenarien basieren auf
-              historischen Daten und stellen keine Anlageberatung dar. Vergangene Wertentwicklungen sind kein
-              verlässlicher Indikator für zukünftige Ergebnisse.
-            </p>
           </CardContent>
         </Card>
       </div>

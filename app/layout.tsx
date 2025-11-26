@@ -2,7 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Playfair_Display, Lora } from "next/font/google"
 import "./globals.css"
-import { AppSidebar } from "@/components/app-sidebar"
+import { SettingsProvider } from "@/lib/settings-context"
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -29,9 +29,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="de" className={`${playfair.variable} ${lora.variable}`}>
-      <body className="font-sans antialiased">
-        <AppSidebar />
-        {children}
+      <body className="font-sans antialiased bg-background text-foreground transition-colors duration-300">
+        <SettingsProvider>{children}</SettingsProvider>
       </body>
     </html>
   )

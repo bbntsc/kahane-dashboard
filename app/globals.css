@@ -83,11 +83,12 @@ h6 {
 }
 
 .dark {
+  /* Added dark mode support with proper color values */
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
+  --card: oklch(0.2 0 0);
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.145 0 0);
+  --popover: oklch(0.2 0 0);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.985 0 0);
   --primary-foreground: oklch(0.205 0 0);
@@ -102,19 +103,27 @@ h6 {
   --border: oklch(0.269 0 0);
   --input: oklch(0.269 0 0);
   --ring: oklch(0.439 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
+}
+
+.dark body {
+  background-color: #1b251d;
+  color: #f8f3ef;
+}
+
+.dark .bg-\[\#f8f3ef\] {
+  background-color: #2a3529 !important;
+}
+
+.dark .text-\[\#1b251d\] {
+  color: #f8f3ef !important;
+}
+
+.dark .bg-white {
+  background-color: #2a3529 !important;
+}
+
+.dark .border-\[\#ede9e1\] {
+  border-color: #404a3f !important;
 }
 
 @theme inline {
