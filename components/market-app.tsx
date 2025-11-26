@@ -7,7 +7,6 @@ import { MarketSummary } from "./market/market-summary"
 import { MarketChart } from "./market/market-chart"
 import { CrisisDetailModal } from "./crisis-detail-modal"
 import { ConciergeHelpModal } from "@/components/concierge-help-modal"
-import { AppSidebar } from "@/components/app-sidebar"
 import type { Crisis } from "./market/market-data"
 import Link from "next/link"
 
@@ -27,11 +26,9 @@ export function MarketApp() {
     <div className="min-h-screen bg-[#f8f3ef]">
       <BankGutmannHeader />
 
-      <AppSidebar />
-
       {showHelp && <ConciergeHelpModal context="market" onClose={() => setShowHelp(false)} />}
 
-      <div className="ml-20 mx-auto max-w-7xl px-4 py-8">
+      <div className="mx-auto max-w-7xl px-4 py-8">
         <MarketControls
           timeframe={timeframe}
           setTimeframe={setTimeframe}
@@ -49,7 +46,7 @@ export function MarketApp() {
             Unsere Experten helfen Ihnen, eine maßgeschneiderte Strategie zu entwickeln.
           </p>
           <Link href="/contact">
-            <button className="px-8 py-3 bg-[#ebf151] text-[#1b251d] rounded-lg hover:bg-[#d9df47] transition-colors font-medium inline-flex items-center gap-2">
+            <button className="px-8 py-3 bg-[#4a5f52] text-white rounded-lg hover:bg-[#3a4f42] transition-colors font-medium inline-flex items-center gap-2 shadow-sm">
               Jetzt kontaktieren
             </button>
           </Link>

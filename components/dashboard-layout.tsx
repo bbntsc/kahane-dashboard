@@ -5,7 +5,8 @@ import { useState } from "react"
 import type React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { LayoutDashboard, TrendingUp, BarChart3, Settings, Menu, X, LineChart } from "lucide-react"
+import { LayoutDashboard, TrendingUp, BarChart3, Settings, X, LineChart, Phone, MessageSquare } from "lucide-react"
+import Image from "next/image"
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -27,6 +28,11 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       return pathname === href
     }
     return pathname.startsWith(href)
+  }
+
+  const handleConciergeClick = () => {
+    const event = new CustomEvent("openConcierge")
+    window.dispatchEvent(event)
   }
 
   return (
@@ -70,9 +76,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
       {/* Desktop sidebar */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
-        <div className="flex flex-col flex-grow border-r border-gray-200 bg-white overflow-y-auto">
-          <div className="flex h-16 items-center px-6 border-b">
-            <h1 className="text-xl font-bold text-gray-900">Kahane</h1>
+        <div className="flex flex-col flex-grow border-r border-[#ede9e1] bg-[#f8f3ef] overflow-y-auto">
+          <div className="flex h-16 items-center px-6 border-b border-[#ede9e1]">
+            <h1 className="text-xl font-serif text-[#1b251d]">Kahane</h1>
           </div>
           <nav className="mt-6 flex-1 px-3">
             {navigation.map((item) => {
@@ -83,7 +89,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   key={item.name}
                   href={item.href}
                   className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors mb-1 ${
-                    active ? "bg-gray-900 text-white" : "text-gray-700 hover:bg-gray-100"
+                    active ? "bg-[#1b251d] text-white" : "text-[#1b251d] hover:bg-white"
                   }`}
                 >
                   <Icon className="h-5 w-5" />
@@ -91,11 +97,45 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 </Link>
               )
             })}
+
+            <div className="flex justify-center my-8 py-8 border-y border-[#ede9e1]/50">
+              <button onClick={handleConciergeClick} className="group relative" title="Concierge rufen">
+                <div className="relative w-20 h-20 flex items-center justify-center rounded-full bg-white shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">
+                  <Image
+                    src="/images/hotel-bell.jpg"
+                    alt="Concierge Bell"
+                    width={48}
+                    height={48}
+                    className="object-contain"
+                  />
+                </div>
+              </button>
+            </div>
+
+            <div className="space-y-2 mt-4">
+              <Link
+                href="/contact"
+                className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-[#4a5f52] hover:bg-white rounded-lg transition-colors"
+              >
+                <Phone className="h-5 w-5" />
+                Kontaktieren
+              </Link>
+
+              <button
+                onClick={() => {
+                  alert("Feedback-Funktion wird geöffnet")
+                }}
+                className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium text-[#4a5f52] hover:bg-white rounded-lg transition-colors"
+              >
+                <MessageSquare className="h-5 w-5" />
+                Feedback
+              </button>
+            </div>
           </nav>
-          <div className="border-t p-4">
+          <div className="border-t border-[#ede9e1] p-4">
             <Link
               href="/settings"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
+              className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-[#1b251d] hover:bg-white"
             >
               <Settings className="h-5 w-5" />
               Einstellungen
@@ -106,7 +146,6 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
       {/* Main content */}
       <div className="lg:pl-64">
-        {/* Page content */}
         <main className="py-8 px-4 sm:px-6 lg:px-8">{children}</main>
       </div>
     </div>
