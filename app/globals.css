@@ -81,48 +81,48 @@ h6 {
   --sidebar-ring: oklch(0.708 0 0);
 }
 
-/* Softer, more elegant dark mode colors */
+/* Softer, more elegant dark mode with warmer tones */
 .dark {
-  --background: oklch(0.18 0.01 30);
-  --foreground: oklch(0.95 0.01 60);
-  --card: oklch(0.22 0.01 30);
-  --card-foreground: oklch(0.95 0.01 60);
-  --popover: oklch(0.22 0.01 30);
-  --popover-foreground: oklch(0.95 0.01 60);
-  --primary: oklch(0.95 0.01 60);
-  --primary-foreground: oklch(0.22 0.01 30);
-  --secondary: oklch(0.28 0.01 30);
-  --secondary-foreground: oklch(0.95 0.01 60);
-  --muted: oklch(0.28 0.01 30);
-  --muted-foreground: oklch(0.7 0.01 60);
-  --accent: oklch(0.28 0.01 30);
-  --accent-foreground: oklch(0.95 0.01 60);
-  --destructive: oklch(0.45 0.14 25);
-  --destructive-foreground: oklch(0.65 0.24 25);
-  --border: oklch(0.28 0.01 30);
-  --input: oklch(0.28 0.01 30);
-  --ring: oklch(0.5 0.01 30);
+  --background: oklch(0.2 0.01 30);
+  --foreground: oklch(0.93 0.01 50);
+  --card: oklch(0.24 0.01 30);
+  --card-foreground: oklch(0.93 0.01 50);
+  --popover: oklch(0.24 0.01 30);
+  --popover-foreground: oklch(0.93 0.01 50);
+  --primary: oklch(0.93 0.01 50);
+  --primary-foreground: oklch(0.24 0.01 30);
+  --secondary: oklch(0.3 0.01 30);
+  --secondary-foreground: oklch(0.93 0.01 50);
+  --muted: oklch(0.3 0.01 30);
+  --muted-foreground: oklch(0.72 0.01 50);
+  --accent: oklch(0.3 0.01 30);
+  --accent-foreground: oklch(0.93 0.01 50);
+  --destructive: oklch(0.48 0.12 25);
+  --destructive-foreground: oklch(0.68 0.22 25);
+  --border: oklch(0.3 0.01 30);
+  --input: oklch(0.3 0.01 30);
+  --ring: oklch(0.52 0.01 30);
 }
 
 .dark body {
-  background-color: #262d26;
-  color: #f2ede8;
+  background-color: #2a312a;
+  color: #f0ebe6;
 }
 
 .dark .bg-\[\#f8f3ef\] {
-  background-color: #2f362f !important;
+  background-color: #323932 !important;
 }
 
 .dark .text-\[\#1b251d\] {
-  color: #f2ede8 !important;
+  color: #f0ebe6 !important;
 }
 
 .dark .bg-white {
-  background-color: #2f362f !important;
+  background-color: #323932 !important;
 }
 
 .dark .border-\[\#ede9e1\] {
-  border-color: #3f463f !important;
+  border-color: #424942 !important;
 }
 
 @theme inline {

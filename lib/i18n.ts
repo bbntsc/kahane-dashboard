@@ -23,11 +23,13 @@ export const translations = {
       expectedYield: "Erw. Rendite p.a.",
       ctaTitle: "Wie hätte sich Ihre Investition in der Vergangenheit verhalten?",
       ctaDescription:
-        "Entdecken Sie, wie sich Ihr Portfolio durch historische Krisen und Aufschwünge entwickelt hätte.",
+        "Entdecken Sie, wie sich Ihr Portfolio durch historische Krisen und Aufschwünge entwickelt hätte. Verstehen Sie Chancen und Risiken durch konkrete Beispiele aus der Finanzgeschichte.",
       ctaButton: "Blick in den Markt",
       contactNow: "Jetzt kontaktieren",
       xAxisLabel: "Jahr",
       yAxisLabel: "Portfolio-Wert (Mio. €)",
+      disclaimer:
+        "Hinweis: Vergangene Wertentwicklungen sind keine Garantie für zukünftige Erträge. Eine Anlage in Wertpapiere ist mit Risiken verbunden.",
     },
     market: {
       title: "Blick in den Markt",
@@ -123,6 +125,8 @@ export const translations = {
       contactNow: "Contact Now",
       xAxisLabel: "Year",
       yAxisLabel: "Portfolio Value (Mio. €)",
+      disclaimer:
+        "Disclaimer: Past performance is no guarantee of future returns. Investing in securities involves risks.",
     },
     market: {
       title: "Market Analysis",
@@ -219,6 +223,8 @@ export const translations = {
       contactNow: "Contactez-nous",
       xAxisLabel: "Année",
       yAxisLabel: "Valeur du portefeuille (Mio. €)",
+      disclaimer:
+        "Avertissement: Les performances passées ne garantissent pas les rendements futurs. Investir dans des titres comporte des risques.",
     },
     market: {
       title: "Analyse du marché",
@@ -314,6 +320,8 @@ export const translations = {
       contactNow: "Contattaci ora",
       xAxisLabel: "Anno",
       yAxisLabel: "Valore del portafoglio (Mio. €)",
+      disclaimer:
+        "Avvertenza: Le performance passate non garantiscono rendimenti futuri. Investire in titoli comporta rischi.",
     },
     market: {
       title: "Analisi di mercato",

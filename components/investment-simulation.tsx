@@ -7,6 +7,8 @@ import { Slider } from "@/components/ui/slider"
 import { Info } from "lucide-react"
 import { Chart, registerables } from "chart.js"
 import Link from "next/link"
+import { useSettings } from "@/lib/settings-context"
+import { useTranslation } from "@/lib/i18n"
 
 Chart.register(...registerables)
 
@@ -146,6 +148,9 @@ export function InvestmentSimulation() {
   const chartRef = useRef<HTMLCanvasElement>(null)
   const chartInstance = useRef<Chart | null>(null)
 
+  const { language } = useSettings()
+  const t = useTranslation(language)
+
   const simulationResults = useMemo(() => {
     return runMonteCarloSimulation(debouncedInitial, debouncedMonthly, debouncedHorizon, debouncedStock, benchmark)
   }, [debouncedInitial, debouncedMonthly, debouncedHorizon, debouncedStock, benchmark])
@@ -273,13 +278,15 @@ export function InvestmentSimulation() {
   return (
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-12" data-tour="page">
       <div className="lg:col-span-4 space-y-6" data-tour="sliders">
-        <div className="bg-white p-4 rounded-lg border border-[#ede9e1]">
-          <h3 className="text-sm font-medium text-[#1b251d] mb-3">Benchmark wählen</h3>
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-[#ede9e1] dark:border-gray-600">
+          <h3 className="text-sm font-medium text-[#1b251d] dark:text-gray-100 mb-3">{t.simulation.benchmark}</h3>
           <div className="flex gap-2">
             <button
               onClick={() => setBenchmark("MSCI")}
               className={`flex-1 py-2 px-4 rounded-lg text-sm transition-colors ${
-                benchmark === "MSCI" ? "bg-[#1b251d] text-white" : "bg-gray-100 text-[#1b251d] hover:bg-gray-200"
+                benchmark === "MSCI"
+                  ? "bg-[#1b251d] dark:bg-gray-600 text-white"
+                  : "bg-gray-100 dark:bg-gray-700 text-[#1b251d] dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600"
               }`}
             >
               MSCI World
@@ -287,7 +294,9 @@ export function InvestmentSimulation() {
             <button
               onClick={() => setBenchmark("SP500")}
               className={`flex-1 py-2 px-4 rounded-lg text-sm transition-colors ${
-                benchmark === "SP500" ? "bg-[#1b251d] text-white" : "bg-gray-100 text-[#1b251d] hover:bg-gray-200"
+                benchmark === "SP500"
+                  ? "bg-[#1b251d] dark:bg-gray-600 text-white"
+                  : "bg-gray-100 dark:bg-gray-700 text-[#1b251d] dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600"
               }`}
             >
               S&P 500
@@ -298,14 +307,16 @@ export function InvestmentSimulation() {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <h3 className="text-sm font-medium text-[#1b251d]">Veranlagungsbetrag</h3>
+              <h3 className="text-sm font-medium text-[#1b251d] dark:text-gray-100">
+                {t.simulation.initialInvestment}
+              </h3>
               <Info className="h-4 w-4 text-gray-400" />
             </div>
             <input
               type="text"
               value={initialInput}
               onChange={handleInitialInputChange}
-              className="w-32 px-3 py-1 text-sm text-right border border-[#ede9e1] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b251d]"
+              className="w-32 px-3 py-1 text-sm text-right border border-[#ede9e1] dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b251d]"
               placeholder="500000"
             />
           </div>
@@ -320,20 +331,22 @@ export function InvestmentSimulation() {
             }}
             className="py-1"
           />
-          <div className="text-xs text-gray-500 text-right">{formatCurrency(initialInvestment)}</div>
+          <div className="text-xs text-gray-500 dark:text-gray-400 text-right">{formatCurrency(initialInvestment)}</div>
         </div>
 
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <h3 className="text-sm font-medium text-[#1b251d]">Monatliche Investition</h3>
+              <h3 className="text-sm font-medium text-[#1b251d] dark:text-gray-100">
+                {t.simulation.monthlyInvestment}
+              </h3>
               <Info className="h-4 w-4 text-gray-400" />
             </div>
             <input
               type="text"
               value={monthlyInput}
               onChange={handleMonthlyInputChange}
-              className="w-32 px-3 py-1 text-sm text-right border border-[#ede9e1] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b251d]"
+              className="w-32 px-3 py-1 text-sm text-right border border-[#ede9e1] dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b251d]"
               placeholder="0"
             />
           </div>
@@ -348,13 +361,13 @@ export function InvestmentSimulation() {
             }}
             className="py-1"
           />
-          <div className="text-xs text-gray-500 text-right">{formatCurrency(monthlyInvestment)}</div>
+          <div className="text-xs text-gray-500 dark:text-gray-400 text-right">{formatCurrency(monthlyInvestment)}</div>
         </div>
 
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <h3 className="text-sm font-medium text-[#1b251d]">Aktienquote</h3>
+              <h3 className="text-sm font-medium text-[#1b251d] dark:text-gray-100">{t.simulation.stockPercentage}</h3>
               <Info className="h-4 w-4 text-gray-400" />
             </div>
             <div className="flex items-center gap-2">
@@ -362,10 +375,10 @@ export function InvestmentSimulation() {
                 type="text"
                 value={stockInput}
                 onChange={handleStockInputChange}
-                className="w-20 px-3 py-1 text-sm text-right border border-[#ede9e1] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b251d]"
+                className="w-20 px-3 py-1 text-sm text-right border border-[#ede9e1] dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b251d]"
                 placeholder="0"
               />
-              <span className="text-sm text-gray-600">%</span>
+              <span className="text-sm text-gray-600 dark:text-gray-100">%</span>
             </div>
           </div>
           <Slider
@@ -384,7 +397,9 @@ export function InvestmentSimulation() {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <h3 className="text-sm font-medium text-[#1b251d]">Anlagehorizont</h3>
+              <h3 className="text-sm font-medium text-[#1b251d] dark:text-gray-100">
+                {t.simulation.investmentHorizon}
+              </h3>
               <Info className="h-4 w-4 text-gray-400" />
             </div>
             <div className="flex items-center gap-2">
@@ -392,10 +407,10 @@ export function InvestmentSimulation() {
                 type="text"
                 value={horizonInput}
                 onChange={handleHorizonInputChange}
-                className="w-20 px-3 py-1 text-sm text-right border border-[#ede9e1] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b251d]"
+                className="w-20 px-3 py-1 text-sm text-right border border-[#ede9e1] dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b251d]"
                 placeholder="5"
               />
-              <span className="text-sm text-gray-600">Jahre</span>
+              <span className="text-sm text-gray-600 dark:text-gray-100">Jahre</span>
             </div>
           </div>
           <Slider
@@ -412,8 +427,8 @@ export function InvestmentSimulation() {
         </div>
 
         <Link href="/contact">
-          <button className="w-full py-3 bg-[#ebf151] text-[#1b251d] rounded-full hover:bg-[#d9df47] transition-colors text-sm font-medium mt-8">
-            Jetzt kontaktieren
+          <button className="w-full py-3 bg-[#ebf151] text-[#1b251d] rounded-full hover:bg-[#d9df47] transition-colors text-sm font-medium mt-8 shadow-md">
+            {t.simulation.contactNow}
           </button>
         </Link>
       </div>
@@ -423,58 +438,63 @@ export function InvestmentSimulation() {
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">
               <div className="h-3 w-3 rounded-full bg-[#4a5f52]"></div>
-              <span className="text-sm text-gray-700">Optimistisch (90%)</span>
+              <span className="text-sm text-gray-700 dark:text-gray-100">{t.simulation.bestCase}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="h-3 w-3 rounded-full bg-[#1b251d]"></div>
-              <span className="text-sm text-gray-700">Realistisch (50%)</span>
+              <span className="text-sm text-gray-700 dark:text-gray-100">{t.simulation.middleCase}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="h-3 w-3 rounded-full bg-[#c7847d]"></div>
-              <span className="text-sm text-gray-700">Vorsichtig (10%)</span>
+              <span className="text-sm text-gray-700 dark:text-gray-100">{t.simulation.worstCase}</span>
             </div>
           </div>
-          <div className="text-lg font-serif italic text-gray-400">Kahane</div>
+          <div className="text-lg font-serif italic text-gray-400 dark:text-gray-100">Kahane</div>
         </div>
 
-        <div className="h-[300px] bg-white rounded-lg p-4 mb-6">
+        <div className="h-[300px] bg-white dark:bg-gray-800 rounded-lg p-4 mb-6">
           <canvas ref={chartRef} />
         </div>
 
         <div className="grid grid-cols-4 gap-4" data-tour="summary">
-          <div className="bg-[#1b251d] rounded-lg p-4 text-white">
-            <div className="text-xs mb-1 opacity-80">Totales Investment:</div>
+          <div className="bg-[#1b251d] dark:bg-gray-600 rounded-lg p-4 text-white">
+            <div className="text-xs mb-1 opacity-80">{t.simulation.totalInvestment}</div>
             <div className="text-xl font-medium">{formatCurrency(simulationResults.summary.totalInvestment)}</div>
           </div>
-          <div className="bg-[#1b251d] rounded-lg p-4 text-white">
-            <div className="text-xs mb-1 opacity-80">Gesamtertrag (Mitte):</div>
+          <div className="bg-[#1b251d] dark:bg-gray-600 rounded-lg p-4 text-white">
+            <div className="text-xs mb-1 opacity-80">{t.simulation.totalReturn}</div>
             <div className="text-xl font-medium">{formatCurrency(simulationResults.summary.totalReturn)}</div>
           </div>
-          <div className="bg-[#1b251d] rounded-lg p-4 text-white">
-            <div className="text-xs mb-1 opacity-80">Finaler Wert (Mitte):</div>
+          <div className="bg-[#1b251d] dark:bg-gray-600 rounded-lg p-4 text-white">
+            <div className="text-xs mb-1 opacity-80">{t.simulation.finalValue}</div>
             <div className="text-xl font-medium">{formatCurrency(simulationResults.summary.finalValue)}</div>
           </div>
-          <div className="bg-gray-200 rounded-lg p-4 text-[#1b251d]">
-            <div className="text-xs mb-1 opacity-80">Erw. Rendite p.a.:</div>
+          <div className="bg-gray-200 dark:bg-gray-700 rounded-lg p-4 text-[#1b251d] dark:text-gray-100">
+            <div className="text-xs mb-1 opacity-80">{t.simulation.expectedYield}</div>
             <div className="text-xl font-medium">{simulationResults.summary.yield.toFixed(2)}%</div>
           </div>
         </div>
 
-        <div className="mt-8 bg-white border border-[#ede9e1] rounded-lg p-8 shadow-sm" data-tour="cta">
+        <div
+          className="mt-8 bg-white dark:bg-gray-800 border border-[#ede9e1] dark:border-gray-600 rounded-lg p-8 shadow-sm"
+          data-tour="cta"
+        >
           <div className="flex items-start gap-4">
             <div className="flex-1">
-              <h3 className="text-2xl font-serif text-[#1b251d] mb-3 leading-tight">
-                Wie hätte sich Ihre Investition in der Vergangenheit verhalten?
+              <h3 className="text-2xl font-serif text-[#1b251d] dark:text-gray-100 mb-3 leading-tight">
+                {t.simulation.ctaTitle}
               </h3>
-              <p className="text-base text-gray-600 leading-relaxed">
-                Entdecken Sie, wie sich Ihr Portfolio durch historische Krisen und Aufschwünge entwickelt hätte.
-                Verstehen Sie Chancen und Risiken durch konkrete Beispiele aus der Finanzgeschichte.
+              <p className="text-base text-gray-600 dark:text-gray-300 leading-relaxed">
+                {t.simulation.ctaDescription}
+              </p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-4 italic leading-relaxed">
+                {t.simulation.disclaimer}
               </p>
             </div>
           </div>
           <Link href="/market">
-            <button className="mt-6 px-8 py-3 bg-[#4a5f52] text-white rounded-lg hover:bg-[#3a4f42] transition-colors font-medium inline-flex items-center gap-2">
-              Blick in den Markt
+            <button className="mt-6 px-8 py-3 bg-[#4a5f52] text-white rounded-lg hover:bg-[#3a4f42] transition-colors font-medium inline-flex items-center gap-2 shadow-md">
+              {t.simulation.ctaButton}
               <span className="text-lg">→</span>
             </button>
           </Link>
