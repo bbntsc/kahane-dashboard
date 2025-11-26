@@ -12,7 +12,6 @@ export function BankGutmannHeader() {
       <div className="mx-auto max-w-7xl px-6">
         {/* Haupt-Navigationsleiste (relative Positionierung für Logo) */}
         <div className="flex h-20 items-center justify-between relative">
-          
           {/* Linke Sektion: Mobiles Menü-Icon & Desktop-Links */}
           <div className="flex items-center gap-8">
             {/* Mobiler Menü-Button (Hamburger) */}
@@ -59,32 +58,13 @@ export function BankGutmannHeader() {
               <a href="#" className="text-[#1b251d] hover:opacity-70 transition-opacity whitespace-nowrap">
                 Kontakt
               </a>
-              <a href="#" className="text-[#1b251d] hover:opacity-70 transition-opacity whitespace-nowrap">
-                Karriere
-              </a>
-              <a href="#" className="text-[#1b251d] hover:opacity-70 transition-opacity whitespace-nowrap">
-                ESG
-              </a>
 
               {/* Language Selector */}
               <div className="flex items-center gap-1 cursor-pointer hover:opacity-70 transition-opacity">
                 <span className="text-[#1b251d]">DE</span>
                 <ChevronDown className="h-3 w-3 text-[#1b251d]" />
               </div>
-
-              {/* Login Button (Desktop) */}
-              <button className="px-4 py-1.5 rounded-full border border-[#1b251d] text-[#1b251d] text-sm hover:bg-[#1b251d] hover:text-white transition-colors whitespace-nowrap">
-                login
-              </button>
             </nav>
-
-            {/* Mobiler Login-Button (wird zum Menü-Trigger) */}
-            <button
-              className="lg:hidden px-4 py-1.5 rounded-full border border-[#1b251d] text-[#1b251d] text-sm"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              login
-            </button>
           </div>
         </div>
 
@@ -108,12 +88,6 @@ export function BankGutmannHeader() {
               </a>
               <a href="#" className="text-[#1b251d] hover:opacity-70 transition-opacity py-2">
                 Kontakt
-              </a>
-              <a href="#" className="text-[#1b251d] hover:opacity-70 transition-opacity py-2">
-                Karriere
-              </a>
-              <a href="#" className="text-[#1b251d] hover:opacity-70 transition-opacity py-2">
-                ESG
               </a>
             </nav>
           </div>

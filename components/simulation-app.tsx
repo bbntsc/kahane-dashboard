@@ -2,29 +2,49 @@
 
 import { useState } from "react"
 import { BankGutmannHeader } from "@/components/bank-gutmann-header"
-import { TutorialModal } from "@/components/tutorial-modal"
 import { InvestmentSimulation } from "@/components/investment-simulation"
+import { ConciergeOverlay } from "@/components/concierge-overlay"
+import { ConciergeBell } from "@/components/concierge-bell"
+import { ConciergeHelpModal } from "@/components/concierge-help-modal"
+import { TourGuide } from "@/components/tour-guide"
 
 export function SimulationApp() {
-  const [showTutorial, setShowTutorial] = useState(true)
-  const [activeTab, setActiveTab] = useState<"tutorial" | "simulation" | "market">("simulation")
+  const [showWelcome, setShowWelcome] = useState(true)
+  const [showHelp, setShowHelp] = useState(false)
+  const [isTourActive, setIsTourActive] = useState(false)
+
+  const handleStartTour = () => {
+    setShowWelcome(false)
+    setIsTourActive(true)
+  }
+
+  const handleCloseWelcome = () => {
+    setShowWelcome(false)
+  }
+
+  const handleBellClick = () => {
+    setShowHelp(true)
+  }
 
   return (
     <div className="min-h-screen bg-[#f8f3ef]">
       <BankGutmannHeader />
 
-      {showTutorial && <TutorialModal onClose={() => setShowTutorial(false)} />}
+      {/* Welcome Overlay */}
+      {showWelcome && <ConciergeOverlay onClose={handleCloseWelcome} onStartTour={handleStartTour} />}
+
+      {/* Help Modal */}
+      {showHelp && <ConciergeHelpModal context="simulation" onClose={() => setShowHelp(false)} />}
+
+      {/* Tour Guide */}
+      <TourGuide isActive={isTourActive} onComplete={() => setIsTourActive(false)} />
 
       <main className="mx-auto max-w-7xl px-6 py-6">
-        {/* Content */}
-        {activeTab === "simulation" && <InvestmentSimulation />}
-        {activeTab === "tutorial" && (
-          <div className="text-center py-20">
-            <h2 className="text-2xl font-serif text-[#1b251d] mb-4">Tutorial</h2>
-            <p className="text-gray-600">Tutorial-Inhalte werden hier angezeigt...</p>
-          </div>
-        )}
+        <InvestmentSimulation />
       </main>
+
+      {/* Concierge Bell */}
+      {!showWelcome && <ConciergeBell onHelp={handleBellClick} />}
     </div>
   )
 }
