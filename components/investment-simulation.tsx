@@ -202,7 +202,7 @@ export function InvestmentSimulation() {
         labels: years,
         datasets: [
           {
-            label: "Best Case (90%)",
+            label: "Optimistisch (90%)",
             data: bestCaseData,
             borderColor: "#4a5f52",
             backgroundColor: "transparent",
@@ -212,7 +212,7 @@ export function InvestmentSimulation() {
             tension: 0.1,
           },
           {
-            label: "Mitte (50%)",
+            label: "Realistisch (50%)",
             data: middleCaseData,
             borderColor: "#1b251d",
             backgroundColor: "transparent",
@@ -222,7 +222,7 @@ export function InvestmentSimulation() {
             tension: 0.1,
           },
           {
-            label: "Worst Case (10%)",
+            label: "Vorsichtig (10%)",
             data: worstCaseData,
             borderColor: "#c7847d",
             backgroundColor: "transparent",
@@ -271,7 +271,7 @@ export function InvestmentSimulation() {
   }, [simulationResults])
 
   return (
-    <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+    <div className="grid grid-cols-1 gap-8 lg:grid-cols-12" data-tour="page">
       <div className="lg:col-span-4 space-y-6" data-tour="sliders">
         <div className="bg-white p-4 rounded-lg border border-[#ede9e1]">
           <h3 className="text-sm font-medium text-[#1b251d] mb-3">Benchmark wählen</h3>
@@ -411,9 +411,11 @@ export function InvestmentSimulation() {
           />
         </div>
 
-        <button className="w-full py-3 bg-[#ebf151] text-[#1b251d] rounded-full hover:bg-[#d9df47] transition-colors text-sm font-medium mt-8">
-          Jetzt kontaktieren
-        </button>
+        <Link href="/contact">
+          <button className="w-full py-3 bg-[#ebf151] text-[#1b251d] rounded-full hover:bg-[#d9df47] transition-colors text-sm font-medium mt-8">
+            Jetzt kontaktieren
+          </button>
+        </Link>
       </div>
 
       <div className="lg:col-span-8">
@@ -421,15 +423,15 @@ export function InvestmentSimulation() {
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">
               <div className="h-3 w-3 rounded-full bg-[#4a5f52]"></div>
-              <span className="text-sm text-gray-700">Best Case (90%)</span>
+              <span className="text-sm text-gray-700">Optimistisch (90%)</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="h-3 w-3 rounded-full bg-[#1b251d]"></div>
-              <span className="text-sm text-gray-700">Mitte (50%)</span>
+              <span className="text-sm text-gray-700">Realistisch (50%)</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="h-3 w-3 rounded-full bg-[#c7847d]"></div>
-              <span className="text-sm text-gray-700">Worst Case (10%)</span>
+              <span className="text-sm text-gray-700">Vorsichtig (10%)</span>
             </div>
           </div>
           <div className="text-lg font-serif italic text-gray-400">Kahane</div>
@@ -458,15 +460,16 @@ export function InvestmentSimulation() {
           </div>
         </div>
 
-        <div className="mt-8 bg-white rounded-lg p-6 border-2 border-[#1b251d]" data-tour="cta">
-          <h3 className="text-xl font-serif text-[#1b251d] mb-2">
-            Wie hätte sich Ihre Investition in der Vergangenheit verhalten?
-          </h3>
-          <p className="text-sm text-gray-600 mb-4">
+        <div
+          className="mt-8 bg-gradient-to-r from-[#1b251d] to-[#2a3529] rounded-xl p-6 text-white shadow-lg"
+          data-tour="cta"
+        >
+          <h3 className="text-xl font-serif mb-2">Wie hätte sich Ihre Investition in der Vergangenheit verhalten?</h3>
+          <p className="text-sm opacity-90 mb-4">
             Entdecken Sie, wie sich Ihr Portfolio durch historische Krisen und Aufschwünge entwickelt hätte.
           </p>
           <Link href="/market">
-            <button className="w-full py-3 bg-[#1b251d] text-white rounded-lg hover:bg-[#2a3529] transition-colors font-medium">
+            <button className="w-full py-3 bg-[#ebf151] text-[#1b251d] rounded-lg hover:bg-[#d9df47] transition-colors font-medium">
               Blick in den Markt →
             </button>
           </Link>

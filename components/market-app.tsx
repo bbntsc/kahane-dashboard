@@ -9,6 +9,7 @@ import { CrisisDetailModal } from "./crisis-detail-modal"
 import { ConciergeBell } from "@/components/concierge-bell"
 import { ConciergeHelpModal } from "@/components/concierge-help-modal"
 import type { Crisis } from "./market/market-data"
+import Link from "next/link"
 
 export function MarketApp() {
   const [timeframe, setTimeframe] = useState<"40" | "30" | "20" | "10" | "5">("40")
@@ -39,6 +40,18 @@ export function MarketApp() {
         <MarketSummary timeframe={timeframe} />
 
         <MarketChart timeframe={timeframe} showInsights={showInsights} onCrisisClick={handleCrisisClick} />
+
+        <div className="mt-8 bg-white rounded-xl p-6 border-2 border-[#1b251d]">
+          <h3 className="text-xl font-serif text-[#1b251d] mb-2">Bereit, Ihre Anlagestrategie zu besprechen?</h3>
+          <p className="text-sm text-gray-600 mb-4">
+            Unsere Experten helfen Ihnen, eine maßgeschneiderte Strategie zu entwickeln.
+          </p>
+          <Link href="/contact">
+            <button className="w-full py-3 bg-[#ebf151] text-[#1b251d] rounded-lg hover:bg-[#d9df47] transition-colors font-medium">
+              Jetzt kontaktieren
+            </button>
+          </Link>
+        </div>
 
         {selectedCrisis && (
           <CrisisDetailModal crisis={selectedCrisis} isOpen={showModal} onClose={() => setShowModal(false)} />

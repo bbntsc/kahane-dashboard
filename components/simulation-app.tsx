@@ -18,33 +18,25 @@ export function SimulationApp() {
     setIsTourActive(true)
   }
 
-  const handleCloseWelcome = () => {
+  const handleSelfGuided = () => {
     setShowWelcome(false)
-  }
-
-  const handleBellClick = () => {
-    setShowHelp(true)
   }
 
   return (
     <div className="min-h-screen bg-[#f8f3ef]">
       <BankGutmannHeader />
 
-      {/* Welcome Overlay */}
-      {showWelcome && <ConciergeOverlay onClose={handleCloseWelcome} onStartTour={handleStartTour} />}
+      {showWelcome && <ConciergeOverlay onStartGuided={handleStartTour} onStartSelfGuided={handleSelfGuided} />}
 
-      {/* Help Modal */}
       {showHelp && <ConciergeHelpModal context="simulation" onClose={() => setShowHelp(false)} />}
 
-      {/* Tour Guide */}
       <TourGuide isActive={isTourActive} onComplete={() => setIsTourActive(false)} />
 
       <main className="mx-auto max-w-7xl px-6 py-6">
         <InvestmentSimulation />
       </main>
 
-      {/* Concierge Bell */}
-      {!showWelcome && <ConciergeBell onHelp={handleBellClick} />}
+      {!showWelcome && <ConciergeBell onHelp={() => setShowHelp(true)} />}
     </div>
   )
 }
