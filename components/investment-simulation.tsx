@@ -289,7 +289,7 @@ export function InvestmentSimulation() {
                   : "bg-gray-100 dark:bg-gray-700 text-[#1b251d] dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600"
               }`}
             >
-              MSCI World
+              {t.simulation.msciWorld}
             </button>
             <button
               onClick={() => setBenchmark("SP500")}
@@ -299,7 +299,7 @@ export function InvestmentSimulation() {
                   : "bg-gray-100 dark:bg-gray-700 text-[#1b251d] dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600"
               }`}
             >
-              S&P 500
+              {t.simulation.sp500}
             </button>
           </div>
         </div>
@@ -316,7 +316,7 @@ export function InvestmentSimulation() {
               type="text"
               value={initialInput}
               onChange={handleInitialInputChange}
-              className="w-32 px-3 py-1 text-sm text-right border border-[#ede9e1] dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b251d]"
+              className="w-32 px-3 py-1 text-sm text-right border border-[#ede9e1] dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b251d] bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
               placeholder="500000"
             />
           </div>
@@ -346,7 +346,7 @@ export function InvestmentSimulation() {
               type="text"
               value={monthlyInput}
               onChange={handleMonthlyInputChange}
-              className="w-32 px-3 py-1 text-sm text-right border border-[#ede9e1] dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b251d]"
+              className="w-32 px-3 py-1 text-sm text-right border border-[#ede9e1] dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b251d] bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
               placeholder="0"
             />
           </div>
@@ -375,7 +375,7 @@ export function InvestmentSimulation() {
                 type="text"
                 value={stockInput}
                 onChange={handleStockInputChange}
-                className="w-20 px-3 py-1 text-sm text-right border border-[#ede9e1] dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b251d]"
+                className="w-20 px-3 py-1 text-sm text-right border border-[#ede9e1] dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b251d] bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                 placeholder="0"
               />
               <span className="text-sm text-gray-600 dark:text-gray-100">%</span>
@@ -407,10 +407,10 @@ export function InvestmentSimulation() {
                 type="text"
                 value={horizonInput}
                 onChange={handleHorizonInputChange}
-                className="w-20 px-3 py-1 text-sm text-right border border-[#ede9e1] dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b251d]"
+                className="w-20 px-3 py-1 text-sm text-right border border-[#ede9e1] dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b251d] bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                 placeholder="5"
               />
-              <span className="text-sm text-gray-600 dark:text-gray-100">Jahre</span>
+              <span className="text-sm text-gray-600 dark:text-gray-100">{t.simulation.years}</span>
             </div>
           </div>
           <Slider
@@ -438,15 +438,15 @@ export function InvestmentSimulation() {
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">
               <div className="h-3 w-3 rounded-full bg-[#4a5f52]"></div>
-              <span className="text-sm text-gray-700 dark:text-gray-100">{t.simulation.bestCase}</span>
+              <span className="text-sm text-gray-700 dark:text-gray-100">{t.simulation.optimistic} (90%)</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="h-3 w-3 rounded-full bg-[#1b251d]"></div>
-              <span className="text-sm text-gray-700 dark:text-gray-100">{t.simulation.middleCase}</span>
+              <span className="text-sm text-gray-700 dark:text-gray-100">{t.simulation.realistic} (50%)</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="h-3 w-3 rounded-full bg-[#c7847d]"></div>
-              <span className="text-sm text-gray-700 dark:text-gray-100">{t.simulation.worstCase}</span>
+              <span className="text-sm text-gray-700 dark:text-gray-100">{t.simulation.cautious} (10%)</span>
             </div>
           </div>
           <div className="text-lg font-serif italic text-gray-400 dark:text-gray-100">Kahane</div>

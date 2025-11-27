@@ -4,6 +4,7 @@ import type React from "react"
 import { useEffect, useRef } from "react"
 import { Chart, registerables } from "chart.js"
 import { crises, baseMSCIData, type Crisis } from "@/components/market/market-data"
+import { useSettings } from "@/lib/settings-context"
 
 Chart.register(...registerables)
 
@@ -88,6 +89,7 @@ export function useMarketChart(
   onCrisisClick: (crisis: Crisis) => void,
 ) {
   const chartInstance = useRef<Chart | null>(null)
+  const { language } = useSettings()
 
   useEffect(() => {
     if (!chartRef.current) return
@@ -157,7 +159,7 @@ export function useMarketChart(
             // Also check if click is within the bubble area above the point
             const bubbleY = yPos - 30
             const bubbleHeight = 20
-            const bubbleWidth = 60 // Approximate width
+            const bubbleWidth = 80 // Increased for better clickability
             const isInBubble =
               clickX >= xPos - bubbleWidth / 2 &&
               clickX <= xPos + bubbleWidth / 2 &&
@@ -191,7 +193,7 @@ export function useMarketChart(
             ticks: { font: { size: 12, family: "Times New Roman" } },
             title: {
               display: true,
-              text: "Index (1985 = 100)",
+              text: language === "en" ? "Index (1985 = 100)" : "Indice (1985 = 100)", // Translated y-axis title based on language
               font: { size: 12, family: "Times New Roman" },
             },
           },
@@ -224,5 +226,5 @@ export function useMarketChart(
         chartInstance.current.destroy()
       }
     }
-  }, [chartRef, timeframe, showInsights, onCrisisClick])
+  }, [chartRef, timeframe, showInsights, onCrisisClick, language])
 }

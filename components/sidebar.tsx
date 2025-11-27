@@ -31,7 +31,7 @@ export function Sidebar() {
                   ? "Panoramica"
                   : "Overview"}
           </NavItem>
-          <NavItem href="/simulation" icon={<BarChart2 className="h-5 w-5" />} active>
+          <NavItem href="/simulation" icon={<BarChart2 className="h-5 w-5" />}>
             {t.simulation.title}
           </NavItem>
           <NavItem href="/market" icon={<TrendingUp className="h-5 w-5" />}>
@@ -72,21 +72,33 @@ export function Sidebar() {
             }
           >
             <div className="relative w-20 h-20 flex items-center justify-center rounded-full bg-gradient-to-br from-amber-50 to-amber-100 dark:from-amber-900/30 dark:to-amber-800/30 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-amber-200/50 dark:border-amber-700/50">
+              {/* Hand-drawn bell SVG illustration */}
               <svg viewBox="0 0 100 100" fill="none" className="w-12 h-12" xmlns="http://www.w3.org/2000/svg">
+                {/* Bell body - hand-drawn style */}
                 <path
-                  d="M 30 35 Q 30 25, 40 20 Q 50 15, 60 20 Q 70 25, 70 35 L 70 55 Q 70 65, 60 70 Q 50 72, 40 70 Q 30 65, 30 55 Z"
+                  d="M 28 38 Q 28 26, 38 20 Q 50 14, 62 20 Q 72 26, 72 38 L 72 58 Q 72 68, 62 74 Q 50 76, 38 74 Q 28 68, 28 58 Z"
                   fill="#8B4513"
-                  opacity="0.9"
+                  opacity="0.95"
                   stroke="#6B3410"
-                  strokeWidth="1.5"
+                  strokeWidth="2"
                   strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
-                <ellipse cx="50" cy="70" rx="22" ry="5" fill="#6B3410" opacity="0.8" />
-                <circle cx="50" cy="18" r="4" fill="#8B4513" stroke="#6B3410" strokeWidth="1" />
-                <line x1="50" y1="65" x2="50" y2="78" stroke="#6B3410" strokeWidth="2" strokeLinecap="round" />
-                <circle cx="50" cy="80" r="3" fill="#8B4513" stroke="#6B3410" strokeWidth="1" />
-                <ellipse cx="42" cy="35" rx="8" ry="12" fill="white" opacity="0.3" />
-                <path d="M 32 40 Q 33 42, 34 40" stroke="#6B3410" strokeWidth="0.5" fill="none" opacity="0.4" />
+                {/* Bell rim shadow */}
+                <ellipse cx="50" cy="72" rx="24" ry="6" fill="#6B3410" opacity="0.6" />
+                {/* Bell rim */}
+                <ellipse cx="50" cy="70" rx="24" ry="6" fill="#8B4513" stroke="#6B3410" strokeWidth="1.5" />
+                {/* Top handle */}
+                <circle cx="50" cy="16" r="5" fill="#8B4513" stroke="#6B3410" strokeWidth="2" />
+                {/* Clapper - vertical line */}
+                <line x1="50" y1="68" x2="50" y2="82" stroke="#6B3410" strokeWidth="2.5" strokeLinecap="round" />
+                {/* Clapper - ball */}
+                <circle cx="50" cy="84" r="4" fill="#8B4513" stroke="#6B3410" strokeWidth="1.5" />
+                {/* Highlight for 3D effect */}
+                <ellipse cx="40" cy="36" rx="10" ry="14" fill="white" opacity="0.25" />
+                {/* Decorative line details */}
+                <path d="M 32 42 Q 34 44, 32 46" stroke="#6B3410" strokeWidth="0.8" fill="none" opacity="0.5" />
+                <path d="M 68 42 Q 66 44, 68 46" stroke="#6B3410" strokeWidth="0.8" fill="none" opacity="0.5" />
               </svg>
 
               <div

@@ -9,6 +9,8 @@ export const translations = {
     simulation: {
       title: "Vermögenssimulation",
       benchmark: "Benchmark wählen",
+      msciWorld: "MSCI World",
+      sp500: "S&P 500",
       initialInvestment: "Veranlagungsbetrag",
       monthlyInvestment: "Monatliche Investition",
       stockPercentage: "Aktienquote",
@@ -107,6 +109,8 @@ export const translations = {
     simulation: {
       title: "Wealth Simulation",
       benchmark: "Select Benchmark",
+      msciWorld: "MSCI World",
+      sp500: "S&P 500",
       initialInvestment: "Initial Investment",
       monthlyInvestment: "Monthly Investment",
       stockPercentage: "Equity Allocation",
@@ -204,6 +208,8 @@ export const translations = {
     simulation: {
       title: "Simulation de patrimoine",
       benchmark: "Sélectionner un indice",
+      msciWorld: "MSCI World",
+      sp500: "S&P 500",
       initialInvestment: "Investissement initial",
       monthlyInvestment: "Investissement mensuel",
       stockPercentage: "Part d'actions",
@@ -220,7 +226,7 @@ export const translations = {
       ctaDescription:
         "Découvrez comment votre portefeuille aurait évolué à travers les crises et les reprises historiques.",
       ctaButton: "Analyse du marché",
-      contactNow: "Contactez-nous",
+      contactNow: "Contactez-nous maintenant",
       xAxisLabel: "Année",
       yAxisLabel: "Valeur du portefeuille (Mio. €)",
       disclaimer:
@@ -302,6 +308,8 @@ export const translations = {
     simulation: {
       title: "Simulazione patrimoniale",
       benchmark: "Seleziona benchmark",
+      msciWorld: "MSCI World",
+      sp500: "S&P 500",
       initialInvestment: "Investimento iniziale",
       monthlyInvestment: "Investimento mensile",
       stockPercentage: "Quota azionaria",
