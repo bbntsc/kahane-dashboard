@@ -5,6 +5,7 @@ export const translations = {
     nav: {
       about: "Über uns",
       contact: "Kontakt",
+      overview: "Übersicht",
     },
     simulation: {
       title: "Vermögenssimulation",
@@ -63,6 +64,7 @@ export const translations = {
         "Die Y-Achse zeigt den Wert Ihres Portfolios in Millionen Euro. Je höher die Linie, desto mehr hat Ihr Portfolio an Wert gewonnen.",
       crisisClickInfo:
         "Klicken Sie auf die Krisenpunkte, um mehr über diese historischen Ereignisse und unsere Empfehlungen zu erfahren.",
+      callConcierge: "Concierge rufen",
     },
     contact: {
       title: "Ihre Anlageziele",
@@ -105,6 +107,7 @@ export const translations = {
     nav: {
       about: "About us",
       contact: "Contact",
+      overview: "Overview",
     },
     simulation: {
       title: "Wealth Simulation",
@@ -162,6 +165,7 @@ export const translations = {
         "The Y-axis shows your portfolio value in millions of euros. The higher the line, the more your portfolio has gained in value.",
       crisisClickInfo:
         "Click on the crisis points to learn more about these historical events and our recommendations.",
+      callConcierge: "Call concierge",
     },
     contact: {
       title: "Your Investment Goals",
@@ -204,6 +208,7 @@ export const translations = {
     nav: {
       about: "À propos",
       contact: "Contact",
+      overview: "Aperçu",
     },
     simulation: {
       title: "Simulation de patrimoine",
@@ -262,6 +267,7 @@ export const translations = {
         "L'axe Y indique la valeur de votre portefeuille en millions d'euros. Plus la ligne est haute, plus votre portefeuille a gagné en valeur.",
       crisisClickInfo:
         "Cliquez sur les points de crise pour en savoir plus sur ces événements historiques et nos recommandations.",
+      callConcierge: "Appeler le concierge",
     },
     contact: {
       title: "Vos objectifs d'investissement",
@@ -304,6 +310,7 @@ export const translations = {
     nav: {
       about: "Chi siamo",
       contact: "Contatto",
+      overview: "Panoramica",
     },
     simulation: {
       title: "Simulazione patrimoniale",
@@ -361,6 +368,7 @@ export const translations = {
         "L'asse Y mostra il valore del tuo portafoglio in milioni di euro. Più alta è la linea, più il tuo portafoglio ha guadagnato valore.",
       crisisClickInfo:
         "Fai clic sui punti di crisi per saperne di più su questi eventi storici e le nostre raccomandazioni.",
+      callConcierge: "Chiamare il concierge",
     },
     contact: {
       title: "I tuoi obiettivi di investimento",

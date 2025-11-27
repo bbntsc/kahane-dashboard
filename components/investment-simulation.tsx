@@ -148,7 +148,7 @@ export function InvestmentSimulation() {
   const chartRef = useRef<HTMLCanvasElement>(null)
   const chartInstance = useRef<Chart | null>(null)
 
-  const { language } = useSettings()
+  const { language, theme } = useSettings()
   const t = useTranslation(language)
 
   const simulationResults = useMemo(() => {
@@ -201,39 +201,52 @@ export function InvestmentSimulation() {
 
     const { years, bestCaseData, middleCaseData, worstCaseData } = simulationResults.chartData
 
+    const isDark = theme === "dark"
+    const textColor = isDark ? "#f5f5f5" : "#374151"
+    const gridColor = isDark ? "#4b5563" : "#e5e7eb"
+    const bestCaseColor = isDark ? "#10b981" : "#4a5f52"
+    const middleCaseColor = isDark ? "#3b82f6" : "#1b251d"
+    const worstCaseColor = isDark ? "#f97316" : "#c7847d"
+
     chartInstance.current = new Chart(ctx, {
       type: "line",
       data: {
         labels: years,
         datasets: [
           {
-            label: "Optimistisch (90%)",
+            label: `${t.simulation.optimistic} (90%)`,
             data: bestCaseData,
-            borderColor: "#4a5f52",
+            borderColor: bestCaseColor,
             backgroundColor: "transparent",
-            borderWidth: 2,
-            pointBackgroundColor: "#4a5f52",
-            pointRadius: 4,
+            borderWidth: 3,
+            pointBackgroundColor: bestCaseColor,
+            pointRadius: 5,
+            pointBorderWidth: 2,
+            pointBorderColor: isDark ? "#ffffff" : bestCaseColor,
             tension: 0.1,
           },
           {
-            label: "Realistisch (50%)",
+            label: `${t.simulation.realistic} (50%)`,
             data: middleCaseData,
-            borderColor: "#1b251d",
+            borderColor: middleCaseColor,
             backgroundColor: "transparent",
-            borderWidth: 2,
-            pointBackgroundColor: "#1b251d",
-            pointRadius: 4,
+            borderWidth: 3,
+            pointBackgroundColor: middleCaseColor,
+            pointRadius: 5,
+            pointBorderWidth: 2,
+            pointBorderColor: isDark ? "#ffffff" : middleCaseColor,
             tension: 0.1,
           },
           {
-            label: "Vorsichtig (10%)",
+            label: `${t.simulation.cautious} (10%)`,
             data: worstCaseData,
-            borderColor: "#c7847d",
+            borderColor: worstCaseColor,
             backgroundColor: "transparent",
-            borderWidth: 2,
-            pointBackgroundColor: "#c7847d",
-            pointRadius: 4,
+            borderWidth: 3,
+            pointBackgroundColor: worstCaseColor,
+            pointRadius: 5,
+            pointBorderWidth: 2,
+            pointBorderColor: isDark ? "#ffffff" : worstCaseColor,
             tension: 0.1,
           },
         ],
@@ -243,26 +256,40 @@ export function InvestmentSimulation() {
         maintainAspectRatio: false,
         plugins: {
           legend: { display: false },
-          tooltip: { mode: "index", intersect: false },
+          tooltip: {
+            mode: "index",
+            intersect: false,
+            backgroundColor: isDark ? "#1f2937" : "#ffffff",
+            titleColor: textColor,
+            bodyColor: textColor,
+            borderColor: gridColor,
+            borderWidth: 1,
+          },
         },
         scales: {
           x: {
             title: {
               display: true,
-              text: "Jahr",
-              font: { size: 14, family: "Arial", weight: "bold" },
+              text: t.simulation.xAxisLabel,
+              font: { size: 14, family: "Lora, Georgia, serif", weight: "bold" },
+              color: textColor,
             },
-            grid: { display: true, color: "#f0f0f0" },
-            ticks: { font: { size: 11 } },
+            grid: { display: true, color: gridColor },
+            ticks: { font: { size: 11 }, color: textColor },
           },
           y: {
             title: {
               display: true,
-              text: "Portfolio-Wert (Mio. €)",
-              font: { size: 14, family: "Arial", weight: "bold" },
+              text: t.simulation.yAxisLabel,
+              font: { size: 14, family: "Lora, Georgia, serif", weight: "bold" },
+              color: textColor,
             },
-            grid: { display: true, color: "#f0f0f0" },
-            ticks: { callback: (value: any) => value.toFixed(1), font: { size: 11 } },
+            grid: { display: true, color: gridColor },
+            ticks: {
+              callback: (value: any) => value.toFixed(1),
+              font: { size: 11 },
+              color: textColor,
+            },
           },
         },
       },
@@ -273,7 +300,7 @@ export function InvestmentSimulation() {
         chartInstance.current.destroy()
       }
     }
-  }, [simulationResults])
+  }, [simulationResults, theme, t, language])
 
   return (
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-12" data-tour="page">
