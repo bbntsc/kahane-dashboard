@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { BarChart2, Home, PieChart, Settings, TrendingUp, Phone, MessageSquare } from "lucide-react"
+import { BarChart2, Home, PieChart, Settings, TrendingUp, Phone } from "lucide-react"
 import Link from "next/link"
 import { useSettings } from "@/lib/settings-context"
 import { useTranslation } from "@/lib/i18n"
@@ -45,7 +45,7 @@ export function Sidebar() {
             aria-label={t.concierge.callConcierge}
           >
             <div className="relative w-20 h-20 flex items-center justify-center rounded-full bg-gradient-to-br from-amber-50 to-amber-100 dark:from-amber-900/30 dark:to-amber-800/30 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-amber-200/50 dark:border-amber-700/50">
-              <Image src="/images/hotel-bell.png" alt="Hotel Bell" width={48} height={48} className="object-contain" />
+              <Image src="/images/hotel-bell.png" alt="Hotel Bell" width={52} height={52} className="object-contain" />
 
               <div
                 className="absolute inset-0 rounded-full bg-amber-200/30 dark:bg-amber-600/20 animate-ping"
@@ -65,14 +65,6 @@ export function Sidebar() {
           >
             <Phone className="h-5 w-5" />
             <span>{t.nav.contact}</span>
-          </Link>
-
-          <Link
-            href="/feedback"
-            className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-[#4a5f52] dark:text-gray-300 hover:bg-white dark:hover:bg-gray-700 rounded-md transition-colors group"
-          >
-            <MessageSquare className="h-5 w-5" />
-            <span>{t.feedback.title}</span>
           </Link>
         </nav>
       </div>
