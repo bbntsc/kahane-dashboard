@@ -1,24 +1,15 @@
-import type React from "react"
 import type { Metadata } from "next"
-import { Playfair_Display, Lora } from "next/font/google"
+import { Inter, Bodoni_Moda } from "next/font/google"
 import "./globals.css"
-import { SettingsProvider } from "@/lib/settings-context"
+// WICHTIG: Importiere den SettingsProvider, damit die Simulation läuft
+import { SettingsProvider } from "@/lib/settings-context" 
 
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-serif",
-  display: "swap",
-})
-
-const lora = Lora({
-  subsets: ["latin"],
-  variable: "--font-sans",
-  display: "swap",
-})
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
+const bodoni = Bodoni_Moda({ subsets: ["latin"], variable: "--font-bodoni" })
 
 export const metadata: Metadata = {
-  title: "Bank Gutmann - Investment Simulation",
-  description: "Erleben Sie, wie sich Ihr Vermögen entwickeln könnte",
+  title: "Kahane Financial Dashboard",
+  description: "Investment simulation and market analysis platform",
 }
 
 export default function RootLayout({
@@ -27,9 +18,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="de" className={`${playfair.variable} ${lora.variable}`}>
-      <body className="font-sans antialiased bg-background text-foreground transition-colors duration-300">
-        <SettingsProvider>{children}</SettingsProvider>
+    <html lang="de">
+      <body className={`${inter.variable} ${bodoni.variable} font-sans antialiased`}>
+        {/* Wir wrappen die App in den SettingsProvider */}
+        <SettingsProvider>
+          {children}
+        </SettingsProvider>
       </body>
     </html>
   )

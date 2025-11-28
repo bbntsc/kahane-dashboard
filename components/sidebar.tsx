@@ -1,104 +1,113 @@
 "use client"
 
-import type React from "react"
-import { BarChart2, Home, PieChart, Settings, TrendingUp, Phone } from "lucide-react"
 import Link from "next/link"
-import { useSettings } from "@/lib/settings-context"
-import { useTranslation } from "@/lib/i18n"
 import Image from "next/image"
+import { usePathname } from "next/navigation"
+import { LayoutDashboard, TrendingUp, BarChart3, Settings, PieChart, FileText, Bell } from "lucide-react"
 
-export function Sidebar() {
-  const { language } = useSettings()
-  const t = useTranslation(language)
+interface SidebarProps {
+  onConciergeClick: () => void
+}
 
-  const handleConciergeClick = () => {
-    const event = new CustomEvent("openConcierge")
-    window.dispatchEvent(event)
+export function Sidebar({ onConciergeClick }: SidebarProps) {
+  const pathname = usePathname()
+
+  const navigation = [
+    { name: "Übersicht", href: "/", icon: LayoutDashboard },
+    { name: "Simulation", href: "/simulation", icon: BarChart3 },
+    { name: "Marktanalyse", href: "/market", icon: TrendingUp },
+    { name: "Portfolio", href: "/portfolio", icon: PieChart },
+    { name: "Reports", href: "/reports", icon: FileText },
+  ]
+
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === href
+    return pathname.startsWith(href)
   }
 
   return (
-    <div className="flex h-full w-64 flex-col border-r border-[#ede9e1] dark:border-gray-700 bg-[#f8f3ef] dark:bg-gray-800">
-      <div className="flex h-16 items-center border-b border-[#ede9e1] dark:border-gray-700 px-6">
-        <h1 className="text-xl font-serif tracking-tight text-[#1b251d] dark:text-gray-100">Kahane</h1>
+    <div className="flex flex-col flex-grow border-r border-gray-200 bg-white overflow-y-auto h-full">
+      {/* Header */}
+      <div className="flex h-16 items-center px-6 border-b border-gray-100">
+        <h1 className="text-xl font-bold text-gray-900 font-serif tracking-tight">Kahane</h1>
       </div>
-      <div className="flex-1 overflow-auto py-4">
-        <nav className="space-y-1 px-2">
-          <NavItem href="/" icon={<Home className="h-5 w-5" />}>
-            {t.nav.overview}
-          </NavItem>
-          <NavItem href="/simulation" icon={<BarChart2 className="h-5 w-5" />}>
-            {t.simulation.title}
-          </NavItem>
-          <NavItem href="/market" icon={<TrendingUp className="h-5 w-5" />}>
-            {t.market.title}
-          </NavItem>
-          <NavItem href="/portfolio" icon={<PieChart className="h-5 w-5" />}>
-            Portfolio
-          </NavItem>
-        </nav>
 
-        <div className="flex justify-center my-8 py-8 border-y border-[#ede9e1]/50 dark:border-gray-700/50">
-          <button
-            onClick={handleConciergeClick}
-            className="group relative"
-            title={t.concierge.callConcierge}
-            aria-label={t.concierge.callConcierge}
-          >
-            <div className="relative w-20 h-20 flex items-center justify-center rounded-full bg-gradient-to-br from-amber-50 to-amber-100 dark:from-amber-900/30 dark:to-amber-800/30 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-amber-200/50 dark:border-amber-700/50">
-              <Image src="/images/hotel-bell.png" alt="Hotel Bell" width={52} height={52} className="object-contain" />
+      {/* Navigation */}
+      <nav className="mt-6 flex-1 px-3 space-y-1">
+        {navigation.map((item) => {
+          const Icon = item.icon
+          const active = isActive(item.href)
+          return (
+            <Link
+              key={item.name}
+              href={item.href}
+              className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all ${
+                active 
+                  ? "bg-[#1b251d] text-white shadow-sm" 
+                  : "text-gray-700 hover:bg-[#f8f3ef] hover:text-[#1b251d]"
+              }`}
+            >
+              <Icon className="h-5 w-5" />
+              {item.name}
+            </Link>
+          )
+        })}
+      </nav>
 
-              <div
-                className="absolute inset-0 rounded-full bg-amber-200/30 dark:bg-amber-600/20 animate-ping"
-                style={{ animationDuration: "3s" }}
-              />
+      {/* --- DER CONCIERGE BUTTON (Wiederhergestellt) --- */}
+      <div className="px-6 py-6 flex justify-center">
+        <button 
+          onClick={onConciergeClick}
+          className="group relative flex flex-col items-center justify-center transition-transform active:scale-95 outline-none"
+          title="Concierge rufen"
+        >
+          {/* Kreis-Hintergrund mit schönem Schatten und Farbe */}
+          <div className="relative w-20 h-20 flex items-center justify-center rounded-full bg-gradient-to-br from-amber-50 to-amber-100 border border-amber-200 shadow-lg group-hover:shadow-xl transition-all duration-300">
+            
+            {/* Versuch das Bild zu laden, Fallback auf Icon */}
+            <div className="relative w-12 h-12">
+               {/* Wir nutzen Next/Image, falls das Bild existiert. Falls nicht, wird das Icon angezeigt */}
+               <Image 
+                 src="/images/hotel-bell.png" 
+                 alt="Concierge Bell"
+                 fill
+                 className="object-contain drop-shadow-md"
+                 onError={(e) => {
+                   // Fallback: Wenn Bild nicht gefunden wird, verstecken wir es (CSS-Trick)
+                   e.currentTarget.style.display = 'none';
+                 }}
+               />
+               {/* Fallback Icon, falls Bild nicht lädt - positioniert hinter dem Bild */}
+               <Bell className="absolute inset-0 w-full h-full text-amber-600 opacity-0 group-hover:opacity-100 transition-opacity" /> 
             </div>
-            <span className="absolute left-full ml-4 px-3 py-2 bg-[#1b251d] dark:bg-gray-700 text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-lg z-50">
-              {t.concierge.callConcierge}
+            
+            {/* Kleiner Ping-Indikator */}
+            <span className="absolute top-1 right-1 flex h-4 w-4">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-4 w-4 bg-amber-500 border-2 border-white"></span>
             </span>
-          </button>
-        </div>
-
-        <nav className="space-y-2 px-4 mt-4">
-          <Link
-            href="/contact"
-            className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-[#4a5f52] dark:text-gray-300 hover:bg-white dark:hover:bg-gray-700 rounded-md transition-colors group"
-          >
-            <Phone className="h-5 w-5" />
-            <span>{t.nav.contact}</span>
-          </Link>
-        </nav>
+          </div>
+          
+          <span className="mt-3 text-sm font-medium text-[#1b251d] opacity-70 group-hover:opacity-100 transition-opacity">
+            Concierge
+          </span>
+        </button>
       </div>
-
-      <div className="border-t border-[#ede9e1] dark:border-gray-700 p-4">
-        <nav className="space-y-1">
-          <NavItem href="/settings" icon={<Settings className="h-5 w-5" />}>
-            {t.settings.title}
-          </NavItem>
-        </nav>
+      
+      {/* Footer / Settings */}
+      <div className="border-t border-gray-100 p-4">
+        <Link
+          href="/settings"
+          className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+             isActive("/settings") 
+                ? "bg-[#1b251d] text-white" 
+                : "text-gray-700 hover:bg-[#f8f3ef]"
+          }`}
+        >
+          <Settings className="h-5 w-5" />
+          Einstellungen
+        </Link>
       </div>
     </div>
-  )
-}
-
-interface NavItemProps {
-  href: string
-  icon: React.ReactNode
-  children: React.ReactNode
-  active?: boolean
-}
-
-function NavItem({ href, icon, children, active }: NavItemProps) {
-  return (
-    <Link
-      href={href}
-      className={`flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-        active
-          ? "bg-[#1b251d] dark:bg-gray-700 text-white"
-          : "text-[#1b251d] dark:text-gray-100 hover:bg-white dark:hover:bg-gray-700"
-      }`}
-    >
-      <span className="mr-3">{icon}</span>
-      {children}
-    </Link>
   )
 }
