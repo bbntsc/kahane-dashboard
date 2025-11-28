@@ -1,8 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { Sidebar } from "@/components/sidebar" 
-import { TutorialModal } from "@/components/tutorial-modal"
+import { Sidebar } from "@/components/sidebar"
+import { ConciergeGuide } from "@/components/concierge-guide"
+import { BankGutmannHeader } from "@/components/bank-gutmann-header" // <--- NEU: Import
 import { Menu, X } from "lucide-react"
 
 interface DashboardLayoutProps {
@@ -13,7 +14,6 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [showConcierge, setShowConcierge] = useState(false) 
 
-  // Funktion zum Öffnen des Concierge
   const openConcierge = () => {
     setShowConcierge(true)
     setSidebarOpen(false) 
@@ -22,9 +22,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <div className="min-h-screen bg-[#f8f3ef]">
       
-      {/* CONCIERGE MODAL */}
       {showConcierge && (
-        <TutorialModal onClose={() => setShowConcierge(false)} />
+        <ConciergeGuide onClose={() => setShowConcierge(false)} />
       )}
 
       {/* MOBILE SIDEBAR */}
@@ -41,7 +40,6 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               >
                 <X className="h-6 w-6" />
               </button>
-              {/* Hier übergeben wir die Funktion an die Sidebar */}
               <Sidebar onConciergeClick={openConcierge} />
            </div>
         </div>
@@ -52,8 +50,14 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         <Sidebar onConciergeClick={openConcierge} />
       </div>
 
-      {/* MAIN CONTENT */}
+      {/* MAIN CONTENT WRAPPER */}
       <div className="lg:pl-64 flex flex-col min-h-screen">
+        
+        {/* --- HIER IST DER NEUE HEADER --- */}
+        {/* Er wird jetzt auf JEDER Seite oben angezeigt */}
+        <BankGutmannHeader />
+
+        {/* Mobile Header für Sidebar-Trigger (bleibt für Mobile-Navigation wichtig) */}
         <div className="lg:hidden flex items-center p-4 border-b border-[#ede9e1] bg-white sticky top-0 z-40">
             <button onClick={() => setSidebarOpen(true)} className="text-gray-500 hover:text-gray-900">
                 <Menu className="h-6 w-6" />
@@ -61,6 +65,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             <span className="ml-4 font-bold text-lg font-serif text-[#1b251d]">Kahane</span>
         </div>
 
+        {/* Seiteninhalt */}
         <main className="flex-1 py-8 px-4 sm:px-6 lg:px-8">
             {children}
         </main>

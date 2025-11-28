@@ -1,38 +1,29 @@
 "use client"
 
 import { useState } from "react"
-import { BankGutmannHeader } from "@/components/bank-gutmann-header"
+// import { BankGutmannHeader } from "@/components/bank-gutmann-header" <-- LÖSCHEN oder auskommentieren
+import { TutorialModal } from "@/components/tutorial-modal"
 import { InvestmentSimulation } from "@/components/investment-simulation"
-import { ConciergeOverlay } from "@/components/concierge-overlay"
-import { ConciergeHelpModal } from "@/components/concierge-help-modal"
-import { TourGuide } from "@/components/tour-guide"
 
 export function SimulationApp() {
-  const [showWelcome, setShowWelcome] = useState(true)
-  const [showHelp, setShowHelp] = useState(false)
-  const [isTourActive, setIsTourActive] = useState(false)
-
-  const handleStartTour = () => {
-    setShowWelcome(false)
-    setIsTourActive(true)
-  }
-
-  const handleSelfGuided = () => {
-    setShowWelcome(false)
-  }
+  const [showTutorial, setShowTutorial] = useState(true)
+  const [activeTab, setActiveTab] = useState<"tutorial" | "simulation" | "market">("simulation")
 
   return (
     <div className="min-h-screen bg-[#f8f3ef]">
-      <BankGutmannHeader />
+      {/* <BankGutmannHeader />  <-- LÖSCHEN: Dieser Header ist jetzt im DashboardLayout */}
 
-      {showWelcome && <ConciergeOverlay onStartGuided={handleStartTour} onStartSelfGuided={handleSelfGuided} />}
-
-      {showHelp && <ConciergeHelpModal context="simulation" onClose={() => setShowHelp(false)} />}
-
-      <TourGuide isActive={isTourActive} onComplete={() => setIsTourActive(false)} />
+      {/* Optional: Das alte TutorialModal kann hier auch raus, wenn du jetzt den Concierge nutzt */}
+      {showTutorial && <TutorialModal onClose={() => setShowTutorial(false)} />}
 
       <main className="mx-auto max-w-7xl px-6 py-6">
-        <InvestmentSimulation />
+        {activeTab === "simulation" && <InvestmentSimulation />}
+        {activeTab === "tutorial" && (
+          <div className="text-center py-20">
+            <h2 className="text-2xl font-serif text-[#1b251d] mb-4">Tutorial</h2>
+            <p className="text-gray-600">Tutorial-Inhalte werden hier angezeigt...</p>
+          </div>
+        )}
       </main>
     </div>
   )
