@@ -37,9 +37,8 @@ export function SimulationPage() {
             </nav>
           </div>
 
-          <div className="flex items-center">
-            <img src="/placeholder.svg?height=40&width=150" alt="Gutmann Logo" className="h-10" />
-          </div>
+            <div className="flex items-center">
+            </div>
 
           <div className="flex items-center space-x-6 text-sm">
             <a href="#" className="text-gray-500 hover:text-gray-600">

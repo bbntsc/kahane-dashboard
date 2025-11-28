@@ -1,9 +1,11 @@
-import type React from "react"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Inter, Bodoni_Moda } from "next/font/google"
 import "./globals.css"
 
-const inter = Inter({ subsets: ["latin"] })
+// Inter für sauberen Fließtext
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
+// Bodoni Moda für die großen Überschriften
+const bodoni = Bodoni_Moda({ subsets: ["latin"], variable: "--font-bodoni" })
 
 export const metadata: Metadata = {
   title: "Kahane Financial Dashboard",
@@ -17,7 +19,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="de">
-      <body className={inter.className}>{children}</body>
+      {/* Beide Schriftarten werden hier als CSS-Variablen injiziert */}
+      <body className={`${inter.variable} ${bodoni.variable} font-sans antialiased`}>
+        {children}
+      </body>
     </html>
   )
 }

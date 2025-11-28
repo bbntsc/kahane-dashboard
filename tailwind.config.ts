@@ -19,7 +19,22 @@ const config = {
       },
     },
     extend: {
+      // 1. SCHRIFTARTEN (Bereits korrekt von dir eingefügt)
+      fontFamily: {
+        sans: ["var(--font-inter)", "sans-serif"],
+        serif: ["Georgia", "serif"], 
+        display: ["var(--font-bodoni)", "serif"], 
+      },
+      // 2. FARBEN (Neu: Gutmann Palette hinzugefügt)
       colors: {
+        // Eigene Projekt-Farben (statt harter Hex-Codes)
+        gutmann: {
+          dark: "#1b251d",   // Das dunkle Grün (Haupttext & Buttons)
+          light: "#f8f3ef",  // Das Beige (Hintergrund)
+          accent: "#668273", // Der mittlere Grünton (aus Diagrammen/Modals)
+        },
+        
+        // Standard Shadcn Farben
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -78,4 +93,4 @@ const config = {
   plugins: [require("tailwindcss-animate")],
 } satisfies Config
 
-export default config
+export default config 

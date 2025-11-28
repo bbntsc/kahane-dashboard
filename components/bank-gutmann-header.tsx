@@ -39,12 +39,9 @@ export function BankGutmannHeader() {
           {/* Mittlere Sektion: Absolut zentriertes Logo */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <a href="/" className="block text-center">
-              <div
-                className="font-serif italic text-2xl text-[#1b251d] leading-tight"
-                style={{ fontFamily: "Georgia, serif" }}
-              >
+                <div className="font-serif italic text-2xl text-[#1b251d] leading-tight">
                 Gutmann
-              </div>
+                </div>
               <div className="text-[9px] tracking-[0.2em] text-[#1b251d] uppercase mt-0.5">Private Bankers</div>
             </a>
           </div>

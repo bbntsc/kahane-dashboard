@@ -6,7 +6,8 @@ export function KahaneLanding() {
   return (
     <div className="min-h-screen bg-[#f8f3ef] flex items-center justify-center">
       <div className="text-center">
-        <h1 className="text-8xl font-serif text-[#1b251d] mb-8" style={{ fontFamily: "Bodoni Moda, serif" }}>
+        {/* Inline-Style entfernt, font-display (Bodoni Moda) hinzugefügt */}
+        <h1 className="text-8xl font-display text-[#1b251d] mb-8">
           Kahane
         </h1>
         <Link href="/simulation">
@@ -21,3 +22,4 @@ export function KahaneLanding() {
     </div>
   )
 }
+
