@@ -8,7 +8,6 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Kahane Financial Dashboard",
   description: "Investment simulation and market analysis platform",
-    generator: 'v0.app'
 }
 
 export default function RootLayout({
