@@ -1,107 +1,98 @@
-"use client"
-import { useState } from "react"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { InvestmentSimulation } from "@/components/investment-simulation"
-import { MarketView } from "@/components/market-view"
+// components/simulation-app.tsx
 
-export function SimulationPage() {
-  const [activeTab, setActiveTab] = useState<"simulation" | "market">("simulation")
+"use client"
+
+import * as React from "react" // <--- Korrektur: Import hinzugefügt
+import { useState, useEffect, useMemo } from "react" 
+import { TutorialModal } from "@/components/tutorial-modal"
+import { InvestmentSimulation } from "@/components/investment-simulation"
+import { TourGuide } from "@/components/tour-guide" 
+
+// Context Definition
+interface SimulationContextProps {
+  // Die Funktion, die vom Header aufgerufen wird, wenn auf das Logo geklickt wird
+  onLogoClickForTutorial: (() => void) | undefined 
+}
+export const SimulationContext = React.createContext<SimulationContextProps>({
+    onLogoClickForTutorial: undefined,
+}); 
+
+const TUTORIAL_SEEN_KEY = "kahane-simulation-tutorial-seen"
+
+export function SimulationApp() {
+  const [showTutorial, setShowTutorial] = useState(false) 
+  const [activeTab, setActiveTab] = useState<"tutorial" | "simulation" | "market">("simulation")
+  const [showGuidedTour, setShowGuidedTour] = useState(false) 
+
+  // 1. Initiale Logik: Modal nur beim ersten Besuch (Session Storage)
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+        const tutorialSeen = sessionStorage.getItem(TUTORIAL_SEEN_KEY)
+        if (!tutorialSeen) {
+            setShowTutorial(true)
+        }
+    }
+  }, [])
+  
+  // 2. Logo-Klick Handler: Öffnet das Modal explizit (Ihr Wunsch)
+  const handleLogoClickForHeader = () => {
+    // Falls eine Tour aktiv ist, wird diese beendet
+    if (showGuidedTour) {
+      setShowGuidedTour(false)
+    }
+    // Das Tutorial-Modal wird angezeigt
+    setShowTutorial(true)
+  }
+
+  // Memoisiert den Context-Wert
+  const contextValue = useMemo(() => ({
+    onLogoClickForTutorial: handleLogoClickForHeader
+  }), [showGuidedTour]);
+
+
+  const handleStartGuidedTour = () => {
+    setShowTutorial(false)
+    setShowGuidedTour(true)
+    if (typeof window !== 'undefined') {
+        sessionStorage.setItem(TUTORIAL_SEEN_KEY, "true")
+    }
+  }
+  
+  const handleTourComplete = () => {
+    setShowGuidedTour(false)
+  }
+  
+  const handleCloseTutorial = () => {
+    setShowTutorial(false)
+    if (typeof window !== 'undefined') {
+        sessionStorage.setItem(TUTORIAL_SEEN_KEY, "true")
+    }
+  }
 
   return (
-    <div className="min-h-screen bg-white">
-      <header className="border-b border-gray-200">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
-          <div className="flex items-center space-x-8">
-            <button className="p-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="h-6 w-6"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-              </svg>
-            </button>
-            <nav className="flex space-x-6 text-sm font-medium">
-              <a href="#" className="text-gray-900 hover:text-gray-600">
-                Private Banking
-              </a>
-              <a href="#" className="text-gray-500 hover:text-gray-600">
-                Institutional Banking
-              </a>
-              <a href="#" className="text-gray-500 hover:text-gray-600">
-                Investieren
-              </a>
-            </nav>
-          </div>
+    // Umschließe den Inhalt mit dem Context Provider, um die Funktion bereitzustellen
+    <SimulationContext.Provider value={contextValue}>
+        <div className="min-h-screen bg-[#f8f3ef]">
+            {/* Das TutorialModal startet entweder die geführte Tour oder schließt sich */}
+            {showTutorial && (
+                <TutorialModal 
+                onClose={handleCloseTutorial} 
+                onStartTour={handleStartGuidedTour} 
+                />
+            )}
+            
+            <TourGuide isActive={showGuidedTour} onComplete={handleTourComplete} />
 
-          <div className="flex items-center">
-            <img src="/placeholder.svg?height=40&width=150" alt="Gutmann Logo" className="h-10" />
-          </div>
-
-          <div className="flex items-center space-x-6 text-sm">
-            <a href="#" className="text-gray-500 hover:text-gray-600">
-              Über uns
-            </a>
-            <a href="#" className="text-gray-500 hover:text-gray-600">
-              Kontakt
-            </a>
-            <a href="#" className="text-gray-500 hover:text-gray-600">
-              Karriere
-            </a>
-            <a href="#" className="text-gray-500 hover:text-gray-600">
-              ESG
-            </a>
-            <div className="flex items-center space-x-2">
-              <span className="text-gray-500">DE</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="h-4 w-4 text-gray-500"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-              </svg>
-            </div>
-            <button className="rounded-full border border-gray-300 px-4 py-1 text-gray-700 hover:bg-gray-50">
-              login
-            </button>
-          </div>
+            <main className="mx-auto max-w-7xl px-6 py-6">
+                {activeTab === "simulation" && <InvestmentSimulation />}
+                {activeTab === "tutorial" && (
+                <div className="text-center py-20">
+                    <h2 className="text-2xl font-serif text-[#1b251d] mb-4">Tutorial</h2>
+                    <p className="text-gray-600">Tutorial-Inhalte werden hier angezeigt...</p>
+                </div>
+                )}
+            </main>
         </div>
-      </header>
-
-      <main className="mx-auto max-w-7xl px-4 py-8">
-        <Tabs
-          value={activeTab}
-          onValueChange={(value) => setActiveTab(value as "simulation" | "market")}
-          className="w-full"
-        >
-          <TabsList className="mb-8 w-full justify-start space-x-8 border-b border-gray-200 bg-transparent p-0">
-            <TabsTrigger
-              value="simulation"
-              className={`border-b-2 ${
-                activeTab === "simulation" ? "border-gray-900" : "border-transparent"
-              } bg-transparent px-0 py-2 text-base font-medium data-[state=active]:border-gray-900 data-[state=active]:bg-transparent data-[state=active]:text-gray-900`}
-            >
-              Vermögenssimulation
-            </TabsTrigger>
-            <TabsTrigger
-              value="market"
-              className={`border-b-2 ${
-                activeTab === "market" ? "border-gray-900" : "border-transparent"
-              } bg-transparent px-0 py-2 text-base font-medium text-gray-500 hover:text-gray-700 data-[state=active]:border-gray-900 data-[state=active]:bg-transparent data-[state=active]:text-gray-900`}
-            >
-              Ein Blick in den Markt
-            </TabsTrigger>
-          </TabsList>
-
-          {activeTab === "simulation" ? <InvestmentSimulation /> : <MarketView />}
-        </Tabs>
-      </main>
-    </div>
+    </SimulationContext.Provider>
   )
 }

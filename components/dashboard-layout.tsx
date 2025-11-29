@@ -1,10 +1,15 @@
+// components/dashboard-layout.tsx
+
 "use client"
 
 import { useState } from "react"
 import { Sidebar } from "@/components/sidebar"
 import { ConciergeGuide } from "@/components/concierge-guide"
-import { BankGutmannHeader } from "@/components/bank-gutmann-header" // <--- NEU: Import
+import { BankGutmannHeader } from "@/components/bank-gutmann-header"
 import { Menu, X } from "lucide-react"
+
+// WICHTIG: Import des Contextes von der SimulationApp
+import { SimulationContext } from "@/components/simulation-app" 
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -26,7 +31,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         <ConciergeGuide onClose={() => setShowConcierge(false)} />
       )}
 
-      {/* MOBILE SIDEBAR */}
+      {/* MOBILE SIDEBAR ... (restlicher Code) */}
       <div className={`fixed inset-0 z-50 lg:hidden ${sidebarOpen ? "" : "pointer-events-none"}`}>
         <div
           className={`fixed inset-0 bg-gray-900/80 transition-opacity duration-300 ${sidebarOpen ? "opacity-100" : "opacity-0"}`}
@@ -45,7 +50,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         </div>
       </div>
 
-      {/* DESKTOP SIDEBAR */}
+      {/* DESKTOP SIDEBAR ... (restlicher Code) */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
         <Sidebar onConciergeClick={openConcierge} />
       </div>
@@ -53,9 +58,15 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* MAIN CONTENT WRAPPER */}
       <div className="lg:pl-64 flex flex-col min-h-screen">
         
-        {/* --- HIER IST DER NEUE HEADER --- */}
-        {/* Er wird jetzt auf JEDER Seite oben angezeigt */}
-        <BankGutmannHeader />
+        {/* HIER WIRD DER CONTEXT KONSUMIERT */}
+        <SimulationContext.Consumer>
+          {({ onLogoClickForTutorial }) => (
+            <BankGutmannHeader 
+              // Übergibt den Handler an den Header
+              onLogoClick={onLogoClickForTutorial} 
+            />
+          )}
+        </SimulationContext.Consumer>
 
         {/* Mobile Header für Sidebar-Trigger (bleibt für Mobile-Navigation wichtig) */}
         <div className="lg:hidden flex items-center p-4 border-b border-[#ede9e1] bg-white sticky top-0 z-40">

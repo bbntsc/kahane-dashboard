@@ -1,23 +1,34 @@
+// components/bank-gutmann-header.tsx
+
 "use client"
 
 import { Menu, ChevronDown } from "lucide-react"
 import { useState } from "react"
-import { useSettings } from "@/lib/settings-context"
-import { useTranslation, type Language } from "@/lib/i18n"
 import Link from "next/link"
 
-export function BankGutmannHeader() {
+// Interface und Dummy-Daten sind korrekt
+interface BankGutmannHeaderProps {
+  onLogoClick?: () => void
+}
+const useSettings = () => ({ language: "DE", setLanguage: () => {} })
+const useTranslation = (lang: string) => ({ nav: { about: "Über uns", contact: "Kontakt" } })
+type Language = 'de' | 'en' | 'fr' | 'it';
+
+export function BankGutmannHeader({ onLogoClick }: BankGutmannHeaderProps) { 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [languageOpen, setLanguageOpen] = useState(false)
   const { language, setLanguage } = useSettings()
   const t = useTranslation(language)
 
   const languages: { code: Language; name: string }[] = [
-    { code: "de", name: "Deutsch" },
-    { code: "en", name: "English" },
-    { code: "fr", name: "Français" },
-    { code: "it", name: "Italiano" },
+    { code: "de" as Language, name: "Deutsch" },
+    { code: "en" as Language, name: "English" },
+    { code: "fr" as Language, name: "Français" },
+    { code: "it" as Language, name: "Italiano" },
   ]
+
+  // NEU: Wählt Link (Standard) oder div (für Klick-Handler)
+  const LogoWrapper = onLogoClick ? 'div' : Link;
 
   return (
     <header className="bg-[#f8f3ef] dark:bg-[#1b251d] border-b border-[#ede9e1] dark:border-[#404a3f] relative z-50">
@@ -34,7 +45,20 @@ export function BankGutmannHeader() {
 
           {/* Centered Logo */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <Link href="/" className="block text-center">
+            
+            {/* KORREKTUR: Verwende bedingte Props und Klick-Handler */}
+            <LogoWrapper 
+              {...(onLogoClick ? { role: 'button', tabIndex: 0 } : { href: "/" })} 
+              className="block text-center cursor-pointer"
+              onClick={(e) => { 
+                  // Nur ausführen, wenn der Handler vorhanden ist (d.h. auf der /simulation Seite)
+                  if (onLogoClick) {
+                      // Da es jetzt eine div/button ist, ist kein e.preventDefault() nötig
+                      onLogoClick();
+                  }
+                  // Andernfalls navigiert der Link normal zur Homepage
+              }}
+            >
               <div
                 className="font-serif italic text-2xl text-[#1b251d] dark:text-[#f8f3ef] leading-tight"
                 style={{ fontFamily: "Georgia, serif" }}
@@ -44,7 +68,7 @@ export function BankGutmannHeader() {
               <div className="text-[9px] tracking-[0.2em] text-[#1b251d] dark:text-[#f8f3ef] uppercase mt-0.5">
                 Private Bankers
               </div>
-            </Link>
+            </LogoWrapper>
           </div>
 
           {/* Right Section */}
