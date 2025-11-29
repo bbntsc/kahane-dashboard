@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { ArrowRight, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { usePathname, useRouter } from "next/navigation"
@@ -11,7 +11,7 @@ interface TourStep {
   path?: string // Optional: Pfad, zu dem navigiert werden soll
 }
 
-const tourSteps: TourStep[] = [
+const ALL_TOUR_STEPS: TourStep[] = [
   // --- KATEGORIE 1: ÜBERSICHTS-SEITE (4 Schritte) ---
   {
     target: "page",
@@ -66,7 +66,7 @@ const tourSteps: TourStep[] = [
   {
     target: "cta-simulation-link", 
     message:
-      "Bevor Sie fortfahren: Nutzen Sie diesen Button 'Blick in den Markt', um Ihre Annahmen mit realen, historischen Krisendaten abzugleichen. Wir wechseln nun zur Marktanalyse.",
+      "Bevor Sie fortfahren: Nutzen Sie diesen Button Blick in den Markt, um Ihre Annahmen mit realen, historischen Krisendaten abzugleichen. Wir wechseln nun zur Marktanalyse.",
     path: "/simulation" 
   },
 
@@ -92,7 +92,7 @@ const tourSteps: TourStep[] = [
   {
     target: "market-insights",
     message:
-      "Der Schalter 'Insights' blendet rote Marker ein. Klicken Sie auf diese, um Details zu den Krisen und unseren Empfehlungen zu erhalten.",
+      "Der Schalter Insights blendet rote Marker ein. Klicken Sie auf diese, um Details zu den Krisen und unseren Empfehlungen zu erhalten.",
     path: "/market"
   },
   {
@@ -108,88 +108,146 @@ const tourSteps: TourStep[] = [
     path: "/market"
   },
 
-  // --- KATEGORIE 4: WEITERE SEITEN (3 Schritte) ---
+  // --- KATEGORIE 4: WEITERE SEITEN (4 Schritte) ---
   {
     target: "page",
     message:
-      "Auf der Portfolio-Seite (und auch auf der FAQ- und Feedback-Seite) wird Ihnen weiterhin die Navigation erklärt. Das Portfolio gibt Ihnen eine detaillierte Übersicht Ihrer Anlagen.",
+      "Auf der Portfolio-Seite (und auch auf der FAQ/Hilfe- und Feedback-Seite) wird Ihnen weiterhin die Navigation erklärt. Das Portfolio gibt Ihnen eine detaillierte Übersicht Ihrer Anlagen.",
     path: "/portfolio" 
   },
   {
     target: "page",
     message:
-      "Die Seite 'FAQ/Hilfe' ist ein wichtiger Anlaufpunkt. Hier finden Sie alle Fragen und Antworten übersichtlich sortiert.",
+      "Die Seite FAQ/Hilfe ist ein wichtiger Anlaufpunkt. Hier finden Sie alle Fragen und Antworten übersichtlich sortiert.",
     path: "/faq" 
   },
   {
     target: "page",
     message:
-      "Auf der Seite 'Feedback' können Sie uns schnell Ihre Meinung mitteilen. Ein Klick auf 'Einstellungen' führt zum nächsten Schritt.",
+      "Auf der Seite Feedback können Sie uns schnell Ihre Meinung mitteilen. Ein Klick auf Einstellungen führt zum nächsten Schritt.",
     path: "/feedback" 
   },
   {
     target: "page",
     message:
-      "Die Seite 'Einstellungen' ermöglicht es Ihnen, das Erscheinungsbild (Theme, Schriftgröße und Sprache) der Anwendung anzupassen.",
+      "Die Seite Einstellungen ermöglicht es Ihnen, das Erscheinungsbild (Theme, Schriftgröße und Sprache) der Anwendung anzupassen. Der letzte Schritt ist die Kontaktseite.",
     path: "/settings" 
   },
+  
+  // --- KATEGORIE 5: KONTAKT UND ABSCHLUSS ---
   {
-    target: "page",
+    target: "contact-form", 
     message:
-      "Über die Seite 'Kontakt' können Sie direkt mit unseren Beratern in Verbindung treten, um eine individuelle Strategie zu besprechen.",
+      "Die Kontaktseite ermöglicht Ihnen, direkt mit unseren Beratern in Verbindung zu treten, um Ihre individuelle Anlagestrategie zu besprechen.",
     path: "/contact" 
   },
   
-  // --- KATEGORIE 5: ABSCHLUSS ---
+  // ABSCHLUSS-SCHRITT
   {
-    target: "page", // Letzter Schritt der Tour
+    target: "page", 
     message:
-      "Das war die erweiterte geführte Tour! Ich hoffe, Sie haben nun einen guten Überblick über alle Funktionen der Plattform.",
+      "Das war die erweiterte geführte Tour! Ich hoffe, Sie haben nun einen guten Überblick über alle Funktionen der Plattform und wissen, wie Sie uns kontaktieren können. Klicken Sie auf Tour beenden, um den Guide zu schließen.",
     path: "/contact" 
   }
 ]
+
+// Exportiere die vollständige Liste der Schritte
+export { ALL_TOUR_STEPS };
+
 
 const TOUR_STEP_KEY = "activeTourStep"
 
 interface TourGuideProps {
   isActive: boolean
   onComplete: () => void
+  initialStep?: number // Start-Index-Einstellung (wird für kontextuelle Hilfe verwendet)
+  isContextual?: boolean // NEU: Flag, um Kontext-Modus zu identifizieren
 }
 
-export function TourGuide({ isActive, onComplete }: TourGuideProps) {
-  const [currentStep, setCurrentStep] = useState(0) 
+export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual = false }: TourGuideProps) { // isContextual hinzugefügt
+  const [currentStep, setCurrentStep] = useState(initialStep) 
   const router = useRouter()
   const pathname = usePathname()
   
+  // Definiere die aktuell gültige Tour-Schritt-Liste
+  const tourSteps = useMemo(() => {
+    if (!isContextual) {
+      return ALL_TOUR_STEPS;
+    }
+    
+    // Im Kontext-Modus: Filtere nur die Schritte der aktuellen Seite, 
+    // beginnend beim initialStep, und füge einen Abschluss-Schritt hinzu, falls nötig.
+    
+    // Finde alle Schritte, die zum aktuellen Pfad gehören.
+    const stepsForContext = ALL_TOUR_STEPS.filter(step => pathname.startsWith(step.path || "/"));
+    
+    // Finde den Index des initialStep in der gefilterten Liste, relativ zum Start des Pfades.
+    const relativeStartIndex = stepsForContext.findIndex(step => step.path === ALL_TOUR_STEPS[initialStep].path);
+
+    // Schneide die Liste ab dem relativen Startindex ab.
+    // In diesem Modus wollen wir nur die aktuellen Schritte sehen.
+    const subTour = stepsForContext.slice(relativeStartIndex);
+    
+    // Füge einen expliziten Endschritt hinzu, wenn der letzte Schritt der subTour nicht der letzte Schritt 
+    // der gesamten Tour ist, um ein sauberes Ende zu gewährleisten.
+    const lastStep = subTour[subTour.length - 1];
+
+    if (lastStep?.target !== "contact-form" || lastStep?.path !== "/contact") { // Endschritt nur hinzufügen, wenn die Seite nicht ohnehin am Ende der vollen Tour steht
+      subTour.push({
+        target: "page",
+        message: "Das war der Hilfebereich für diese Seite. Klicken Sie auf Tour beenden, um den Guide zu schließen.",
+        path: pathname // Bleibe auf der aktuellen Seite
+      })
+    }
+    
+    // Korrektur: Wenn die kontextuelle Tour auf der Kontaktseite endet, entfernen wir den Standard-Abschlussschritt,
+    // da er durch den folgenden (den letzten) Schritt ersetzt wird.
+    if (pathname.startsWith("/contact") && subTour.length > 2 && subTour[subTour.length - 2].target === "contact-form") {
+        return subTour.slice(0, subTour.length - 1);
+    }
+    
+    return subTour;
+  }, [isContextual, initialStep, pathname]) 
+  
+  // Wichtig: currentStep bezieht sich nun auf den Index in der (möglicherweise gefilterten) tourSteps-Liste.
+
   // Zustand, um zu wissen, ob die Tour gerade beendet wird und die Animation läuft
   const [isFinishing, setIsFinishing] = useState(false);
 
   // 1. Effekt: Laden des gespeicherten Zustands und Initialisierung/Aufräumen
   useEffect(() => {
-    if (typeof window !== 'undefined' && isActive) {
-        const savedStep = localStorage.getItem(TOUR_STEP_KEY);
+    if (!isActive) return;
 
+    if (isContextual) {
+        // Im Kontext-Modus ist initialStep bereits der Start, also starten wir mit Index 0 der gefilterten Liste.
+        setCurrentStep(0); 
+        return;
+    }
+    
+    // Logik für die vollständige Tour (wie zuvor, aber mit ALL_TOUR_STEPS)
+    if (typeof window !== 'undefined') {
+        const savedStep = localStorage.getItem(TOUR_STEP_KEY);
+        
         if (savedStep !== null) {
-            // Fall 1: Zustand wurde vor Navigation gespeichert.
             const stepToResume = Number(savedStep);
-            
-            // Führe nur fort, wenn der gespeicherte Schritt zum aktuellen Pfad passt, 
-            const expectedPath = tourSteps[stepToResume]?.path;
+            const expectedPath = ALL_TOUR_STEPS[stepToResume]?.path;
+
             if (expectedPath && pathname.startsWith(expectedPath)) {
+                // Wir müssen hier den Index in der originalen Liste speichern,
+                // aber der TourGuide arbeitet jetzt immer mit 0-Index für die angezeigte Liste.
+                // Da wir im non-contextual mode sind, ist tourSteps === ALL_TOUR_STEPS.
                 setCurrentStep(stepToResume);
             }
             
-            localStorage.removeItem(TOUR_STEP_KEY); // Aufräumen
-
+            localStorage.removeItem(TOUR_STEP_KEY);
         } else {
-            // Fall 2: Normale Initialisierung
-            const initialStepIndex = tourSteps.findIndex(step => pathname.startsWith(step.path || "/"))
+            const initialStepIndex = ALL_TOUR_STEPS.findIndex(step => pathname.startsWith(step.path || "/"));
             if (initialStepIndex !== -1) {
                 setCurrentStep(initialStepIndex);
             } 
         }
     } 
-  }, [isActive, pathname]) 
+  }, [isActive, isContextual, pathname]) 
 
 
   // 2. Effekt: Scrollen und Hervorheben, wenn der Schritt wechselt.
@@ -198,16 +256,18 @@ export function TourGuide({ isActive, onComplete }: TourGuideProps) {
 
     const step = tourSteps[currentStep]
     
-    // Wichtig: Nur fortfahren, wenn der Pfad des Schritts mit dem aktuellen Pfad übereinstimmt
-    if (!step || (step.path && !pathname.startsWith(step.path))) {
-       // Wenn wir uns auf der Simulationsseite befinden und der nächste Schritt Market ist,
-       // navigieren wir direkt zur Market Page, um den nächsten Schritt dort zu zeigen.
-       // Index 5 ist der erste Schritt auf der /market Seite
-       if (currentStep === 5 && step.path === "/market" && pathname === "/simulation") {
-          // Erlaube die Navigation, aber nicht das Rendern des Tooltips auf der falschen Seite
-          return;
-       }
-       return;
+    // NUR IM NICHT-KONTEXTUELLEN Modus navigieren wir zwischen Seiten.
+    if (!isContextual) {
+        if (!step || (step.path && !pathname.startsWith(step.path))) {
+            const currentStepInAll = ALL_TOUR_STEPS.findIndex(s => s.message === step?.message && s.path === step?.path);
+            const nextStepInAll = ALL_TOUR_STEPS[currentStepInAll + 1];
+            
+            // Logik für die Navigation zwischen Hauptseiten (z.B. von /settings zu /contact)
+            if (nextStepInAll && nextStepInAll.path && !pathname.startsWith(nextStepInAll.path)) {
+                return; // Navigation steht an, warte auf den Seitenwechsel
+            }
+            return;
+        }
     }
 
 
@@ -221,11 +281,11 @@ export function TourGuide({ isActive, onComplete }: TourGuideProps) {
 
     return () => clearTimeout(timeoutId);
 
-  }, [currentStep, isActive, pathname]) 
+  }, [currentStep, isActive, pathname, isContextual, tourSteps]) 
 
 
   const handleNext = () => {
-    // Prüfen, ob dies der letzte Schritt ist
+    // Prüfen, ob dies der letzte Schritt der AKTUELLEN (gefilterten oder vollen) Tour ist
     if (currentStep === tourSteps.length - 1) {
       // Tour beenden: Animation starten und onComplete mit Verzögerung aufrufen
       setIsFinishing(true); 
@@ -239,14 +299,15 @@ export function TourGuide({ isActive, onComplete }: TourGuideProps) {
     const nextStep = currentStep + 1;
     const nextStepData = tourSteps[nextStep];
 
-    // Sicherstellen, dass es den nächsten Schritt gibt und einen Pfad
-    // Prüft, ob ein Seitenwechsel ansteht (z.B. von /simulation auf /market)
-    if (nextStepData && nextStepData.path && !pathname.startsWith(nextStepData.path)) {
+    // Nur im NICHT-KONTEXTUELLEN Modus navigieren
+    if (!isContextual && nextStepData && nextStepData.path && !pathname.startsWith(nextStepData.path)) {
         // Navigiere zur neuen Seite (z.B. von /simulation zu /market)
-        localStorage.setItem(TOUR_STEP_KEY, nextStep.toString());
+        // Im vollen Modus verwenden wir den Index in der ALL_TOUR_STEPS Liste
+        const nextStepInAllList = ALL_TOUR_STEPS.findIndex(s => s.message === nextStepData.message && s.path === nextStepData.path);
+        localStorage.setItem(TOUR_STEP_KEY, nextStepInAllList.toString());
         router.push(nextStepData.path); 
     } else {
-        // Bleibe auf der gleichen Seite und gehe zum nächsten Schritt
+        // Bleibe auf der gleichen Seite und gehe zum nächsten Schritt (oder im Kontext-Modus)
         setCurrentStep(nextStep);
     }
   }
@@ -263,7 +324,11 @@ export function TourGuide({ isActive, onComplete }: TourGuideProps) {
   const step = tourSteps[currentStep]
   
   // Wenn die Tour nicht aktiv ist ODER sie gerade beendet wird (isFinishing), wird nichts gerendert.
-  if (!isActive || isFinishing || !step || (step.path && !pathname.startsWith(step.path))) return null
+  if (!isActive || isFinishing || !step || (step.path && !pathname.startsWith(step.path) && !isContextual)) return null
+
+  // Im kontextuellen Modus muss die path-Prüfung anders gehandhabt werden, da die Schritte im Array
+  // eventuell nicht mehr sequenziell nach Pfaden geordnet sind, aber das sollte durch die Filterung behoben sein.
+  // Wir verlassen uns auf das Filtern und die Überprüfung oben.
 
   return (
     <>

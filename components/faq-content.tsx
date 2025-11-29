@@ -3,7 +3,7 @@
 import * as React from "react"
 import { useState, useMemo } from "react"
 import { useSettings } from "@/lib/settings-context"
-import { translations, useTranslation, type Language } from "@/lib/i18n" // useTranslation importiert
+import { translations, useTranslation, type Language } from "@/lib/i18n"
 import { ChevronDown, HelpCircle, BarChart3, TrendingUp, Mail, LayoutDashboard, PieChart, Star, Settings } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
@@ -11,7 +11,7 @@ import Link from "next/link"
 
 // Typdefinition für die kombinierten FAQs
 interface FaqItem {
-  context: string
+  context: "overview" | "simulation" | "market" | "portfolio" | "feedback" | "settings" | "contact"
   icon: React.ElementType
   title: string
   questions: { question: string; answer: string }[]
@@ -19,31 +19,56 @@ interface FaqItem {
 
 /**
  * Holt und strukturiert alle FAQs aus den Übersetzungen.
- * Achtung: Die Fragen des ConciergeHelpModal sind im Modal selbst hardcodiert.
- * Wir müssen die Antworten aus i18n nehmen, aber die Fragen manuell nachbauen, 
- * da sie nicht direkt in i18n hinterlegt sind.
+ * WICHTIG: Diese Funktion wird exportiert und in ConciergeHelpModal verwendet!
  */
-function getCombinedFaqs(language: Language): FaqItem[] {
+export function getCombinedFaqs(language: Language): FaqItem[] {
   const t = translations[language]
 
   // Fragen und Antworten aus ConciergeHelpModal (simulation-Kontext)
   const simulationHelp = [
-    { question: t.concierge.welcome, answer: t.concierge.intro }, // Willkommen
+    { 
+      question: t.concierge.welcome, 
+      answer: t.concierge.intro 
+    },
     {
       question: language === "de" ? "Wie stelle ich die Regler ein?" : language === "fr" ? "Comment régler les curseurs ?" : language === "it" ? "Come regolo i cursori?" : "How do I set the sliders?",
-      answer: language === "de" ? "Ziehen Sie die Regler mit der Maus oder klicken Sie auf das Eingabefeld rechts daneben, um Werte direkt einzugeben." : language === "fr" ? "Faites glisser les curseurs avec la souris ou cliquez sur le champ de saisie à droite pour saisir directement des valeurs." : language === "it" ? "Trascina i cursori con il mouse o clicca sul campo di input a destra per inserire direttamente i valori." : "Drag the sliders with the mouse or click the input field to the right to enter values directly.",
+      answer: language === "de" 
+        ? "Ziehen Sie die Regler mit der Maus oder klicken Sie auf das Eingabefeld rechts daneben, um Werte direkt einzugeben." 
+        : language === "fr" 
+          ? "Faites glisser les curseurs avec la souris ou cliquez sur le champ de saisie à droite pour entrer directement les valeurs." 
+          : language === "it" 
+            ? "Trascina i cursori con il mouse o clicca sul campo di input a destra per inserire direttamente i valori." 
+            : "Drag the sliders with the mouse or click the input field to the right to enter values directly.",
     },
     {
       question: language === "de" ? "Was bedeuten die drei Linien im Diagramm?" : language === "fr" ? "Que signifient les trois lignes du graphique ?" : language === "it" ? "Cosa significano le tre linee del grafico?" : "What do the three lines in the chart mean?",
-      answer: language === "de" ? "Die obere Linie zeigt den optimistischen Fall (90% der Simulationen liegen darunter), die mittlere das realistische Szenario (50%) und die untere den vorsichtigen Fall (nur 10% liegen darunter)." : language === "fr" ? "La ligne supérieure montre le cas optimiste (90 % des simulations se situent en dessous), la ligne médiane le scénario réaliste (50 %) und die untere den vorsichtigen Fall (nur 10% liegen darunter)." : language === "it" ? "La linea superiore mostra il caso ottimistico (90% delle simulazioni sono sotto), quella centrale lo scenario realistico (50%) e quella inferiore il caso prudente (solo il 10% è sotto)." : "The upper line shows the optimistic case (90% of simulations are below), the middle one the realistic scenario (50%), and the lower one the cautious case (only 10% are below).",
+      answer: language === "de" 
+        ? "Die obere Linie zeigt den optimistischen Fall (90% der Simulationen liegen darunter), die mittlere das realistische Szenario (50%) und die untere den vorsichtigen Fall (nur 10% liegen darunter)." 
+        : language === "fr" 
+          ? "La ligne supérieure montre le cas optimiste (90 % des simulations se situent en dessous), la ligne médiane le scénario réaliste (50 %) et la ligne inférieure le cas prudent (seulement 10 % se situent en dessous)." 
+          : language === "it" 
+            ? "La linea superiore mostra il caso ottimistico (90% delle simulazioni sono sotto), quella centrale lo scenario realistico (50%) e quella inferiore il caso prudente (solo il 10% è sotto)." 
+            : "The upper line shows the optimistic case (90% of simulations are below), the middle one the realistic scenario (50%), and the lower one the cautious case (only 10% are below).",
     },
     {
       question: language === "de" ? "Was ist die Aktienquote?" : language === "fr" ? "Qu'est-ce que la part d'actions ?" : language === "it" ? "Cos'è la quota azionaria?" : "What is the equity allocation?",
-      answer: language === "de" ? "Die Aktienquote bestimmt, wie viel Ihres Portfolios in Aktien investiert wird. Höhere Aktienquoten bieten mehr Wachstumspotenzial, aber auch mehr Schwankungen." : language === "fr" ? "La part d'actions détermine la part de votre portefeuille investie en actions. Des parts d'actions plus élevées bieten mehr Wachstumspotenzial, aber auch mehr Schwankungen." : language === "it" ? "La quota azionaria determina quanto del tuo portafoglio è investito in azioni. Quote azionarie più elevate offrono maggiore potenziale di crescita, ma anche maggiore volatilità." : "The equity allocation determines how much of your portfolio is invested in stocks. Higher equity allocations offer greater growth potential, but also more volatility.",
+      answer: language === "de" 
+        ? "Die Aktienquote bestimmt, wie viel Ihres Portfolios in Aktien investiert wird. Höhere Aktienquoten bieten mehr Wachstumspotenzial, aber auch mehr Schwankungen." 
+        : language === "fr" 
+          ? "La part d'actions détermine la part de votre portefeuille investie en actions. Des parts d'actions plus élevées offrent un plus grand potentiel de croissance, mais aussi plus de fluctuations." 
+          : language === "it" 
+            ? "La quota azionaria determina quanto del tuo portafoglio è investito in azioni. Quote azionarie più elevate offrono un maggiore potenziale di crescita, ma anche più volatilità." 
+            : "The equity allocation determines how much of your portfolio is invested in stocks. Higher equity allocations offer greater growth potential, but also more volatility.",
     },
     {
       question: language === "de" ? "Warum MSCI World vs. S&P 500?" : language === "fr" ? "Pourquoi MSCI World vs. S&P 500?" : language === "it" ? "Perché MSCI World vs. S&P 500?" : "Why MSCI World vs. S&P 500?",
-      answer: language === "de" ? "Der MSCI World investiert global in entwickelte Märkte, der S&P 500 konzentriert sich auf die 500 größten US-Unternehmen. Beide haben historisch unterschiedliche Renditen und Volatilitäten." : language === "fr" ? "Le MSCI World investit à l'échelle mondiale dans les marchés développés, le S&P 500 se concentre sur les 500 plus grandes entreprises américaines. Les deux ont historiquement des rendements et des volatilités différents." : language === "it" ? "L'MSCI World investe a livello globale nei mercati sviluppati, l'S&P 500 se concentre sur les 500 plus grandes entreprises américaines. Entrambi hanno storicamente rendimenti e volatilità diversi." : "The MSCI World invests globally in developed markets, the S&P 500 focuses on the 500 largest US companies. Both have historically different returns and volatilities.",
+      answer: language === "de" 
+        ? "Der MSCI World investiert global in entwickelte Märkte, der S&P 500 konzentriert sich auf die 500 größten US-Unternehmen. Beide haben historisch unterschiedliche Renditen und Volatilitäten." 
+        : language === "fr" 
+          ? "Le MSCI World investit à l'échelle mondiale dans les marchés développés, le S&P 500 se concentre sur les 500 plus grandes entreprises américaines. Les deux ont historiquement des rendements et des volatilitäten différents." 
+          : language === "it" 
+            ? "L'MSCI World investe a livello globale nei mercati sviluppati, l'S&P 500 si concentra sulle 500 plus grandes entreprises américaines. Entrambi hanno storicamente rendimenti e volatilità diversi." 
+            : "The MSCI World invests globally in developed markets, the S&P 500 focuses on the 500 largest US companies. Both have historically different returns and volatilities.",
     },
   ]
   
@@ -51,15 +76,33 @@ function getCombinedFaqs(language: Language): FaqItem[] {
   const marketHelp = [
     {
       question: language === "de" ? "Was zeigt mir diese Seite?" : language === "fr" ? "Qu'est-ce que cette page me montre ?" : language === "it" ? "Cosa mi mostra questa pagina?" : "What does this page show me?",
-      answer: language === "de" ? "Hier sehen Sie, wie sich der Markt tatsächlich über verschiedene Zeiträume entwickelt hat – inklusive aller Krisen und Erholungsphasen." : language === "fr" ? "Ici, vous voyez comment le marché a réellement évolué sur différentes périodes – y compris toutes les crises et phases de reprise." : language === "it" ? "Qui puoi vedere come il mercato si è effectivement développé in diversi periodi – comprese tutte le crisi e le fasi di recupero." : "Here you can see how the market has actually developed over different periods – including all crises and recovery phases.",
+      answer: language === "de" 
+        ? "Hier sehen Sie, wie sich der Markt tatsächlich über verschiedene Zeiträume entwickelt hat – inklusive aller Krisen und Erholungsphasen." 
+        : language === "fr" 
+          ? "Ici, vous voyez comment le marché a réellement évolué sur différentes périodes – y compris toutes les crises et phases de reprise." 
+          : language === "it" 
+            ? "Qui puoi vedere come il mercato si è effettivamente sviluppato in diversi periodi – comprese tutte le crisi e le fasi di recupero." 
+            : "Here you can see how the market has actually developed over different periods – including all crises and recovery phases.",
     },
     {
       question: language === "de" ? "Wie klicke ich auf eine Krise?" : language === "fr" ? "Comment cliquer sur une crise ?" : language === "it" ? "Come clicco su una crisi?" : "How do I click on a crisis?",
-      answer: language === "de" ? "Die roten Punkte markieren historische Krisen. Klicken Sie darauf, um Details zu erfahren, was damals passiert ist und wie sich der Markt erholt hat." : language === "fr" ? "Les points rouges marquent les crises historiques. Cliquez dessus pour obtenir des détails sur ce qui s'est passé et comment le marché s'est redressé." : language === "it" ? "I punti rossi contrassegnano le crisi storiche. Clicca su di essi per scoprire i dettagli di ciò che è successo e come si è ripreso il mercato." : "The red dots mark historical crises. Click on them to learn details about what happened and how the market recovered.",
+      answer: language === "de" 
+        ? "Die roten Punkte markieren historische Krisen. Klicken Sie darauf, um Details zu erfahren, was damals passiert ist und wie sich der Markt erholt hat." 
+        : language === "fr" 
+          ? "Les points rouges marquent les crises historiques. Cliquez dessus pour en savoir plus sur ce qui s'est passé à l'époque et comment le marché s'est redressé." 
+          : language === "it" 
+            ? "I punti rossi contrassegnenano le crisi storiche. Clicca su di essi per scoprire i dettagli di ciò che è successo e come si è ripreso il mercato." 
+            : "The red dots mark historical crises. Click on them to learn details about what happened and how the market recovered.",
     },
     {
       question: language === "de" ? "Warum sind Krisen normal?" : language === "fr" ? "Pourquoi les crises sont-elles normales ?" : language === "it" ? "Perché le crisi sono normali?" : "Why are crises normal?",
-      answer: language === "de" ? "Märkte durchlaufen Zyklen. Krisen gehören dazu, aber langfristig haben sich Märkte historisch immer wieder erholt und neue Höchststände erreicht." : language === "fr" ? "Les marchés traversent des cycles. Les crises en font partie, mais à long terme, les marchés se sont historisch immer wieder erholt und neue Höchststände erreicht." : language === "it" ? "I mercati attraversano cicli. Le crisi ne fanno parte, ma a lungo termine i mercati si sono sempre ripresi e hanno raggiunto nuovi massimi storici." : "Markets go through cycles. Crises are part of it, but in the long term, markets have historically always recovered and reached new highs.",
+      answer: language === "de" 
+        ? "Märkte durchlaufen Zyklen. Krisen gehören dazu, aber langfristig haben sich Märkte historisch immer wieder erholt und neue Höchststände erreicht." 
+        : language === "fr" 
+          ? "Les marchés traversent des cycles. Les crises en font partie, mais à long terme, les marchés se sont historiquement toujours rétablis et ont atteint de nouveaux sommets." 
+          : language === "it" 
+            ? "I mercati attraversano cicli. Le crisi ne fanno parte, ma a lungo termine i mercati si sono sempre ripresi e hanno raggiunto nuovi massimi storici." 
+            : "Markets go through cycles. Crises are part of it, but in the long term, markets have historically always recovered and reached new highs.",
     },
   ]
 
@@ -67,11 +110,23 @@ function getCombinedFaqs(language: Language): FaqItem[] {
   const contactHelp = [
     {
       question: language === "de" ? "Warum diese Fragen im Kontaktformular?" : language === "fr" ? "Pourquoi ces questions dans le formulaire de contact ?" : language === "it" ? "Perché queste domande nel modulo di contatto?" : "Why these questions in the contact form?",
-      answer: language === "de" ? "Die Fragen helfen unseren Beratern, sich optimal auf Ihr Gespräch vorzubereiten und Ihnen die bestmögliche Unterstützung zu bieten." : language === "fr" ? "Les questions aident nos conseillers à se préparer au mieux à votre entretien et à vous offrir le meilleur soutien possible." : language === "it" ? "Le domande aiutano i nostri consulenti a prepararsi in modo ottimale per il tuo colloquio e offrirti il miglior supporto possibile." : "The questions help our advisors to optimally prepare for your consultation and offer you the best possible support.",
+      answer: language === "de" 
+        ? "Die Fragen helfen unseren Beratern, sich optimal auf Ihr Gespräch vorzubereiten und Ihnen die bestmögliche Unterstützung zu bieten." 
+        : language === "fr" 
+          ? "Les questions aident nos conseillers à se préparer au mieux à votre entretien et à vous offrir le meilleur soutien possible." 
+          : language === "it" 
+            ? "Le domande aiutano i nostri consulenti a prepararsi in modo ottimale per il tuo colloquio e offrirti il miglior supporto possibile." 
+            : "The questions help our advisors to optimally prepare for your consultation and offer you the best possible support.",
     },
     {
       question: language === "de" ? "Sind meine Daten sicher?" : language === "fr" ? "Mes données sont-elles sécurisées ?" : language === "it" ? "I miei dati sono al sicuro?" : "Is my data secure?",
-      answer: language === "de" ? "Selbstverständlich. Ihre Daten werden vertraulich behandelt und ausschließlich für die Kontaktaufnahme verwendet." : language === "fr" ? "Bien sûr. Vos données sont traitées de manière confidentielle et utilisées uniquement pour la prise de contact." : language === "it" ? "Certamente. I tuoi dati sono trattati in modo confidenziale e utilizzati esclusivamente per la presa di contatto." : "Of course. Your data is treated confidentially and used exclusively for contact purposes.",
+      answer: language === "de" 
+        ? "Selbstverständlich. Ihre Daten werden vertraulich behandelt und ausschließlich für die Kontaktaufnahme verwendet." 
+        : language === "fr" 
+          ? "Bien sûr. Vos données sont traitées de manière confidentielle et utilisées uniquement pour la prise de contact." 
+          : language === "it" 
+            ? "Certamente. I tuoi dati sono trattati in modo confidenziale e utilizzati esclusivamente per scopi di contatto." 
+            : "Of course. Your data is treated confidentially and used exclusively for contact purposes.",
     },
     {
       question: language === "de" ? "Wie schnell bekomme ich eine Antwort?" : language === "fr" ? "À quelle vitesse recevrai-je une réponse ?" : language === "it" ? "Quanto velocemente riceverò una risposta?" : "How quickly will I get a response?",
@@ -113,6 +168,8 @@ function getCombinedFaqs(language: Language): FaqItem[] {
   ];
   // ENDE NEUE KATEGORIEN
 
+  const fullSimulationHelp = simulationHelp;
+
   return [
     {
       context: "overview",
@@ -124,7 +181,7 @@ function getCombinedFaqs(language: Language): FaqItem[] {
       context: "simulation",
       icon: BarChart3,
       title: t.simulation.title,
-      questions: simulationHelp,
+      questions: fullSimulationHelp,
     },
     {
       context: "market",
@@ -135,7 +192,8 @@ function getCombinedFaqs(language: Language): FaqItem[] {
     {
       context: "portfolio",
       icon: PieChart,
-      title: "Portfolio", // Temporär hartcodiert, da nicht in i18n
+      // NEU: Greife auf den übersetzten Namen zu, auch wenn es nur "Portfolio" ist.
+      title: t.nav.overview, 
       questions: portfolioHelp,
     },
     {
@@ -156,7 +214,7 @@ function getCombinedFaqs(language: Language): FaqItem[] {
       title: t.contact.title,
       questions: contactHelp,
     },
-  ]
+  ] as FaqItem[]
 }
 
 /**
@@ -206,8 +264,7 @@ function AccordionItem({ item, isActive, onClick }: { item: { question: string, 
  */
 export function FaqContent() {
   const { language } = useSettings()
-  // FEHLERBEHEBUNG: useTranslation Hook muss hier aufgerufen werden, 
-  // um 't' im JSX-Teil des Haupt-Body verwenden zu können.
+  // Hole die Übersetzungen einmal am Anfang
   const t = useTranslation(language) 
   
   // Verwenden Sie useMemo, um die Faqs nur neu zu berechnen, wenn sich die Sprache ändert

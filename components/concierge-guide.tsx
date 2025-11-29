@@ -1,23 +1,36 @@
-// kahane-dashboard-concierge 2/components/concierge-guide.tsx
 "use client"
 
 import { useState, useEffect, useMemo } from "react"
 import { usePathname } from "next/navigation"
 import { TutorialModal } from "@/components/tutorial-modal"
-import { TourGuide } from "@/components/tour-guide"
-import { ConciergeHelpModal } from "@/components/concierge-help-modal" // Importiere das dedizierte Help Modal
-import { useTranslation } from "@/lib/i18n"
-import { useSettings } from "@/lib/settings-context"
+import { TourGuide, ALL_TOUR_STEPS } from "@/components/tour-guide" // Importiere ALL_TOUR_STEPS und die Komponente
+import { useSettings } from "@/lib/settings-context" 
+// import { ConciergeHelpModal } from "@/components/concierge-help-modal" // Wird nicht mehr benötigt
 
 
 const TUTORIAL_SEEN_KEY = "kahane-simulation-tutorial-seen"
 const TOUR_ACTIVE_KEY = "is_tour_active" // Schlüssel für die persistente Tour-Aktivität
 
+/**
+ * Findet den Startindex in der ALL_TOUR_STEPS Liste basierend auf dem aktuellen Pfad.
+ * Wird für den kontextsensitiven Start verwendet.
+ */
+const getStartingStepIndex = (pathname: string): number => {
+    // Finde den ersten Schritt in ALL_TOUR_STEPS, dessen Pfad mit dem aktuellen pathname übereinstimmt.
+    const index = ALL_TOUR_STEPS.findIndex(step => pathname.startsWith(step.path || "/") && (pathname === step.path || (step.path !== "/" && pathname.includes(step.path))));
+
+    // Wenn kein spezifischer Schritt gefunden wird, starte bei 0 (Overview)
+    return index !== -1 ? index : 0; 
+}
+
+
 // NEU: Diese Komponente steuert die gesamte Concierge-Logik im Hintergrund
 export function ConciergeController() {
   const [showTutorial, setShowTutorial] = useState(false) 
   const [showGuidedTour, setShowGuidedTour] = useState(false) 
-  const [showHelpModal, setShowHelpModal] = useState(false) 
+  const [currentTourStep, setCurrentTourStep] = useState(0) 
+  const [isContextualTour, setIsContextualTour] = useState(false); // NEU: Zustand für den kontextuellen Modus
+  
   const { language } = useSettings()
   const pathname = usePathname();
 
@@ -31,10 +44,12 @@ export function ConciergeController() {
         }
         
         // 2. TOUR WIEDERHERSTELLUNG (nach Navigation oder F5)
-        // Muss hier nach dem Tutorial-Check erfolgen
         const tourActiveStorage = localStorage.getItem(TOUR_ACTIVE_KEY);
         if (tourActiveStorage === "true") {
-            // Nur die Tour aktivieren, wenn sie wirklich aktiv sein sollte (im Hintergrund weiterlaufen)
+            // Wenn Tour aktiv, setze den Startschritt basierend auf dem aktuellen Pfad
+            const startingIndex = getStartingStepIndex(pathname);
+            setCurrentTourStep(startingIndex);
+            setIsContextualTour(false); // Angenommen, eine gespeicherte Tour ist die volle Tour
             if (!showTutorial) { 
                setShowGuidedTour(true);
             }
@@ -45,19 +60,22 @@ export function ConciergeController() {
   // --- Event Listener für Sidebar/Header-Klick ---
   useEffect(() => {
     const handleStartIntro = () => {
-        // Bei manuellem Start (z.B. Logo-Klick): Jede laufende Tour beenden, Speicher löschen und Tutorial zeigen.
+        // Logo-Klick: Immer bei Schritt 0 starten
         if (showGuidedTour) {
-            setShowGuidedTour(false);
-            localStorage.removeItem(TOUR_ACTIVE_KEY);
+            handleTourComplete(); // Stoppt die aktuelle Tour
         }
+        setIsContextualTour(false);
+        setCurrentTourStep(0);
         setShowTutorial(true);
     }
 
     const handleBellClick = () => {
-        // Bell-Klick: Wenn keine Tour läuft, zeige den Help Modal.
-        if (!showGuidedTour && !showTutorial) {
-            setShowHelpModal(true);
-        }
+        // Bell-Klick: Springt direkt zum kontextspezifischen Tour-Schritt
+        const startingIndex = getStartingStepIndex(pathname);
+        
+        // Tour starten und alle anderen Modals/Guides schließen
+        setShowTutorial(false);
+        handleStartGuidedTour(startingIndex, true); // Starte im kontextuellen Modus
     }
 
     window.addEventListener('startConciergeIntro', handleStartIntro);
@@ -67,14 +85,18 @@ export function ConciergeController() {
         window.removeEventListener('startConciergeIntro', handleStartIntro);
         window.removeEventListener('bellClick', handleBellClick);
     }
-  }, [showGuidedTour, showTutorial])
+  }, [showGuidedTour, pathname])
+
 
   // --- Tour-Handler ---
-  const handleStartGuidedTour = () => {
-    setShowTutorial(false)
-    setShowGuidedTour(true)
-    // Persistieren des aktiven Tour-Status für die Dauer der Tour
-    if (typeof window !== 'undefined') {
+  const handleStartGuidedTour = (initialIndex: number = 0, contextual: boolean = false) => {
+    setShowTutorial(false);
+    setCurrentTourStep(initialIndex); // Setze den Startindex
+    setIsContextualTour(contextual); // Setze den Modus
+    setShowGuidedTour(true);
+    
+    // Nur die volle Tour wird im Local Storage gespeichert
+    if (!contextual && typeof window !== 'undefined') {
         sessionStorage.setItem(TUTORIAL_SEEN_KEY, "true")
         localStorage.setItem(TOUR_ACTIVE_KEY, "true"); 
     }
@@ -82,7 +104,8 @@ export function ConciergeController() {
   
   const handleTourComplete = () => {
     setShowGuidedTour(false)
-    // HIER IST DIE KORREKTUR: Entferne den aktiven Status, wenn die Tour abgeschlossen ist.
+    setIsContextualTour(false); // Setze Modus zurück
+    // Entferne den aktiven Status, wenn die Tour abgeschlossen ist.
     if (typeof window !== 'undefined') {
         localStorage.removeItem(TOUR_ACTIVE_KEY); 
         // WICHTIG: Setze den Tour-Schritt-Cache zurück
@@ -97,14 +120,7 @@ export function ConciergeController() {
     }
   }
 
-  // Bestimmen des Kontextes für die on-demand Hilfe
-  const helpContext = useMemo(() => {
-      if (pathname.includes("/simulation")) return "simulation";
-      if (pathname.includes("/market")) return "market";
-      if (pathname.includes("/contact")) return "contact";
-      return "simulation"; 
-  }, [pathname]);
-
+  // Das ConciergeHelpModal wird nun komplett aus der Logik entfernt.
 
   return (
     <>
@@ -112,7 +128,7 @@ export function ConciergeController() {
       {showTutorial && (
           <TutorialModal 
             onClose={handleCloseTutorial} 
-            onStartTour={handleStartGuidedTour} 
+            onStartTour={() => handleStartGuidedTour(0, false)} // Startet immer die volle Tour
           />
       )}
       
@@ -120,16 +136,11 @@ export function ConciergeController() {
       <TourGuide 
         isActive={showGuidedTour} 
         onComplete={handleTourComplete} 
+        initialStep={currentTourStep} 
+        isContextual={isContextualTour} // NEU: Übergibt den Modus
       />
-
-      {/* 3. CONCIERGE HELP MODAL (On-Demand Glocke) */}
-      {showHelpModal && (
-          <ConciergeHelpModal 
-            context={helpContext}
-            isOpen={showHelpModal}
-            onClose={() => setShowHelpModal(false)}
-          />
-      )}
+      
+      {/* 3. ConciergeHelpModal wird hier nicht mehr gerendert, da die Glocke nun die Tour startet. */}
     </>
   )
 }

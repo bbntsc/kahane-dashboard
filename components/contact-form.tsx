@@ -1,10 +1,9 @@
 "use client"
 
 import type React from "react"
-import { useEffect } from "react"
 import { useState } from "react"
 import { BankGutmannHeader } from "@/components/bank-gutmann-header"
-import { AnimatedConcierge } from "@/components/animated-concierge"
+// import { AnimatedConcierge } from "@/components/animated-concierge" // Entfernt
 import { motion } from "framer-motion"
 import { CheckCircle2 } from "lucide-react"
 import Link from "next/link"
@@ -13,7 +12,7 @@ import { useTranslation } from "@/lib/i18n"
 
 export function ContactForm() {
   const [step, setStep] = useState(1)
-  const [showConcierge, setShowConcierge] = useState(true)
+  // const [showConcierge, setShowConcierge] = useState(true) // Entfernt
   const [submitted, setSubmitted] = useState(false)
   const { language } = useSettings()
   const t = useTranslation(language)
@@ -27,11 +26,14 @@ export function ContactForm() {
   const [phone, setPhone] = useState("")
   const [message, setMessage] = useState("")
 
+  // useEffect zum Öffnen/Schließen des Concierge wird entfernt.
+  /*
   useEffect(() => {
     const handleBellClick = () => setShowConcierge((prev) => !prev)
     window.addEventListener("openConcierge", handleBellClick)
     return () => window.removeEventListener("openConcierge", handleBellClick)
   }, [])
+  */
 
   const handleQuestionsSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -44,44 +46,22 @@ export function ContactForm() {
     setSubmitted(true)
   }
 
+  // getConciergeMessage Funktion wird entfernt.
+  /*
   const getConciergeMessage = () => {
     const messages = {
-      de: {
-        step1:
-          "Um die Servicequalität zu erhöhen, möchte ich Sie zunächst etwas besser kennenlernen. Ihre Antworten helfen uns, das Gespräch gezielt vorzubereiten.",
-        step2:
-          "Perfekt! Nun brauche ich nur noch Ihre Kontaktdaten, dann kann einer unserer Berater sich bei Ihnen melden.",
-        submitted: "Ausgezeichnet! Wir freuen uns darauf, Sie bei Ihrer Anlageentscheidung zu unterstützen.",
-      },
-      en: {
-        step1:
-          "To enhance our service quality, I'd like to get to know you a bit better first. Your answers help us prepare our conversation precisely.",
-        step2: "Perfect! Now I just need your contact details, then one of our advisors can reach out to you.",
-        submitted: "Excellent! We look forward to supporting you with your investment decision.",
-      },
-      fr: {
-        step1:
-          "Pour améliorer la qualité de notre service, j'aimerais d'abord mieux vous connaître. Vos réponses nous aident à préparer la conversation de manière ciblée.",
-        step2:
-          "Parfait! Maintenant, j'ai juste besoin de vos coordonnées, puis l'un de nos conseillers pourra vous contacter.",
-        submitted: "Excellent! Nous sommes impatients de vous accompagner dans votre décision d'investissement.",
-      },
-      it: {
-        step1:
-          "Per migliorare la qualità del servizio, vorrei prima conoscerti un po' meglio. Le tue risposte ci aiutano a preparare la conversazione in modo mirato.",
-        step2:
-          "Perfetto! Ora ho solo bisogno dei tuoi dati di contatto, poi uno dei nostri consulenti può contattarti.",
-        submitted: "Eccellente! Non vediamo l'ora di supportarti nella tua decisione di investimento.",
-      },
+      // ... Messages hier entfernt ...
     }
 
     if (submitted) return messages[language].submitted
     return step === 1 ? messages[language].step1 : messages[language].step2
   }
+  */
 
   if (submitted) {
     return (
       <div className="min-h-screen bg-[#f8f3ef] dark:bg-gray-900">
+        {/* Der Header bleibt, da er Teil des Kontaktformular-Layouts ist */}
         <BankGutmannHeader />
 
         <div className="max-w-2xl mx-auto px-4 py-16">
@@ -128,19 +108,14 @@ export function ContactForm() {
           </motion.div>
         </div>
 
-        {showConcierge && (
-          <AnimatedConcierge
-            message={getConciergeMessage()}
-            position="top-right"
-            onDismiss={() => setShowConcierge(false)}
-          />
-        )}
+        {/* AnimatedConcierge hier entfernt */}
       </div>
     )
   }
 
   return (
     <div className="min-h-screen bg-[#f8f3ef] dark:bg-gray-900">
+      {/* Der Header bleibt */}
       <BankGutmannHeader />
 
       <div className="max-w-3xl mx-auto px-4 py-12">
@@ -447,13 +422,7 @@ export function ContactForm() {
           )}
         </motion.div>
 
-        {showConcierge && (
-          <AnimatedConcierge
-            message={getConciergeMessage()}
-            position="top-right"
-            onDismiss={() => setShowConcierge(false)}
-          />
-        )}
+        {/* AnimatedConcierge hier entfernt */}
       </div>
     </div>
   )

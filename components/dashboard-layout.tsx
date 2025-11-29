@@ -25,6 +25,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const openConciergeIntro = () => {
     setSidebarOpen(false); // Sidebar schließen
     if (typeof window !== 'undefined') {
+        // Event um die vollständige Tour zu starten (z.B. durch Logo-Klick)
         window.dispatchEvent(new CustomEvent('startConciergeIntro'));
     }
   }
@@ -32,7 +33,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   // Die Funktion für den On-Demand Help Bell Klick
   const openConciergeHelp = () => {
     if (typeof window !== 'undefined') {
-        // Neues Event, das den Help Modal öffnet (wird in ConciergeController abgehört)
+        // Event, das den kontextspezifischen Tour-Start im Controller auslöst
         window.dispatchEvent(new CustomEvent('bellClick')); 
     }
   }
@@ -58,7 +59,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               >
                 <X className="h-6 w-6" />
               </button>
-              {/* Verwenden Sie den Handler, der das Event auslöst */}
+              {/* Verwenden Sie den Handler, der das Event für den kontextsensitiven Start auslöst */}
               <Sidebar onConciergeClick={openConciergeHelp} /> 
            </div>
         </div>
@@ -66,7 +67,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
       {/* DESKTOP SIDEBAR ... */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
-        {/* Verwenden Sie den Handler, der das Event auslöst */}
+        {/* Verwenden Sie den Handler, der das Event für den kontextsensitiven Start auslöst */}
         <Sidebar onConciergeClick={openConciergeHelp} /> 
       </div>
 

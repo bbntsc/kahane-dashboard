@@ -3,86 +3,41 @@
 import { motion, AnimatePresence } from "framer-motion"
 import { X } from "lucide-react"
 import Image from "next/image"
+// NEU: Importiere die Funktion und den Hook
+import { useSettings } from "@/lib/settings-context"
+import { getCombinedFaqs } from "@/components/faq-content"
 
 interface ConciergeHelpModalProps {
   context: "simulation" | "market" | "contact"
+  isOpen: boolean
   onClose: () => void
 }
 
 export function ConciergeHelpModal({ context, onClose }: ConciergeHelpModalProps) {
-  const getContextHelp = () => {
-    switch (context) {
-      case "simulation":
-        return {
-          title: "Wobei darf ich Ihnen behilflich sein?",
-          sections: [
-            {
-              question: "Wie stelle ich die Regler ein?",
-              answer:
-                "Ziehen Sie die Regler mit der Maus oder klicken Sie auf das Eingabefeld rechts daneben, um Werte direkt einzugeben.",
-            },
-            {
-              question: "Was bedeuten die drei Linien im Diagramm?",
-              answer:
-                "Die obere Linie zeigt den optimistischen Fall (90% der Simulationen liegen darunter), die mittlere das realistische Szenario (50%) und die untere den vorsichtigen Fall (nur 10% liegen darunter).",
-            },
-            {
-              question: "Was ist die Aktienquote?",
-              answer:
-                "Die Aktienquote bestimmt, wie viel Ihres Portfolios in Aktien investiert wird. Höhere Aktienquoten bieten mehr Wachstumspotenzial, aber auch mehr Schwankungen.",
-            },
-            {
-              question: "Warum MSCI World vs. S&P 500?",
-              answer:
-                "Der MSCI World investiert global in entwickelte Märkte, der S&P 500 konzentriert sich auf die 500 größten US-Unternehmen. Beide haben historisch unterschiedliche Renditen und Volatilitäten.",
-            },
-          ],
-        }
-      case "market":
-        return {
-          title: "Fragen zur historischen Analyse?",
-          sections: [
-            {
-              question: "Was zeigt mir diese Seite?",
-              answer:
-                "Hier sehen Sie, wie sich der Markt tatsächlich über verschiedene Zeiträume entwickelt hat – inklusive aller Krisen und Erholungsphasen.",
-            },
-            {
-              question: "Wie klicke ich auf eine Krise?",
-              answer:
-                "Die roten Punkte markieren historische Krisen. Klicken Sie darauf, um Details zu erfahren, was damals passiert ist und wie sich der Markt erholt hat.",
-            },
-            {
-              question: "Warum sind Krisen normal?",
-              answer:
-                "Märkte durchlaufen Zyklen. Krisen gehören dazu, aber langfristig haben sich Märkte historisch immer wieder erholt und neue Höchststände erreicht.",
-            },
-          ],
-        }
-      case "contact":
-        return {
-          title: "Hilfe zum Kontaktformular",
-          sections: [
-            {
-              question: "Warum diese Fragen?",
-              answer:
-                "Die Fragen helfen unseren Beratern, sich optimal auf Ihr Gespräch vorzubereiten und Ihnen die bestmögliche Unterstützung zu bieten.",
-            },
-            {
-              question: "Sind meine Daten sicher?",
-              answer:
-                "Selbstverständlich. Ihre Daten werden vertraulich behandelt und ausschließlich für die Kontaktaufnahme verwendet.",
-            },
-            {
-              question: "Wie schnell bekomme ich eine Antwort?",
-              answer: "In der Regel meldet sich ein Berater innerhalb von 1-2 Werktagen bei Ihnen.",
-            },
-          ],
-        }
-    }
+  // NEU: Hooks, um Sprache zu erhalten
+  const { language } = useSettings()
+
+  // NEU: Logik, um die übersetzten Abschnitte zu erhalten
+  const helpSections = getCombinedFaqs(language)
+    .find(item => item.context === context)
+
+  const defaultTitle = language === "de" 
+    ? "Wie kann ich Ihnen helfen?" 
+    : language === "en" 
+      ? "How may I assist you?" 
+      : language === "fr" 
+        ? "Comment puis-je vous aider?"
+        : "Come posso aiutarti?"
+
+  // Wenn der Kontext nicht gefunden wird, wird ein leerer Zustand zurückgegeben
+  if (!helpSections) {
+    return null;
   }
 
-  const help = getContextHelp()
+  // Wähle den Titel der Sektion
+  const title = helpSections.title || defaultTitle;
+  const sections = helpSections.questions;
+  
 
   return (
     <AnimatePresence>
@@ -90,6 +45,8 @@ export function ConciergeHelpModal({ context, onClose }: ConciergeHelpModalProps
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
+        // Der Key muss im Parent-Component gesetzt werden, der das Modal kontrolliert.
+        // Hier im Modal selbst kann der language-Key nur für innere Logik verwendet werden.
         className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
         onClick={onClose}
       >
@@ -105,7 +62,8 @@ export function ConciergeHelpModal({ context, onClose }: ConciergeHelpModalProps
               <div className="w-12 h-12 relative">
                 <Image src="/images/1.svg" alt="Concierge" fill className="object-contain" />
               </div>
-              <h2 className="text-xl font-bold text-gray-900">{help.title}</h2>
+              {/* NEU: Verwende den dynamischen Titel */}
+              <h2 className="text-xl font-bold text-gray-900">{title}</h2>
             </div>
             <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-colors">
               <X className="h-6 w-6" />
@@ -114,7 +72,8 @@ export function ConciergeHelpModal({ context, onClose }: ConciergeHelpModalProps
 
           <div className="p-6 overflow-y-auto max-h-[calc(80vh-80px)]">
             <div className="space-y-6">
-              {help.sections.map((section, index) => (
+              {/* NEU: Verwende die internationalisierten Sektionen */}
+              {sections.map((section, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 10 }}
@@ -130,7 +89,13 @@ export function ConciergeHelpModal({ context, onClose }: ConciergeHelpModalProps
 
             <div className="mt-6 pt-6 border-t border-gray-200">
               <p className="text-sm text-gray-600 italic">
-                Ich bin jederzeit für Sie da. Klicken Sie auf die Glocke unten rechts, wenn Sie weitere Fragen haben.
+                {language === "de"
+                  ? "Ich bin jederzeit für Sie da. Klicken Sie auf die Glocke unten rechts, wenn Sie weitere Fragen haben."
+                  : language === "en"
+                    ? "I am here for you anytime. Click the bell on the bottom right if you have further questions."
+                    : language === "fr"
+                      ? "Je suis là pour vous à tout moment. Cliquez sur la cloche en bas à droite si vous avez d'autres questions."
+                      : "Sono qui per te in qualsiasi momento. Clicca sulla campana in basso a destra se hai ulteriori domande."}
               </p>
             </div>
           </div>
