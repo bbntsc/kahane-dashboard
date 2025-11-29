@@ -1,3 +1,4 @@
+// bbntsc/kahane-dashboard/kahane-dashboard-concierge/components/market-app.tsx
 "use client"
 
 import { useState } from "react"
@@ -20,7 +21,7 @@ export function MarketApp() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f8f3ef]">
+    <div className="min-h-screen bg-[#f8f3ef]" data-tour="market-page"> {/* NEU: data-tour="market-page" */}
         {/* <BankGutmannHeader /> <-- LÖSCHEN */}
         
         <div className="mx-auto max-w-7xl px-4 py-8">

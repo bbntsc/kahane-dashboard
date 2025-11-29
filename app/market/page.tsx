@@ -1,3 +1,4 @@
+// bbntsc/kahane-dashboard/kahane-dashboard-concierge/app/market/page.tsx
 import { DashboardLayout } from "@/components/dashboard-layout"
 //import { MarketView } from "@/components/market-view"
 import { MarketApp } from "@/components/market-app"

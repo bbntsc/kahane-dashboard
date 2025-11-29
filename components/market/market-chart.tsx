@@ -1,3 +1,4 @@
+// bbntsc/kahane-dashboard/kahane-dashboard-concierge/components/market/market-chart.tsx
 "use client"
 
 import { useRef } from "react"
@@ -21,7 +22,10 @@ export function MarketChart({
   useMarketChart(chartRef, timeframe, showInsights, onCrisisClick)
 
   return (
-    <div className="relative h-[400px] rounded-lg border border-gray-200 bg-white p-4">
+    <div 
+        className="relative h-[400px] rounded-lg border border-gray-200 bg-white p-4"
+        data-tour="market-chart" // NEU: data-tour="market-chart"
+    > 
       <div className="absolute right-4 top-4 flex items-center space-x-2">
         <div className="text-sm font-medium text-gray-900">100% Aktienquote (MSCI World)</div>
         <div className="text-xs text-gray-500">Einblick: {timeframe} Jahre</div>
