@@ -6,6 +6,7 @@ export const translations = {
       about: "Über uns",
       contact: "Kontakt",
       overview: "Übersicht",
+      faq: "FAQ/Hilfe", // NEU HINZUGEFÜGT
     },
     simulation: {
       title: "Vermögenssimulation",
@@ -108,6 +109,7 @@ export const translations = {
       about: "About us",
       contact: "Contact",
       overview: "Overview",
+      faq: "FAQ/Help", // NEU HINZUGEFÜGT
     },
     simulation: {
       title: "Wealth Simulation",
@@ -209,6 +211,7 @@ export const translations = {
       about: "À propos",
       contact: "Contact",
       overview: "Aperçu",
+      faq: "FAQ/Aide", // NEU HINZUGEFÜGT
     },
     simulation: {
       title: "Simulation de patrimoine",
@@ -311,6 +314,7 @@ export const translations = {
       about: "Chi siamo",
       contact: "Contatto",
       overview: "Panoramica",
+      faq: "FAQ/Aiuto", // NEU HINZUGEFÜGT
     },
     simulation: {
       title: "Simulazione patrimoniale",
@@ -376,8 +380,8 @@ export const translations = {
       step1: "I tuoi obiettivi",
       step2: "Dati di contatto",
       question1: "Quale obiettivo persegui con il tuo investimento?",
-      question2: "Sulla base della tua simulazione: Quale delle quattro componenti ti preoccupa di più?",
-      question3: "Quale importo approssimativo di investimento è attualmente rilevante per te? (Opzionale)",
+      question2: "Sulla Basis deiner Simulation: Welche der vier Komponenten beschäftigt dich am meisten?",
+      question3: "Welcher ungefähre Anlagebetrag ist für Sie aktuell relevant? (Optional)",
       submit: "Continua",
       back: "Indietro",
       send: "Invia",
@@ -407,7 +411,7 @@ export const translations = {
       large: "Grande",
     },
   },
-}
+}; // <-- Semikolon hinzugefügt, um das translations-Objekt korrekt abzuschließen
 
 export function useTranslation(language: Language) {
   return translations[language]

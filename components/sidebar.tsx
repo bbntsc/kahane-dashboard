@@ -4,7 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 // Star-Icon für den neuen Menüpunkt hinzugefügt
-import { LayoutDashboard, TrendingUp, BarChart3, Settings, PieChart, FileText, Bell, Star } from "lucide-react"
+import { LayoutDashboard, TrendingUp, BarChart3, Settings, PieChart, FileText, Bell, Star, HelpCircle } from "lucide-react"
 
 interface SidebarProps {
   onConciergeClick: () => void
@@ -18,13 +18,15 @@ export function Sidebar({ onConciergeClick }: SidebarProps) {
     { name: "Simulation", href: "/simulation", icon: BarChart3 },
     { name: "Marktanalyse", href: "/market", icon: TrendingUp },
     { name: "Portfolio", href: "/portfolio", icon: PieChart },
-    { name: "Reports", href: "/reports", icon: FileText },
+    // { name: "Reports", href: "/reports", icon: FileText }, // Reports entfernt
+    { name: "FAQ/Hilfe", href: "/faq", icon: HelpCircle }, // FAQ/Hilfe hinzugefügt
     // NEU: Feedback-Link hinzugefügt
     { name: "Feedback", href: "/feedback", icon: Star },
   ]
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === href
+    // Stellt sicher, dass /faq als aktiv markiert wird, wenn die Seite besucht wird
     return pathname.startsWith(href)
   }
 
