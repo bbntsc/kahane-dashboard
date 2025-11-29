@@ -3,7 +3,8 @@
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { LayoutDashboard, TrendingUp, BarChart3, Settings, PieChart, FileText, Bell } from "lucide-react"
+// Star-Icon für den neuen Menüpunkt hinzugefügt
+import { LayoutDashboard, TrendingUp, BarChart3, Settings, PieChart, FileText, Bell, Star } from "lucide-react"
 
 interface SidebarProps {
   onConciergeClick: () => void
@@ -18,6 +19,8 @@ export function Sidebar({ onConciergeClick }: SidebarProps) {
     { name: "Marktanalyse", href: "/market", icon: TrendingUp },
     { name: "Portfolio", href: "/portfolio", icon: PieChart },
     { name: "Reports", href: "/reports", icon: FileText },
+    // NEU: Feedback-Link hinzugefügt
+    { name: "Feedback", href: "/feedback", icon: Star },
   ]
 
   const isActive = (href: string) => {
@@ -54,7 +57,7 @@ export function Sidebar({ onConciergeClick }: SidebarProps) {
         })}
       </nav>
 
-      {/* --- DER CONCIERGE BUTTON (Wiederhergestellt) --- */}
+      {/* --- DER CONCIERGE BUTTON --- */}
       <div className="px-6 py-6 flex justify-center">
         <button 
           onClick={onConciergeClick}

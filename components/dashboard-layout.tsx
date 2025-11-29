@@ -1,8 +1,7 @@
-// components/dashboard-layout.tsx
-
 "use client"
 
 import { useState } from "react"
+import type React from "react" // Hinzugefügt, da es im Original-Code fehlte, aber in React-Typen verwendet wird
 import { Sidebar } from "@/components/sidebar"
 import { ConciergeGuide } from "@/components/concierge-guide"
 import { BankGutmannHeader } from "@/components/bank-gutmann-header"
