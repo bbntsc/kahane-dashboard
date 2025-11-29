@@ -1,9 +1,12 @@
+// HIER WIRD NUR DAS ÄUSSERE LAYOUT VERWALTET
+
 "use client"
 
-import { useState } from "react"
-import type React from "react" // Hinzugefügt, da es im Original-Code fehlte, aber in React-Typen verwendet wird
+import { useState, useMemo } from "react"
+import type React from "react" 
 import { Sidebar } from "@/components/sidebar"
-import { ConciergeGuide } from "@/components/concierge-guide"
+// Importiere den neuen Concierge Controller
+import { ConciergeController } from "@/components/concierge-guide" 
 import { BankGutmannHeader } from "@/components/bank-gutmann-header"
 import { Menu, X } from "lucide-react"
 
@@ -16,21 +19,32 @@ interface DashboardLayoutProps {
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [showConcierge, setShowConcierge] = useState(false) 
 
-  const openConcierge = () => {
-    setShowConcierge(true)
-    setSidebarOpen(false) 
+  // Die Funktion zum manuellen Start der Tour wird nun direkt in der Sidebar verwendet, 
+  // muss aber das Event auslösen, das der ConciergeController abhört.
+  const openConciergeIntro = () => {
+    setSidebarOpen(false); // Sidebar schließen
+    if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('startConciergeIntro'));
+    }
   }
+  
+  // Die Funktion für den On-Demand Help Bell Klick
+  const openConciergeHelp = () => {
+    if (typeof window !== 'undefined') {
+        // Neues Event, das den Help Modal öffnet (wird in ConciergeController abgehört)
+        window.dispatchEvent(new CustomEvent('bellClick')); 
+    }
+  }
+
 
   return (
     <div className="min-h-screen bg-[#f8f3ef]">
       
-      {showConcierge && (
-        <ConciergeGuide onClose={() => setShowConcierge(false)} />
-      )}
+      {/* NEU: Der Controller läuft IMMER im Hintergrund */}
+      <ConciergeController />
 
-      {/* MOBILE SIDEBAR ... (restlicher Code) */}
+      {/* MOBILE SIDEBAR ... */}
       <div className={`fixed inset-0 z-50 lg:hidden ${sidebarOpen ? "" : "pointer-events-none"}`}>
         <div
           className={`fixed inset-0 bg-gray-900/80 transition-opacity duration-300 ${sidebarOpen ? "opacity-100" : "opacity-0"}`}
@@ -44,14 +58,16 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               >
                 <X className="h-6 w-6" />
               </button>
-              <Sidebar onConciergeClick={openConcierge} />
+              {/* Verwenden Sie den Handler, der das Event auslöst */}
+              <Sidebar onConciergeClick={openConciergeHelp} /> 
            </div>
         </div>
       </div>
 
-      {/* DESKTOP SIDEBAR ... (restlicher Code) */}
+      {/* DESKTOP SIDEBAR ... */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
-        <Sidebar onConciergeClick={openConcierge} />
+        {/* Verwenden Sie den Handler, der das Event auslöst */}
+        <Sidebar onConciergeClick={openConciergeHelp} /> 
       </div>
 
       {/* MAIN CONTENT WRAPPER */}
@@ -61,8 +77,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         <SimulationContext.Consumer>
           {({ onLogoClickForTutorial }) => (
             <BankGutmannHeader 
-              // Übergibt den Handler an den Header
-              onLogoClick={onLogoClickForTutorial} 
+              // Der Logo-Klick-Handler löst das Event zum Start der Intro-Tour aus
+              onLogoClick={openConciergeIntro} 
             />
           )}
         </SimulationContext.Consumer>

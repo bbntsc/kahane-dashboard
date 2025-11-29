@@ -4,92 +4,50 @@
 
 import * as React from "react" 
 import { useState, useEffect, useMemo } from "react" 
-import { TutorialModal } from "@/components/tutorial-modal"
+// TutorialModal und TourGuide sind entfernt, da sie in DashboardLayout verwaltet werden
 import { InvestmentSimulation } from "@/components/investment-simulation"
-import { TourGuide } from "@/components/tour-guide" 
+import { useSettings } from "@/lib/settings-context" // Hinzugefügt, falls benötigt
+import { useTranslation } from "@/lib/i18n" // Hinzugefügt, falls benötigt
 
-// NEU: Context Definition
+
+// NEU: Context Definition (bleibt, um Logo-Klick aus dem Header zu ermöglichen)
 interface SimulationContextProps {
   onLogoClickForTutorial: (() => void) | undefined
 }
 export const SimulationContext = React.createContext<SimulationContextProps>({
     onLogoClickForTutorial: undefined,
 }); 
-
-const TUTORIAL_SEEN_KEY = "kahane-simulation-tutorial-seen"
+// Die Logik für TUTORIAL_SEEN_KEY wurde in den ConciergeController verschoben.
 
 export function SimulationApp() {
-  const [showTutorial, setShowTutorial] = useState(false) 
-  const [activeTab, setActiveTab] = useState<"tutorial" | "simulation" | "market">("simulation")
-  const [showGuidedTour, setShowGuidedTour] = useState(false) 
-
-  // 1. Initiale Logik: Modal nur beim ersten Besuch (Session Storage)
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-        const tutorialSeen = sessionStorage.getItem(TUTORIAL_SEEN_KEY)
-        if (!tutorialSeen) {
-            setShowTutorial(true)
-        }
-    }
-  }, [])
   
-  // 2. Logo-Klick Handler: Öffnet das Modal explizit (Ihr Wunsch)
+  // DIESER CONTEXT SOLLTE JETZT VOM PERSISTENTEN LAYOUT GELIEFERT WERDEN.
+  // Da die SimulationApp selbst keinen Zustand mehr verwaltet, brauchen wir hier nur den Platzhalter.
   const handleLogoClickForHeader = () => {
-    if (showGuidedTour) {
-      setShowGuidedTour(false)
+    // Da die Logik jetzt im DashboardLayout ist, feuern wir ein custom Event.
+    // Das Layout muss dieses Event abhören, um die Tour zu starten/zeigen.
+    if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('startConciergeIntro'));
     }
-    setShowTutorial(true)
   }
 
   // Memoisiert den Context-Wert
   const contextValue = useMemo(() => ({
     onLogoClickForTutorial: handleLogoClickForHeader
-  }), [showGuidedTour]);
+  }), []);
 
-
-  const handleStartGuidedTour = () => {
-    setShowTutorial(false)
-    setShowGuidedTour(true)
-    if (typeof window !== 'undefined') {
-        sessionStorage.setItem(TUTORIAL_SEEN_KEY, "true")
-    }
-  }
-  
-  const handleTourComplete = () => {
-    setShowGuidedTour(false)
-  }
-  
-  const handleCloseTutorial = () => {
-    setShowTutorial(false)
-    if (typeof window !== 'undefined') {
-        sessionStorage.setItem(TUTORIAL_SEEN_KEY, "true")
-    }
-  }
 
   return (
     // Umschließe den Inhalt mit dem Context Provider, um die Funktion bereitzustellen
     <SimulationContext.Provider value={contextValue}>
-        <div className="min-h-screen bg-[#f8f3ef]">
-            {/* Das TutorialModal startet entweder die geführte Tour oder schließt sich */}
-            {showTutorial && (
-                <TutorialModal 
-                onClose={handleCloseTutorial} 
-                onStartTour={handleStartGuidedTour} 
-                />
-            )}
-            
-            <TourGuide isActive={showGuidedTour} onComplete={handleTourComplete} />
-
+        {/* KEIN <div className="min-h-screen bg-[#f8f3ef]"> mehr nötig, da im DashboardLayout */}
+        
+            {/* HIER MUSS NUR NOCH DER SIMULATIONSINHALT STEHEN */}
             <main className="mx-auto max-w-7xl px-6 py-6">
-                {activeTab === "simulation" && <InvestmentSimulation />}
-                {activeTab === "tutorial" && (
-                <div className="text-center py-20">
-                    <h2 className="text-2xl font-serif text-[#1b251d] mb-4">Tutorial</h2>
-                    <p className="text-gray-600">Tutorial-Inhalte werden hier angezeigt...</p>
-                </div>
-                )}
+                <InvestmentSimulation /> 
+                {/* Tutorial und TourGuide wurden entfernt */}
             </main>
-        </div>
+        
     </SimulationContext.Provider>
   )
 }

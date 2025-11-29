@@ -1,4 +1,4 @@
-// bbntsc/kahane-dashboard/kahane-dashboard-concierge/components/tour-guide.tsx
+// kahane-dashboard-concierge 2/components/tour-guide.tsx
 "use client"
 
 import { useState, useEffect } from "react"
@@ -46,6 +46,7 @@ const tourSteps: TourStep[] = [
   },
   
   // NEUE Schritte für die Marktanalyseseite
+  // Schritt 6 (Index 5)
   {
     target: "market-page",
     message:
@@ -84,89 +85,132 @@ const tourSteps: TourStep[] = [
   }
 ]
 
+const TOUR_STEP_KEY = "activeTourStep"
+
 interface TourGuideProps {
   isActive: boolean
   onComplete: () => void
 }
 
 export function TourGuide({ isActive, onComplete }: TourGuideProps) {
-  const [currentStep, setCurrentStep] = useState(0)
+  const [currentStep, setCurrentStep] = useState(0) 
   const router = useRouter()
   const pathname = usePathname()
+  
+  // Zustand, um zu wissen, ob die Tour gerade beendet wird und die Animation läuft
+  const [isFinishing, setIsFinishing] = useState(false);
 
+  // 1. Effekt: Laden des gespeicherten Zustands und Initialisierung/Aufräumen
+  useEffect(() => {
+    if (typeof window !== 'undefined' && isActive) {
+        const savedStep = localStorage.getItem(TOUR_STEP_KEY);
+
+        if (savedStep !== null) {
+            // Fall 1: Zustand wurde vor Navigation gespeichert.
+            const stepToResume = Number(savedStep);
+            
+            // Führe nur fort, wenn der gespeicherte Schritt zum aktuellen Pfad passt, 
+            const expectedPath = tourSteps[stepToResume]?.path;
+            if (expectedPath && pathname.startsWith(expectedPath)) {
+                setCurrentStep(stepToResume);
+            }
+            
+            localStorage.removeItem(TOUR_STEP_KEY); // Aufräumen
+
+        } else {
+            // Fall 2: Normale Initialisierung
+            const initialStepIndex = tourSteps.findIndex(step => pathname.startsWith(step.path || "/"))
+            if (initialStepIndex !== -1) {
+                setCurrentStep(initialStepIndex);
+            } 
+        }
+    } 
+  }, [isActive, pathname]) 
+
+
+  // 2. Effekt: Scrollen und Hervorheben, wenn der Schritt wechselt.
   useEffect(() => {
     if (!isActive) return
 
     const step = tourSteps[currentStep]
-
-    // 1. Navigation, wenn nötig
-    if (step.path && pathname !== step.path) {
-      router.push(step.path)
-      // Wichtig: Wir brechen hier ab, der Effekt wird durch die neue Route erneut ausgelöst.
-      return
+    
+    if (!step || (step.path && !pathname.startsWith(step.path))) {
+       return;
     }
 
-    // 2. Scrollen und Hervorheben (mit kleiner Verzögerung nach Navigation)
+
+    // Scrollen und Hervorheben
     const timeoutId = setTimeout(() => {
       const element = document.querySelector(`[data-tour="${step.target}"]`)
       if (element) {
         element.scrollIntoView({ behavior: "smooth", block: "center" })
       }
-    }, pathname !== step.path ? 500 : 100); 
+    }, 200); 
 
     return () => clearTimeout(timeoutId);
 
-  }, [currentStep, isActive, pathname, router]) 
+  }, [currentStep, isActive, pathname]) 
 
-  // Zurücksetzen von currentStep beim manuellen Wechsel der Seite (um Fehler zu vermeiden)
-  useEffect(() => {
-    if (!isActive) return
-
-    const currentStepPath = tourSteps[currentStep].path || "/"
-    if (!pathname.startsWith(currentStepPath)) {
-        // Finde den Index des ersten Schritts, der zum aktuellen Pfad passt
-        const newStartStep = tourSteps.findIndex(step => pathname.startsWith(step.path || "/"))
-        if (newStartStep !== -1) {
-            // Springe zum ersten relevanten Schritt für die neue Seite
-            setCurrentStep(newStartStep)
-        }
-    }
-  }, [pathname, isActive, currentStep])
-
-
-  if (!isActive) return null
 
   const handleNext = () => {
-    if (currentStep < tourSteps.length - 1) {
-      setCurrentStep(currentStep + 1)
+    // Prüfen, ob dies der letzte Schritt ist
+    if (currentStep === tourSteps.length - 1) {
+      // Tour beenden: Animation starten und onComplete mit Verzögerung aufrufen
+      setIsFinishing(true); 
+      setTimeout(() => {
+        onComplete();
+        setIsFinishing(false);
+      }, 300); 
+      return
+    }
+
+    const nextStep = currentStep + 1;
+    const nextStepData = tourSteps[nextStep];
+
+    // Sicherstellen, dass es den nächsten Schritt gibt und einen Pfad
+    if (nextStepData && nextStepData.path && pathname !== nextStepData.path) {
+        // Navigiere zur neuen Seite (z.B. von /simulation zu /market)
+        localStorage.setItem(TOUR_STEP_KEY, nextStep.toString());
+        router.push(nextStepData.path); 
     } else {
-      onComplete()
-      setCurrentStep(0); 
+        // Bleibe auf der gleichen Seite und gehe zum nächsten Schritt
+        setCurrentStep(nextStep);
     }
   }
 
   const handleSkip = () => {
-    onComplete()
-    setCurrentStep(0)
+    // Tour abbrechen: Animation starten und onComplete mit Verzögerung aufrufen
+    setIsFinishing(true);
+    setTimeout(() => {
+      onComplete();
+      setIsFinishing(false);
+    }, 300);
   }
 
   const step = tourSteps[currentStep]
+  
+  // Wenn die Tour nicht aktiv ist ODER sie gerade beendet wird (isFinishing), wird nichts gerendert.
+  if (!isActive || isFinishing || !step || (step.path && !pathname.startsWith(step.path))) return null
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/30 z-40" onClick={handleSkip} />
+      {/* KORREKTUR: onClick vom Overlay entfernt, damit die Buttons im Dialog funktionieren. 
+         Das Overlay ist nun nur noch ein visueller Dimmer. */}
+      <div className="fixed inset-0 bg-black/30 z-40" />
 
       <AnimatePresence>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
+          transition={{ duration: 0.3 }} // Animation beschleunigen
           className="fixed bottom-32 left-8 right-8 md:left-auto md:right-32 z-50 max-w-md"
         >
           <div className="bg-white border-2 border-[#8B4513] rounded-2xl shadow-2xl p-6 relative">
             {/* Speech bubble tail */}
             <div className="absolute -bottom-3 right-24 w-6 h-6 bg-white border-r-2 border-b-2 border-[#8B4513] transform rotate-45" />
 
+            {/* Der Schließen-Button ruft handleSkip auf (Startet die Exit-Animation) */}
             <button onClick={handleSkip} className="absolute top-2 right-2 text-gray-400 hover:text-gray-600">
               <X className="h-5 w-5" />
             </button>
@@ -177,6 +221,7 @@ export function TourGuide({ isActive, onComplete }: TourGuideProps) {
               <div className="text-xs text-gray-500">
                 Schritt {currentStep + 1} von {tourSteps.length}
               </div>
+              {/* Der "Verstanden" / "Tour beenden" Button ruft handleNext auf (Startet die Exit-Animation, wenn es der letzte Schritt ist) */}
               <button
                 onClick={handleNext}
                 className="flex items-center gap-2 px-4 py-2 bg-[#8B4513] text-white rounded-lg hover:bg-[#6B3410] transition-colors text-sm font-medium"
