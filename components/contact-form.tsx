@@ -2,8 +2,7 @@
 
 import type React from "react"
 import { useState } from "react"
-import { BankGutmannHeader } from "@/components/bank-gutmann-header"
-// import { AnimatedConcierge } from "@/components/animated-concierge" // Entfernt
+// import { BankGutmannHeader } from "@/components/bank-gutmann-header" // WIRD ENTFERNT
 import { motion } from "framer-motion"
 import { CheckCircle2 } from "lucide-react"
 import Link from "next/link"
@@ -26,7 +25,7 @@ export function ContactForm() {
   const [phone, setPhone] = useState("")
   const [message, setMessage] = useState("")
 
-  // useEffect zum Öffnen/Schließen des Concierge wird entfernt.
+  // useEffect zum Öffnen/Schließen des Concierge wurde bereits entfernt.
   /*
   useEffect(() => {
     const handleBellClick = () => setShowConcierge((prev) => !prev)
@@ -46,23 +45,11 @@ export function ContactForm() {
     setSubmitted(true)
   }
 
-  // getConciergeMessage Funktion wird entfernt.
-  /*
-  const getConciergeMessage = () => {
-    const messages = {
-      // ... Messages hier entfernt ...
-    }
-
-    if (submitted) return messages[language].submitted
-    return step === 1 ? messages[language].step1 : messages[language].step2
-  }
-  */
-
   if (submitted) {
     return (
-      <div className="min-h-screen bg-[#f8f3ef] dark:bg-gray-900">
-        {/* Der Header bleibt, da er Teil des Kontaktformular-Layouts ist */}
-        <BankGutmannHeader />
+      // Äußerer Div (min-h-screen bg-[#f8f3ef] dark:bg-gray-900) entfernt, da dies Aufgabe des Layouts ist
+      <div className="flex-1">
+        {/* BankGutmannHeader entfernt */}
 
         <div className="max-w-2xl mx-auto px-4 py-16">
           <motion.div
@@ -107,18 +94,16 @@ export function ContactForm() {
             </Link>
           </motion.div>
         </div>
-
-        {/* AnimatedConcierge hier entfernt */}
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-[#f8f3ef] dark:bg-gray-900">
-      {/* Der Header bleibt */}
-      <BankGutmannHeader />
+    // Äußerer Div (min-h-screen bg-[#f8f3ef] dark:bg-gray-900) entfernt, da dies Aufgabe des Layouts ist
+    <div className="flex-1">
+      {/* BankGutmannHeader entfernt */}
 
-      <div className="max-w-3xl mx-auto px-4 py-12">
+      <div className="max-w-3xl mx-auto px-4 py-12" data-tour="contact-form">
         {/* Progress indicator */}
         <div className="mb-8">
           <div className="flex items-center justify-center gap-4">
@@ -395,7 +380,7 @@ export function ContactForm() {
                       : language === "fr"
                         ? "Avez-vous des souhaits ou des questions spécifiques?"
                         : language === "it"
-                          ? "Hai desideri o domande specifiche?"
+                          ? "Hai desideri oder domande specifiche?"
                           : "Do you have any special requests or questions?"
                   }
                   rows={4}

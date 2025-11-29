@@ -78,6 +78,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         <SimulationContext.Consumer>
           {({ onLogoClickForTutorial }) => (
             <BankGutmannHeader 
+              // Fügt z-10 hinzu, um den Header niedrig zu halten, damit er vom z-[99] Tour Overlay überdeckt wird.
+              className="z-10" 
               // Der Logo-Klick-Handler löst das Event zum Start der Intro-Tour aus
               onLogoClick={openConciergeIntro} 
             />
@@ -85,7 +87,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         </SimulationContext.Consumer>
 
         {/* Mobile Header für Sidebar-Trigger (bleibt für Mobile-Navigation wichtig) */}
-        <div className="lg:hidden flex items-center p-4 border-b border-[#ede9e1] bg-white sticky top-0 z-40">
+        <div className="lg:hidden flex items-center p-4 border-b border-[#ede9e1] bg-white sticky top-0 z-10">
             <button onClick={() => setSidebarOpen(true)} className="text-gray-500 hover:text-gray-900">
                 <Menu className="h-6 w-6" />
             </button>

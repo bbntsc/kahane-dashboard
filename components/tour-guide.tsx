@@ -332,9 +332,8 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
 
   return (
     <>
-      {/* KORREKTUR: onClick vom Overlay entfernt, damit die Buttons im Dialog funktionieren. 
-         Das Overlay ist nun nur noch ein visueller Dimmer. */}
-      <div className="fixed inset-0 bg-black/30 z-40" />
+      {/* KORREKTUR: HÖCHSTER Z-INDEX für das Dimmer-Overlay */}
+      <div className="fixed inset-0 bg-black/30 z-[99]" />
 
       <AnimatePresence>
         <motion.div
@@ -342,7 +341,7 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
           transition={{ duration: 0.3 }} // Animation beschleunigen
-          className="fixed bottom-32 left-8 right-8 md:left-auto md:right-32 z-50 max-w-md"
+          className="fixed bottom-32 left-8 right-8 md:left-auto md:right-32 z-[102] max-w-md" // NEU: Höher als Highlight-Z-Index
         >
           <div className="bg-white border-2 border-[#8B4513] rounded-2xl shadow-2xl p-6 relative">
             {/* Speech bubble tail */}
@@ -383,7 +382,7 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
           duration: 4,
           ease: "easeInOut",
         }}
-        className="fixed bottom-8 right-24 w-24 h-24 z-50"
+        className="fixed bottom-8 right-24 w-24 h-24 z-[102]" // NEU: Höher als Highlight-Z-Index
       >
         <img src="/images/1.svg" alt="Concierge" className="w-full h-full object-contain" />
       </motion.div>
@@ -393,10 +392,14 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
         <style jsx global>{`
           [data-tour="${step.target}"] {
             position: relative;
-            z-index: 45;
+            z-index: 101; /* KORREKTUR: Muss höher sein als der Dimmer (z-99) */
             box-shadow: 0 0 0 4px rgba(235, 241, 81, 0.5); 
             border-radius: 12px;
             transition: box-shadow 0.3s ease-in-out; 
+          }
+          /* Fix für das Header-Ausblenden (sollte im DashboardLayout auf z-10 sein) */
+          header, .lg\\:pl-64 > .sticky {
+             z-index: 10 !important;
           }
         `}</style>
       )}
