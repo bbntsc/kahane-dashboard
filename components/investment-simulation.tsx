@@ -502,30 +502,30 @@ export function InvestmentSimulation() {
           </div>
         </div>
 
+        {/* --- NEU: Kompakter CTA Block hier eingefügt --- */}
         <div
           className="mt-8 bg-white dark:bg-gray-800 border border-[#ede9e1] dark:border-gray-600 rounded-lg p-8 shadow-sm"
-          data-tour="cta"
+          data-tour="cta-simulation-link" // data-tour Attribut für den Guide
         >
-          <div className="flex items-start gap-4">
-            <div className="flex-1">
-              <h3 className="text-2xl font-serif text-[#1b251d] dark:text-gray-100 mb-3 leading-tight">
+          <div className="flex items-start gap-4 flex-col sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex-1 min-w-0">
+              <h3 className="text-lg font-serif text-[#1b251d] dark:text-gray-100 mb-2 leading-tight">
                 {t.simulation.ctaTitle}
               </h3>
-              <p className="text-base text-gray-600 dark:text-gray-300 leading-relaxed">
-                {t.simulation.ctaDescription}
-              </p>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-4 italic leading-relaxed">
-                {t.simulation.disclaimer}
+              <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                Neugierig, wie sich Ihr Portfolio durch historische Krisen und Aufschwünge entwickelt hätte?
               </p>
             </div>
+            <Link href="/market" className="flex-shrink-0 w-full sm:w-auto mt-4 sm:mt-0">
+              <button className="w-full sm:w-auto px-8 py-3 bg-[#4a5f52] text-white rounded-lg hover:bg-[#3a4f42] transition-colors font-medium inline-flex items-center justify-center gap-2 shadow-md">
+                {t.simulation.ctaButton}
+                <span className="text-lg">→</span>
+              </button>
+            </Link>
           </div>
-          <Link href="/market">
-            <button className="mt-6 px-8 py-3 bg-[#4a5f52] text-white rounded-lg hover:bg-[#3a4f42] transition-colors font-medium inline-flex items-center gap-2 shadow-md">
-              {t.simulation.ctaButton}
-              <span className="text-lg">→</span>
-            </button>
-          </Link>
         </div>
+        {/* --- ENDE NEUER CTA Block --- */}
+
       </div>
     </div>
   )

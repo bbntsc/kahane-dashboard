@@ -1,4 +1,3 @@
-// kahane-dashboard-concierge 2/components/tour-guide.tsx
 "use client"
 
 import { useState, useEffect } from "react"
@@ -13,44 +12,69 @@ interface TourStep {
 }
 
 const tourSteps: TourStep[] = [
-  // Schritte für die Simulationsseite
+  // --- KATEGORIE 1: ÜBERSICHTS-SEITE (4 Schritte) ---
   {
     target: "page",
     message:
-      "Willkommen! Diese Seite zeigt Ihnen, wie sich Ihr Vermögen in der Zukunft entwickeln könnte. Lassen Sie mich Ihnen die wichtigsten Elemente erklären.",
+      "Willkommen! Dies ist Ihre Übersichtsseite, der zentrale Startpunkt. Hier sehen Sie die wichtigsten Kennzahlen auf einen Blick.",
+    path: "/" 
+  },
+  {
+    target: "stats-grid", 
+    message:
+      "Dieser Bereich liefert Ihnen eine aktuelle Zusammenfassung Ihres Gesamtvermögens, der Performance und des Risiko-Scores.",
+    path: "/"
+  },
+  {
+    target: "quick-actions", 
+    message:
+      "Über diese Schnellzugriffe gelangen Sie direkt zu den Hauptfunktionen wie Simulation und Marktanalyse.",
+    path: "/"
+  },
+  {
+    target: "recent-activities", 
+    message:
+      "Hier finden Sie einen Feed Ihrer letzten Aktivitäten und wichtige Markt-Insights, die Ihnen helfen, informiert zu bleiben. Weiter geht es zur Simulation.",
+    path: "/"
+  },
+
+  // --- KATEGORIE 2: SIMULATIONS-SEITE (5 Schritte) ---
+  {
+    target: "page",
+    message:
+      "Dies ist der Kern der Plattform: die Vermögenssimulation. Hier können Sie verschiedene Anlagestrategien testen.",
     path: "/simulation" 
   },
   {
     target: "sliders",
     message:
-      "Hier können Sie Ihre persönlichen Parameter einstellen. Probieren Sie die Regler aus – oder geben Sie Werte direkt ein. Jede Änderung wird sofort im Diagramm sichtbar.",
+      "Passen Sie die zentralen Parameter wie Anlagebetrag, monatliche Investition, Aktienquote und Anlagehorizont an.",
     path: "/simulation"
   },
   {
     target: "chart",
     message:
-      "Das Diagramm zeigt drei Szenarien: den optimistischen Fall (oben), das wahrscheinlichste Szenario (Mitte) und den vorsichtigen Fall (unten). So sehen Sie die Bandbreite möglicher Entwicklungen.",
+      "Das Diagramm zeigt die voraussichtliche Entwicklung Ihres Portfolios in drei Szenarien (optimistisch, realistisch, vorsichtig).",
     path: "/simulation"
   },
   {
     target: "summary",
     message:
-      "Diese Kennzahlen fassen Ihre Simulation zusammen: Wie viel Sie investieren, welcher Ertrag erwartet wird und welchen Wert Ihr Portfolio am Ende haben könnte.",
+      "Die Zusammenfassung zeigt Ihnen, was Sie investiert haben und welchen potenziellen Finalwert und Ertrag Sie erwarten können.",
     path: "/simulation"
   },
   {
-    target: "cta",
+    target: "cta-simulation-link", 
     message:
-      "Neugierig, wie sich Ihre Investition in echten Krisen verhalten hätte? Klicken Sie hier, um historische Marktdaten zu erkunden!",
-    path: "/simulation"
+      "Bevor Sie fortfahren: Nutzen Sie diesen Button 'Blick in den Markt', um Ihre Annahmen mit realen, historischen Krisendaten abzugleichen. Wir wechseln nun zur Marktanalyse.",
+    path: "/simulation" 
   },
-  
-  // NEUE Schritte für die Marktanalyseseite
-  // Schritt 6 (Index 5)
+
+  // --- KATEGORIE 3: MARKTAANALYSE-SEITE (6 Schritte) ---
   {
-    target: "market-page",
+    target: "market-page", 
     message:
-      "Willkommen bei der Marktanalyse! Hier vergleichen Sie die Performance über verschiedene Zeiträume.",
+      "Willkommen bei der Marktanalyse! Hier vergleichen Sie die Performance über verschiedene Zeiträume anhand historischer Daten.",
     path: "/market" 
   },
   {
@@ -62,13 +86,13 @@ const tourSteps: TourStep[] = [
   {
     target: "market-chart",
     message:
-      "Dieses Diagramm zeigt die tatsächliche Wertentwicklung des Index, inklusive aller historischen Krisen.",
+      "Dieses Diagramm zeigt die tatsächliche Wertentwicklung des Index, inklusive aller historischen Krisenpunkte.",
     path: "/market"
   },
   {
     target: "market-insights",
     message:
-      "Der Schalter 'Insights' blendet rote Marker im Chart ein. Klicken Sie auf diese Marker, um Details zur Krise und Empfehlungen zu erhalten.",
+      "Der Schalter 'Insights' blendet rote Marker ein. Klicken Sie auf diese, um Details zu den Krisen und unseren Empfehlungen zu erhalten.",
     path: "/market"
   },
   {
@@ -78,10 +102,50 @@ const tourSteps: TourStep[] = [
     path: "/market"
   },
   {
-    target: "page", 
+    target: "market-contact-cta", 
     message:
-      "Das war die geführte Tour! Ich hoffe, Sie haben nun einen guten Überblick über die Funktionen.",
-    path: "/market" 
+      "Nach der Analyse: Wenn Sie bereit sind, Ihre Erkenntnisse in eine persönliche Strategie umzusetzen, können Sie hier direkt mit uns Kontakt aufnehmen. Nun wechseln wir zum Portfolio.",
+    path: "/market"
+  },
+
+  // --- KATEGORIE 4: WEITERE SEITEN (3 Schritte) ---
+  {
+    target: "page",
+    message:
+      "Auf der Portfolio-Seite (und auch auf der FAQ- und Feedback-Seite) wird Ihnen weiterhin die Navigation erklärt. Das Portfolio gibt Ihnen eine detaillierte Übersicht Ihrer Anlagen.",
+    path: "/portfolio" 
+  },
+  {
+    target: "page",
+    message:
+      "Die Seite 'FAQ/Hilfe' ist ein wichtiger Anlaufpunkt. Hier finden Sie alle Fragen und Antworten übersichtlich sortiert.",
+    path: "/faq" 
+  },
+  {
+    target: "page",
+    message:
+      "Auf der Seite 'Feedback' können Sie uns schnell Ihre Meinung mitteilen. Ein Klick auf 'Einstellungen' führt zum nächsten Schritt.",
+    path: "/feedback" 
+  },
+  {
+    target: "page",
+    message:
+      "Die Seite 'Einstellungen' ermöglicht es Ihnen, das Erscheinungsbild (Theme, Schriftgröße und Sprache) der Anwendung anzupassen.",
+    path: "/settings" 
+  },
+  {
+    target: "page",
+    message:
+      "Über die Seite 'Kontakt' können Sie direkt mit unseren Beratern in Verbindung treten, um eine individuelle Strategie zu besprechen.",
+    path: "/contact" 
+  },
+  
+  // --- KATEGORIE 5: ABSCHLUSS ---
+  {
+    target: "page", // Letzter Schritt der Tour
+    message:
+      "Das war die erweiterte geführte Tour! Ich hoffe, Sie haben nun einen guten Überblick über alle Funktionen der Plattform.",
+    path: "/contact" 
   }
 ]
 
@@ -134,7 +198,15 @@ export function TourGuide({ isActive, onComplete }: TourGuideProps) {
 
     const step = tourSteps[currentStep]
     
+    // Wichtig: Nur fortfahren, wenn der Pfad des Schritts mit dem aktuellen Pfad übereinstimmt
     if (!step || (step.path && !pathname.startsWith(step.path))) {
+       // Wenn wir uns auf der Simulationsseite befinden und der nächste Schritt Market ist,
+       // navigieren wir direkt zur Market Page, um den nächsten Schritt dort zu zeigen.
+       // Index 5 ist der erste Schritt auf der /market Seite
+       if (currentStep === 5 && step.path === "/market" && pathname === "/simulation") {
+          // Erlaube die Navigation, aber nicht das Rendern des Tooltips auf der falschen Seite
+          return;
+       }
        return;
     }
 
@@ -168,7 +240,8 @@ export function TourGuide({ isActive, onComplete }: TourGuideProps) {
     const nextStepData = tourSteps[nextStep];
 
     // Sicherstellen, dass es den nächsten Schritt gibt und einen Pfad
-    if (nextStepData && nextStepData.path && pathname !== nextStepData.path) {
+    // Prüft, ob ein Seitenwechsel ansteht (z.B. von /simulation auf /market)
+    if (nextStepData && nextStepData.path && !pathname.startsWith(nextStepData.path)) {
         // Navigiere zur neuen Seite (z.B. von /simulation zu /market)
         localStorage.setItem(TOUR_STEP_KEY, nextStep.toString());
         router.push(nextStepData.path); 
