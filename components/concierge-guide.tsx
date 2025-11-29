@@ -126,7 +126,7 @@ export function ConciergeGuide({ onClose }: ConciergeGuideProps) {
         </div>
 
         {/* --- CHARAKTER (2.svg) --- */}
-        <div className="relative w-24 h-48 mr-8"> {/* Größe anpassen je nach SVG */}
+        <div className="relative w-40 h-40 mr-8"> {/* Größe anpassen je nach SVG */}
           <Image
             src="/images/2.svg" 
             alt="Concierge"
