@@ -1,5 +1,3 @@
-// components/bank-gutmann-header.tsx
-
 "use client"
 
 import { Menu, ChevronDown } from "lucide-react"
@@ -9,12 +7,23 @@ import Link from "next/link"
 // Interface und Dummy-Daten sind korrekt
 interface BankGutmannHeaderProps {
   onLogoClick?: () => void
+  className?: string // Füge className hinzu, um vom Layout überschrieben zu werden
 }
-const useSettings = () => ({ language: "DE", setLanguage: () => {} })
-const useTranslation = (lang: string) => ({ nav: { about: "Über uns", contact: "Kontakt" } })
+// Da die Hooks von settings-context.tsx importiert werden, müssen wir sie für die Header-Vorschau simulieren
+const useSettings = () => ({ language: "de" as Language, setLanguage: (lang: Language) => {} })
+const useTranslation = (lang: Language) => translations[lang] // Tatsächliche Nutzung
 type Language = 'de' | 'en' | 'fr' | 'it';
 
-export function BankGutmannHeader({ onLogoClick }: BankGutmannHeaderProps) { 
+// Simulierte translations und useTranslation (sollte im echten Code über hooks kommen)
+const translations = {
+  de: { nav: { about: "Über uns", contact: "Kontakt", overview: "Übersicht" } },
+  en: { nav: { about: "About us", contact: "Contact", overview: "Overview" } },
+  fr: { nav: { about: "À propos", contact: "Contact", overview: "Aperçu" } },
+  it: { nav: { about: "Chi siamo", contact: "Contatto", overview: "Panoramica" } },
+};
+
+
+export function BankGutmannHeader({ onLogoClick, className }: BankGutmannHeaderProps) { 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [languageOpen, setLanguageOpen] = useState(false)
   const { language, setLanguage } = useSettings()
@@ -31,7 +40,7 @@ export function BankGutmannHeader({ onLogoClick }: BankGutmannHeaderProps) {
   const LogoWrapper = onLogoClick ? 'div' : Link;
 
   return (
-    <header className="bg-[#f8f3ef] dark:bg-[#1b251d] border-b border-[#ede9e1] dark:border-[#404a3f] relative z-50">
+    <header className={`bg-[#f8f3ef] dark:bg-[#1b251d] border-b border-[#ede9e1] dark:border-[#404a3f] relative z-50 ${className}`}>
       <div className="mx-auto max-w-7xl px-6">
         <div className="flex h-20 items-center justify-between relative">
           <div className="flex items-center gap-8">
@@ -53,7 +62,6 @@ export function BankGutmannHeader({ onLogoClick }: BankGutmannHeaderProps) {
               onClick={(e) => { 
                   // Nur ausführen, wenn der Handler vorhanden ist (d.h. auf der /simulation Seite)
                   if (onLogoClick) {
-                      // Da es jetzt eine div/button ist, ist kein e.preventDefault() nötig
                       onLogoClick();
                   }
                   // Andernfalls navigiert der Link normal zur Homepage
@@ -61,7 +69,7 @@ export function BankGutmannHeader({ onLogoClick }: BankGutmannHeaderProps) {
             >
               <div
                 className="font-serif italic text-2xl text-[#1b251d] dark:text-[#f8f3ef] leading-tight"
-                style={{ fontFamily: "Georgia, serif" }}
+                // Entferne unnötiges Inline-Styling, das jetzt global geregelt wird
               >
                 Gutmann
               </div>

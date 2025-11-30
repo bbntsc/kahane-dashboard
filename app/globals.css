@@ -1,22 +1,25 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Basis: Setzt die Schriftgröße auf 16px (base) und verwendet Inter (modern Sans) als Standardschriftart */
 body {
-  font-family: var(--font-sans), "Lora", Georgia, serif;
+  font-family: var(--font-inter, sans-serif); 
+  font-size: 1rem; /* Entspricht 16px */
   background-color: white;
   color: #1b251d;
 }
 
+/* Überschriften: Verwenden die Serif-Schriftart Bodoni Moda */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-serif), "Playfair Display", Georgia, serif;
+  font-family: var(--font-bodoni, Georgia, serif); 
 }
 
-/* Ensure consistent font usage across all elements */
+/* Ensure consistent font usage across all elements that aren't headings */
 input,
 textarea,
 button,
@@ -26,7 +29,7 @@ select,
 .text-base,
 .text-lg,
 .text-xl {
-  font-family: var(--font-sans), "Lora", Georgia, serif;
+  font-family: var(--font-inter, sans-serif);
 }
 
 @layer utilities {
@@ -35,6 +38,7 @@ select,
   }
 }
 
+/* Theme und Farben bleiben unverändert, um den aktuellen Stand der App zu erhalten */
 @theme {
   --color-background: #ffffff;
   --color-foreground: #1b251d;
@@ -139,8 +143,8 @@ select,
 }
 
 @theme inline {
-  --font-sans: var(--font-sans);
-  --font-serif: var(--font-serif);
+  --font-sans: var(--font-inter); /* ZU INTER GEÄNDERT */
+  --font-serif: var(--font-bodoni); /* ZU BODONI GEÄNDERT */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

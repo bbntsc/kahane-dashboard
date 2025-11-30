@@ -1,4 +1,3 @@
-// bbntsc/kahane-dashboard/kahane-dashboard-concierge/components/market/market-summary.tsx
 "use client"
 
 interface MarketSummaryProps {
@@ -9,7 +8,8 @@ export function MarketSummary({ timeframe }: MarketSummaryProps) {
   // HINWEIS: Diese Daten sind statisch. Für eine dynamische Berechnung
   // müsste hier die Logik ergänzt werden, die die Daten filtert.
   return (
-    <div className="mb-4 rounded-md bg-gray-100 p-4" data-tour="market-summary"> {/* NEU: data-tour="market-summary" */}
+    // 'relative' Klasse hinzugefügt, um Stapelkontext für die Hervorhebung zu definieren
+    <div className="mb-4 rounded-md bg-gray-100 p-4 relative" data-tour="market-summary"> 
       <h4 className="mb-2 text-sm font-medium text-gray-900">
         Historische Betrachtung: {timeframe} Jahre
       </h4>
