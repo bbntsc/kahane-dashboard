@@ -4,149 +4,133 @@ import { useState, useEffect, useMemo } from "react"
 import { ArrowRight, X, ArrowLeft } from "lucide-react" 
 import { motion, AnimatePresence } from "framer-motion"
 import { usePathname, useRouter } from "next/navigation"
+import { useSettings } from "@/lib/settings-context" 
+import { useTranslation } from "@/lib/i18n" 
+import type { Language, translations } from "@/lib/i18n" 
 
 interface TourStep {
   target: string
-  message: string
+  // MESSAGE WIRD ZU EINEM SCHLÜSSEL
+  messageKey: keyof typeof translations.de.concierge.tour 
   path?: string // Optional: Pfad, zu dem navigiert werden soll
 }
 
+// ACHTUNG: Die Messages selbst sind nun nur KEYS, die zur Laufzeit übersetzt werden!
 const ALL_TOUR_STEPS: TourStep[] = [
   // --- KATEGORIE 1: ÜBERSICHTS-SEITE (4 Schritte) ---
   {
-    target: "sidebar-overview", // NEU: Zielt auf den Übersicht-Link
-    message:
-      "Willkommen! Dies ist Ihre Übersichtsseite, der zentrale Startpunkt. Hier sehen Sie die wichtigsten Kennzahlen auf einen Blick.",
+    target: "sidebar-overview", 
+    messageKey: "t1_message",
     path: "/" 
   },
   {
     target: "stats-grid", 
-    message:
-      "Dieser Bereich liefert Ihnen eine aktuelle Zusammenfassung Ihres Gesamtvermögens, der Performance und des Risiko-Scores.",
+    messageKey: "t2_message",
     path: "/"
   },
   {
     target: "quick-actions", 
-    message:
-      "Über diese Schnellzugriffe gelangen Sie direkt zu den Hauptfunktionen wie Simulation und Marktanalyse.",
+    messageKey: "t3_message",
     path: "/"
   },
   {
-    target: "sidebar-simulation", // NEU: Zielt auf den Simulations-Link (um den nächsten Schritt zu erklären)
-    message:
-      "Hier finden Sie einen Feed Ihrer letzten Aktivitäten und wichtige Markt-Insights, die Ihnen helfen, informiert zu bleiben. Weiter geht es zur Simulation.",
+    target: "sidebar-simulation", 
+    messageKey: "t4_message",
     path: "/"
   },
 
   // --- KATEGORIE 2: SIMULATIONS-SEITE (5 Schritte) ---
   {
-    target: "page", // Auf der neuen Seite starten wir wieder mit der ganzen Seite
-    message:
-      "Dies ist der Kern der Plattform: die Vermögenssimulation. Hier können Sie verschiedene Anlagestrategien testen.",
+    target: "page", 
+    messageKey: "t5_message",
     path: "/simulation" 
   },
   {
-    target: "sliders", // Zielt auf die gesamte Slider-Sektion
-    message:
-      "Passen Sie die zentralen Parameter wie Anlagebetrag, monatliche Investition, Aktienquote und Anlagehorizont an.",
+    target: "sliders", 
+    messageKey: "t6_message",
     path: "/simulation"
   },
   {
-    target: "chart-container", // Geändert, um den gesamten Chart-Bereich zu umranden
-    message:
-      "Das Diagramm zeigt die voraussichtliche Entwicklung Ihres Portfolios in drei Szenarien (optimistisch, realistisch, vorsichtig).",
+    target: "chart-container", 
+    messageKey: "t7_message",
     path: "/simulation"
   },
   {
     target: "summary",
-    message:
-      "Die Zusammenfassung zeigt Ihnen, was Sie investiert haben und welchen potenziellen Finalwert und Ertrag Sie erwarten können.",
+    messageKey: "t8_message",
     path: "/simulation"
   },
   {
     target: "cta-simulation-link", 
-    message:
-      "Bevor Sie fortfahren: Nutzen Sie diesen Button Blick in den Markt, um Ihre Annahmen mit realen, historischen Krisendaten abzugleichen. Wir wechseln nun zur Marktanalyse.",
+    messageKey: "t9_message",
     path: "/simulation" 
   },
 
   // --- KATEGORIE 3: MARKTAANALYSE-SEITE (6 Schritte) ---
   {
     target: "market-page", 
-    message:
-      "Willkommen bei der Marktanalyse! Hier vergleichen Sie die Performance über verschiedene Zeiträume anhand historischer Daten.",
+    messageKey: "t10_message",
     path: "/market" 
   },
   {
     target: "market-horizon",
-    message:
-      "Wählen Sie einen Anlagehorizont, um zu sehen, wie sich der MSCI World Index historisch über diese Dauer entwickelt hätte.",
+    messageKey: "t11_message",
     path: "/market"
   },
   {
     target: "market-chart",
-    message:
-      "Dieses Diagramm zeigt die tatsächliche Wertentwicklung des Index, inklusive aller historischen Krisenpunkte.",
+    messageKey: "t12_message",
     path: "/market"
   },
   {
     target: "market-insights",
-    message:
-      "Der Schalter Insights blendet rote Marker ein. Klicken Sie auf diese, um Details zu den Krisen und unseren Empfehlungen zu erhalten.",
+    messageKey: "t13_message",
     path: "/market"
   },
   {
     target: "market-summary", 
-    message:
-      "Die Zusammenfassung zeigt Ihnen statistische Kennzahlen wie den Durchschnittsertrag und die maximalen Verluste für den gewählten Zeitraum.",
+    messageKey: "t14_message",
     path: "/market"
   },
   {
     target: "market-contact-cta", 
-    message:
-      "Nach der Analyse: Wenn Sie bereit sind, Ihre Erkenntnisse in eine persönliche Strategie umzusetzen, können Sie hier direkt mit uns Kontakt aufnehmen. Nun wechseln wir zum Portfolio.",
+    messageKey: "t15_message",
     path: "/market"
   },
 
   // --- KATEGORIE 4: WEITERE SEITEN (4 Schritte) ---
   {
-    target: "sidebar-portfolio", // NEU
-    message:
-      "Auf der Portfolio-Seite (und auch auf der FAQ/Hilfe- und Feedback-Seite) wird Ihnen weiterhin die Navigation erklärt. Das Portfolio gibt Ihnen eine detaillierte Übersicht Ihrer Anlagen.",
+    target: "sidebar-portfolio", 
+    messageKey: "t16_message",
     path: "/portfolio" 
   },
   {
-    target: "sidebar-faq", // NEU
-    message:
-      "Die Seite FAQ/Hilfe ist ein wichtiger Anlaufpunkt. Hier finden Sie alle Fragen und Antworten übersichtlich sortiert.",
+    target: "sidebar-faq", 
+    messageKey: "t17_message",
     path: "/faq" 
   },
   {
-    target: "sidebar-feedback", // NEU
-    message:
-      "Auf der Seite Feedback können Sie uns schnell Ihre Meinung mitteilen. Ein Klick auf Einstellungen führt zum nächsten Schritt.",
+    target: "sidebar-feedback", 
+    messageKey: "t18_message",
     path: "/feedback" 
   },
   {
-    target: "sidebar-settings", // NEU
-    message:
-      "Die Seite Einstellungen ermöglicht es Ihnen, das Erscheinungsbild (Theme, Schriftgröße und Sprache) der Anwendung anzupassen. Der letzte Schritt ist die Kontaktseite.",
+    target: "sidebar-settings", 
+    messageKey: "t19_message",
     path: "/settings" 
   },
   
   // --- KATEGORIE 5: KONTAKT UND ABSCHLUSS ---
   {
     target: "contact-form", 
-    message:
-      "Die Kontaktseite ermöglicht Ihnen, direkt mit unseren Beratern in Verbindung zu treten, um Ihre individuelle Anlagestrategie zu besprechen.",
+    messageKey: "t20_message",
     path: "/contact" 
   },
   
   // ABSCHLUSS-SCHRITT
   {
     target: "page", 
-    message:
-      "Das war die erweiterte geführte Tour! Ich hoffe, Sie haben nun einen guten Überblick über alle Funktionen der Plattform und wissen, wie Sie uns kontaktieren können. Klicken Sie auf Tour beenden, um den Guide zu schließen.",
+    messageKey: "t21_message",
     path: "/contact" 
   }
 ]
@@ -170,35 +154,44 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
   const router = useRouter()
   const pathname = usePathname()
   
+  // NEU: Hooks für die Übersetzung
+  const { language } = useSettings()
+  const t = useTranslation(language)
+
   // Definiere die aktuell gültige Tour-Schritt-Liste
-  const tourSteps = useMemo(() => {
+  const tourSteps: (TourStep & { fullIndex?: number })[] = useMemo(() => {
     if (!isContextual) {
-      return ALL_TOUR_STEPS;
+      return ALL_TOUR_STEPS.map((step, index) => ({ ...step, fullIndex: index }));
     }
     
     // Finde alle Schritte, die zum aktuellen Pfad gehören.
     const stepsForContext = ALL_TOUR_STEPS.filter(step => pathname.startsWith(step.path || "/"));
     
     // Finde den Index des initialStep in der gefilterten Liste, relativ zum Start des Pfades.
+    const initialStepData = ALL_TOUR_STEPS[initialStep];
+    
+    if (!initialStepData) return [];
+
     const relativeStartIndex = stepsForContext.findIndex(step => 
-      // Nutze den ALL_TOUR_STEPS Index, um den relativen Start in der gefilterten Liste zu finden
-      ALL_TOUR_STEPS[initialStep] && (step.path === ALL_TOUR_STEPS[initialStep].path && step.target === ALL_TOUR_STEPS[initialStep].target)
+      step.messageKey === initialStepData.messageKey && step.path === initialStepData.path
     );
     
     const subTour = stepsForContext.slice(relativeStartIndex);
     
     const lastStep = subTour[subTour.length - 1];
 
-    if (!lastStep || lastStep.target !== "page") { 
+    // Wenn der letzte Schritt nicht bereits der Endschritt ist, füge den kontextuellen Endschritt hinzu
+    if (!lastStep || (lastStep.messageKey !== "t21_message" && lastStep.target !== "page")) { 
       subTour.push({
         target: "page",
-        message: "Das war der Hilfebereich für diese Seite. Klicken Sie auf Tour beenden, um den Guide zu schließen.",
+        messageKey: "t_contextual_end", // DYNAMISCH ÜBERSETZBARER SCHLÜSSEL
         path: pathname 
-      })
+      } as TourStep);
     }
     
-    return subTour;
-  }, [isContextual, initialStep, pathname]) 
+    return subTour.map(step => ({...step, fullIndex: ALL_TOUR_STEPS.findIndex(s => s.messageKey === step.messageKey && s.path === step.path)}));
+
+  }, [isContextual, initialStep, pathname, language]) // language als Dependency hinzugefügt, damit bei Sprachwechsel die Tour-Schritte neu berechnet werden.
   
   // Zustand, um zu wissen, ob die Tour gerade beendet wird und die Animation läuft
   const [isFinishing, setIsFinishing] = useState(false);
@@ -222,18 +215,30 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
             const expectedPath = ALL_TOUR_STEPS[stepToResume]?.path;
 
             if (expectedPath && pathname.startsWith(expectedPath)) {
-                setCurrentStep(stepToResume);
+                // Finde den Index des weiterzuführenden Schritts in der aktuellen `tourSteps` Liste
+                const indexInCurrentList = tourSteps.findIndex(s => s.fullIndex === stepToResume);
+                if(indexInCurrentList !== -1) {
+                    setCurrentStep(indexInCurrentList);
+                } else {
+                    // Fallback, wenn der gespeicherte Index außerhalb des aktuellen Pfadkontexts liegt
+                    setCurrentStep(0);
+                }
             }
             
             localStorage.removeItem(TOUR_STEP_KEY);
         } else {
             const initialStepIndex = ALL_TOUR_STEPS.findIndex(step => pathname.startsWith(step.path || "/"));
             if (initialStepIndex !== -1) {
-                setCurrentStep(initialStepIndex);
+                const indexInCurrentList = tourSteps.findIndex(s => s.fullIndex === initialStepIndex);
+                if(indexInCurrentList !== -1) {
+                    setCurrentStep(indexInCurrentList);
+                } else {
+                    setCurrentStep(0);
+                }
             } 
         }
     } 
-  }, [isActive, isContextual, pathname]) 
+  }, [isActive, isContextual, pathname, tourSteps]) 
 
 
   // 2. Effekt: Scrollen und Hervorheben, wenn der Schritt wechselt.
@@ -245,14 +250,7 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
     // NUR IM NICHT-KONTEXTUELLEN Modus navigieren wir zwischen Seiten.
     if (!isContextual) {
         if (!step || (step.path && !pathname.startsWith(step.path))) {
-            const currentStepInAll = ALL_TOUR_STEPS.findIndex(s => s.message === step?.message && s.path === step?.path);
-            const nextStepInAll = ALL_TOUR_STEPS[currentStepInAll + 1];
-            
-            // Logik für die Navigation zwischen Hauptseiten (z.B. von /settings zu /contact)
-            if (nextStepInAll && nextStepInAll.path && !pathname.startsWith(nextStepInAll.path)) {
-                return; // Navigation steht an, warte auf den Seitenwechsel
-            }
-            return;
+            return; // Navigation steht an, warte auf den Seitenwechsel
         }
     }
 
@@ -289,8 +287,10 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
     if (!isContextual && nextStepData && nextStepData.path && !pathname.startsWith(nextStepData.path)) {
         // Navigiere zur neuen Seite (z.B. von /simulation zu /market)
         // Im vollen Modus verwenden wir den Index in der ALL_TOUR_STEPS Liste
-        const nextStepInAllList = ALL_TOUR_STEPS.findIndex(s => s.message === nextStepData.message && s.path === nextStepData.path);
-        localStorage.setItem(TOUR_STEP_KEY, nextStepInAllList.toString());
+        const nextStepInAllList = nextStepData.fullIndex; // Wir nutzen den gespeicherten vollen Index
+        if (nextStepInAllList !== undefined) {
+             localStorage.setItem(TOUR_STEP_KEY, nextStepInAllList.toString());
+        }
         router.push(nextStepData.path); 
     } else {
         // Bleibe auf der gleichen Seite und gehe zum nächsten Schritt (oder im Kontext-Modus)
@@ -308,10 +308,12 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
       if (!isContextual && previousStepData && previousStepData.path && !pathname.startsWith(previousStepData.path)) {
         
         // Finde den Index des vorherigen Schritts in der gesamten Liste, um dort fortzufahren
-        const previousStepInAllList = ALL_TOUR_STEPS.findIndex(s => s.message === previousStepData.message && s.path === previousStepData.path);
+        const previousStepInAllList = previousStepData.fullIndex;
         
         // Setze den vorherigen Index, bevor wir navigieren
-        localStorage.setItem(TOUR_STEP_KEY, previousStepInAllList.toString());
+        if (previousStepInAllList !== undefined) {
+             localStorage.setItem(TOUR_STEP_KEY, previousStepInAllList.toString());
+        }
         
         // Navigiere zurück zur vorherigen Seite
         router.push(previousStepData.path); 
@@ -334,8 +336,20 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
 
   const step = tourSteps[currentStep]
   
+  // Funktion zum Abrufen der übersetzten Nachricht
+  const getTranslatedMessage = (key: keyof typeof t.concierge.tour) => {
+    // Sicherstellen, dass der Schlüssel existiert
+    if (key in t.concierge.tour) {
+        return t.concierge.tour[key] as string;
+    }
+    return "Translation missing for: " + key;
+  }
+  
   // Wenn die Tour nicht aktiv ist ODER sie gerade beendet wird (isFinishing), wird nichts gerendert.
   if (!isActive || isFinishing || !step || (step.path && !pathname.startsWith(step.path) && !isContextual)) return null
+
+  // Hole die übersetzte Nachricht für den aktuellen Schritt
+  const currentMessage = getTranslatedMessage(step.messageKey as keyof typeof t.concierge.tour)
 
   return (
     <>
@@ -359,11 +373,11 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
               <X className="h-5 w-5" />
             </button>
 
-            <p className="text-base text-gray-800 leading-relaxed mb-4">{step.message}</p>
+            <p className="text-base text-gray-800 leading-relaxed mb-4">{currentMessage}</p> {/* HIER WIRD ÜBERSETZT */}
 
             <div className="flex items-center justify-between">
               <div className="text-xs text-gray-500">
-                Schritt {currentStep + 1} von {tourSteps.length}
+                {t.concierge.tour.t_step} {currentStep + 1} {t.concierge.tour.t_from} {tourSteps.length} {/* HIER WIRD ÜBERSETZT */}
               </div>
               
               {/* NEU: Flex-Container für Zurück und Weiter */}
@@ -375,7 +389,7 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
                     className="flex items-center gap-1 px-3 py-2 border border-[#668273] text-[#668273] rounded-lg hover:bg-[#668273]/10 transition-colors text-sm font-medium"
                   >
                     <ArrowLeft className="h-4 w-4" />
-                    Zurück
+                    {t.concierge.tour.t_back} {/* HIER WIRD ÜBERSETZT */}
                   </button>
                 )}
                 <button
@@ -384,7 +398,7 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
                     currentStep < tourSteps.length - 1 ? 'bg-[#668273] hover:bg-[#5a7268]' : 'bg-green-600 hover:bg-green-700'
                   }`}
                 >
-                  {currentStep < tourSteps.length - 1 ? "Verstanden" : "Tour beenden"}
+                  {currentStep < tourSteps.length - 1 ? t.concierge.tour.t_understood : t.concierge.tour.t_finish} {/* HIER WIRD ÜBERSETZT */}
                   {currentStep < tourSteps.length - 1 && <ArrowRight className="h-4 w-4" />}
                 </button>
               </div>

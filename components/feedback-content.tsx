@@ -10,7 +10,8 @@ import { useTranslation } from "@/lib/i18n"
 import Link from "next/link"
 
 // Umbenannt von FeedbackPage, da dies nur noch der Inhalt ist
-export function FeedbackContent() {
+// KORREKTUR: Exportiere die Funktion nicht als benannten Export, sondern als Standard-Export (wird unten hinzugefügt)
+function FeedbackContent() {
   const [rating, setRating] = useState<number | null>(null)
   const [hoveredRating, setHoveredRating] = useState<number | null>(null)
   const [comments, setComments] = useState("")
@@ -43,24 +44,12 @@ export function FeedbackContent() {
           </h2>
 
           <p className="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-            {language === "de"
-              ? "Ihre Rückmeldung hilft uns, das Erlebnis stetig zu verbessern."
-              : language === "fr"
-                ? "Vos commentaires nous aident à améliorer constamment l'expérience."
-                : language === "it"
-                  ? "Il tuo feedback ci aiuta a migliorare costantemente l'esperienza."
-                  : "Your feedback helps us continuously improve the experience."}
+            {t.feedback.thanksBody}
           </p>
 
           <Link href="/simulation">
             <button className="px-8 py-3 bg-[#4a5f52] hover:bg-[#3a4f42] text-white rounded-lg transition-colors font-medium shadow-md">
-              {language === "de"
-                ? "Zurück zur Simulation"
-                : language === "fr"
-                  ? "Retour à la simulation"
-                  : language === "it"
-                    ? "Torna alla simulazione"
-                    : "Back to Simulation"}
+              {t.feedback.backToSim}
             </button>
           </Link>
         </motion.div>
@@ -85,13 +74,7 @@ export function FeedbackContent() {
           {/* Star Rating */}
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
-              {language === "de"
-                ? "Ihre Bewertung"
-                : language === "fr"
-                  ? "Votre évaluation"
-                  : language === "it"
-                    ? "La tua valutazione"
-                    : "Your rating"}
+              {t.feedback.ratingLabel}
             </label>
             <div className="flex gap-3 justify-center">
               {[1, 2, 3, 4, 5].map((star) => (
@@ -126,15 +109,7 @@ export function FeedbackContent() {
               onChange={(e) => setComments(e.target.value)}
               rows={5}
               className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4a5f52] focus:border-transparent resize-none bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-              placeholder={
-                language === "de"
-                  ? "Teilen Sie uns Ihre Gedanken mit..."
-                  : language === "fr"
-                    ? "Partagez vos pensées..."
-                    : language === "it"
-                      ? "Condividi i tuoi pensieri..."
-                      : "Share your thoughts..."
-              }
+              placeholder={t.feedback.commentsPlaceholder}
             />
           </div>
 
@@ -160,3 +135,6 @@ export function FeedbackContent() {
     </div>
   )
 }
+
+// KORREKTUR: Exportiere als Standard-Export für den App Router
+export default FeedbackContent;

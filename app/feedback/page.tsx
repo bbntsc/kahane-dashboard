@@ -1,5 +1,6 @@
 import { DashboardLayout } from "@/components/dashboard-layout"
-import { FeedbackContent } from "@/components/feedback-content" // Importiert die neu erstellte Komponente
+// KORREKTUR: Importiere FeedbackContent als Standard-Import
+import FeedbackContent from "@/components/feedback-content" 
 
 export default function FeedbackPage() {
   return (

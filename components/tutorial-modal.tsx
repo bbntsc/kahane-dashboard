@@ -1,9 +1,10 @@
-// bbntsc/kahane-dashboard/kahane-dashboard-concierge/components/tutorial-modal.tsx
 "use client"
 
 import { useState } from "react"
 import Image from "next/image"
 import { X, ArrowRight, Compass } from "lucide-react"
+import { useSettings } from "@/lib/settings-context" // NEU
+import { useTranslation } from "@/lib/i18n" // NEU
 
 interface TutorialModalProps {
   onClose: () => void      
@@ -12,6 +13,10 @@ interface TutorialModalProps {
 
 export function TutorialModal({ onClose, onStartTour }: TutorialModalProps) {
   const [isVisible, setIsVisible] = useState(true)
+  
+  // NEU: Lokalisierung
+  const { language } = useSettings()
+  const t = useTranslation(language)
 
   const handleClose = () => {
     setIsVisible(false)
@@ -50,7 +55,7 @@ export function TutorialModal({ onClose, onStartTour }: TutorialModalProps) {
            <div className="relative w-56 h-72 md:w-72 md:h-96 transition-transform duration-700 hover:scale-105 animate-float">
              <Image 
                src="/images/1.svg" 
-               alt="Ihr Concierge" 
+               alt={t.concierge.tutorialTitle} // Alt-Text übersetzt
                fill
                className="object-contain object-bottom drop-shadow-xl"
                priority
@@ -61,20 +66,20 @@ export function TutorialModal({ onClose, onStartTour }: TutorialModalProps) {
         {/* Rechte Seite: Text & Auswahl */}
         <div className="w-full md:w-3/5 p-8 md:p-12 flex flex-col justify-center text-center md:text-left">
           <span className="inline-block px-3 py-1 rounded-full bg-[#f8f3ef] text-[#1b251d] text-xs font-semibold tracking-wider uppercase mb-4 w-fit mx-auto md:mx-0">
-            Willkommen bei Kahane
+            {t.concierge.tutorialWelcome}
           </span>
           
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#1b251d] mb-4 leading-tight">
-            Darf ich Sie herumführen?
+            {t.concierge.tutorialTitle}
           </h2>
           
           <p className="text-gray-600 mb-6 leading-relaxed text-lg">
-            Ich bin Ihr persönlicher Concierge. Ich zeige Ihnen gerne die Funktionen unseres Hauses oder lasse Sie sich selbst umsehen.
+            {t.concierge.tutorialBody}
           </p>
 
           {/* Der neue Hinweis zur Glocke */}
           <p className="text-gray-500 text-sm mb-8 italic">
-            Tipp: Falls Sie später Hilfe benötigen, können Sie jederzeit einfach die Glocke im Menü läuten.
+            {t.concierge.tutorialHint}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
@@ -82,7 +87,7 @@ export function TutorialModal({ onClose, onStartTour }: TutorialModalProps) {
               onClick={handleTour}
               className="group flex items-center justify-center gap-2 px-6 py-4 bg-[#1b251d] text-white rounded-xl hover:bg-[#2a382c] transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
             >
-              <span>Führung starten</span>
+              <span>{t.concierge.tutorialStart}</span>
               <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </button>
 
@@ -91,7 +96,7 @@ export function TutorialModal({ onClose, onStartTour }: TutorialModalProps) {
               className="group flex items-center justify-center gap-2 px-6 py-4 bg-white border border-gray-200 text-gray-700 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all"
             >
               <Compass className="h-4 w-4" />
-              <span>Selbst erkunden</span>
+              <span>{t.concierge.tutorialExplore}</span>
             </button>
           </div>
         </div>

@@ -5,6 +5,8 @@ import Image from "next/image"
 import { usePathname } from "next/navigation"
 // Star-Icon für den neuen Menüpunkt hinzugefügt
 import { LayoutDashboard, TrendingUp, BarChart3, Settings, PieChart, FileText, Bell, Star, HelpCircle } from "lucide-react"
+import { useSettings } from "@/lib/settings-context" // Importieren Sie useSettings
+import { useTranslation } from "@/lib/i18n" // Importieren Sie useTranslation
 
 interface SidebarProps {
   onConciergeClick: () => void
@@ -12,16 +14,19 @@ interface SidebarProps {
 
 export function Sidebar({ onConciergeClick }: SidebarProps) {
   const pathname = usePathname()
+  
+  // Hooks zum Laden der Sprache und Übersetzungen
+  const { language } = useSettings()
+  const t = useTranslation(language)
 
   const navigation = [
-    { name: "Übersicht", href: "/", icon: LayoutDashboard, target: "sidebar-overview" },
-    { name: "Simulation", href: "/simulation", icon: BarChart3, target: "sidebar-simulation" },
-    { name: "Marktanalyse", href: "/market", icon: TrendingUp, target: "sidebar-market" },
-    { name: "Portfolio", href: "/portfolio", icon: PieChart, target: "sidebar-portfolio" },
-    // { name: "Reports", href: "/reports", icon: FileText }, // Reports entfernt
-    { name: "FAQ/Hilfe", href: "/faq", icon: HelpCircle, target: "sidebar-faq" }, // FAQ/Hilfe hinzugefügt
-    // NEU: Feedback-Link hinzugefügt
-    { name: "Feedback", href: "/feedback", icon: Star, target: "sidebar-feedback" },
+    // NUTZT NUN DYNAMISCHE NAMEN AUS I18N
+    { name: t.nav.overview, href: "/", icon: LayoutDashboard, target: "sidebar-overview" },
+    { name: t.nav.simulation, href: "/simulation", icon: BarChart3, target: "sidebar-simulation" },
+    { name: t.nav.market, href: "/market", icon: TrendingUp, target: "sidebar-market" },
+    { name: t.nav.portfolio, href: "/portfolio", icon: PieChart, target: "sidebar-portfolio" },
+    { name: t.nav.faq, href: "/faq", icon: HelpCircle, target: "sidebar-faq" }, 
+    { name: t.nav.feedback, href: "/feedback", icon: Star, target: "sidebar-feedback" },
   ]
 
   const isActive = (href: string) => {
@@ -122,7 +127,7 @@ export function Sidebar({ onConciergeClick }: SidebarProps) {
           data-tour="sidebar-settings" // Hinzufügen des data-tour Attributs
         >
           <Settings className="h-5 w-5" />
-          Einstellungen
+          {t.nav.settings} {/* DYNAMISCHE ÜBERSETZUNG */}
         </Link>
       </div>
     </div>

@@ -1,25 +1,23 @@
-// components/simulation-app.tsx
-
 "use client"
 
 import * as React from "react" 
 import { useState, useEffect, useMemo } from "react" 
-// TutorialModal und TourGuide sind entfernt, da sie in DashboardLayout verwaltet werden
 import { InvestmentSimulation } from "@/components/investment-simulation"
-import { useSettings } from "@/lib/settings-context" // Hinzugefügt, falls benötigt
-import { useTranslation } from "@/lib/i18n" // Hinzugefügt, falls benötigt
+import { useSettings } from "@/lib/settings-context" 
+import { useTranslation } from "@/lib/i18n" 
 
 
 // NEU: Context Definition (bleibt, um Logo-Klick aus dem Header zu ermöglichen)
 interface SimulationContextProps {
   onLogoClickForTutorial: (() => void) | undefined
 }
+// KORREKTUR: SimulationContext bleibt ein benannter Export
 export const SimulationContext = React.createContext<SimulationContextProps>({
     onLogoClickForTutorial: undefined,
 }); 
-// Die Logik für TUTORIAL_SEEN_KEY wurde in den ConciergeController verschoben.
 
-export function SimulationApp() {
+// KORREKTUR: Die Hauptkomponente wird nun zum Default Export
+function SimulationApp() {
   
   // Hinzugefügt, um Übersetzungen zu nutzen
   const { language } = useSettings()
@@ -47,10 +45,10 @@ export function SimulationApp() {
         
         <main className="mx-auto max-w-7xl px-6 py-6">
             
-            {/* NEU: Globale Überschrift für die Simulationsseite */}
+            {/* NEU: Globale Überschrift für die Simulationsseite (lokalisiert) */}
             <div className="mb-8">
                 <h1 className="text-3xl font-serif font-bold text-[#1b251d] dark:text-[#f8f3ef]">{t.simulation.title}</h1>
-                <p className="mt-2 text-[#6b7280] dark:text-[#9ca3af]">Testen Sie verschiedene Anlagestrategien mit unserer Monte-Carlo-Simulation.</p>
+                <p className="mt-2 text-[#6b7280] dark:text-[#9ca3af]">{t.simulation.subtitle}</p> 
             </div>
             
             <InvestmentSimulation /> 
@@ -60,3 +58,6 @@ export function SimulationApp() {
     </SimulationContext.Provider>
   )
 }
+
+// KORREKTUR: Exportiere SimulationApp als Standard-Export, wie von Next.js erwartet
+export default SimulationApp;

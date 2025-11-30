@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react"
 import { Chart, registerables } from "chart.js"
 import { crises, baseMSCIData, type Crisis } from "@/components/market/market-data"
 import { useSettings } from "@/lib/settings-context"
+import { useTranslation } from "@/lib/i18n" // NEU: Import für Translation
 
 Chart.register(...registerables)
 
@@ -89,7 +90,13 @@ export function useMarketChart(
   onCrisisClick: (crisis: Crisis) => void,
 ) {
   const chartInstance = useRef<Chart | null>(null)
-  const { language } = useSettings()
+  const { language, theme } = useSettings()
+  const t = useTranslation(language) // NEU
+
+  // NEU: Verwende das Theme für die Farben
+  const isDark = theme === "dark";
+  const textColor = isDark ? "#f5f5f5" : "#374151";
+  const gridColor = isDark ? "#4b5563" : "#e5e7eb";
 
   useEffect(() => {
     if (!chartRef.current) return
@@ -118,8 +125,8 @@ export function useMarketChart(
           {
             label: "MSCI World",
             data: values,
-            borderColor: "#1b251d",
-            backgroundColor: "rgba(27, 37, 29, 0.1)",
+            borderColor: isDark ? "#f8f3ef" : "#1b251d", // Angepasst für Dark Mode
+            backgroundColor: isDark ? "rgba(248, 243, 239, 0.1)" : "rgba(27, 37, 29, 0.1)", // Angepasst
             borderWidth: 2,
             pointRadius: 0,
             tension: 0.4,
@@ -178,9 +185,10 @@ export function useMarketChart(
         },
         scales: {
           x: {
-            grid: { display: true, color: "#f0f0f0" },
+            grid: { display: true, color: gridColor }, // Angepasst
             ticks: {
-              font: { size: 12, family: "Times New Roman" },
+              font: { size: 12 },
+              color: textColor, // Angepasst
               callback: (value: any, index: number) => {
                 const year = years[index]
                 if (Number.parseInt(timeframe) <= 10) return year
@@ -189,12 +197,14 @@ export function useMarketChart(
             },
           },
           y: {
-            grid: { display: true, color: "#f0f0f0" },
-            ticks: { font: { size: 12, family: "Times New Roman" } },
+            grid: { display: true, color: gridColor }, // Angepasst
+            ticks: { font: { size: 12 }, color: textColor }, // Angepasst
             title: {
               display: true,
-              text: language === "en" ? "Index (1985 = 100)" : "Indice (1985 = 100)", // Translated y-axis title based on language
-              font: { size: 12, family: "Times New Roman" },
+              // HIER WIRD ÜBERSETZT
+              text: language === "de" ? "Indice (1985 = 100)" : "Index (1985 = 100)", 
+              font: { size: 12 },
+              color: textColor, // Angepasst
             },
           },
         },
@@ -203,6 +213,11 @@ export function useMarketChart(
           tooltip: {
             mode: "index",
             intersect: false,
+            backgroundColor: isDark ? "#1f2937" : "#ffffff", // Angepasst
+            titleColor: textColor, // Angepasst
+            bodyColor: textColor, // Angepasst
+            borderColor: gridColor, // Angepasst
+            borderWidth: 1,
             callbacks: {
               label: (context) => `MSCI World: ${context.parsed.y}`,
             },
@@ -226,5 +241,5 @@ export function useMarketChart(
         chartInstance.current.destroy()
       }
     }
-  }, [chartRef, timeframe, showInsights, onCrisisClick, language])
+  }, [chartRef, timeframe, showInsights, onCrisisClick, language, theme]) // theme als Dependency hinzugefügt
 }

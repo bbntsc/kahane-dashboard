@@ -13,6 +13,9 @@ export default function SettingsPage() {
   const handleThemeChange = (newTheme: "light" | "dark") => {
     setTheme(newTheme)
   }
+  
+  // KORREKTUR: Verwenden Sie direkt die Übersetzung
+  const settingsSubtitle = t.settings.settingsSubtitle; 
 
   return (
     <DashboardLayout>
@@ -20,7 +23,7 @@ export default function SettingsPage() {
       <div className="space-y-8 max-w-3xl mx-auto">
         <div>
           <h1 className="text-3xl font-serif text-[#1b251d] dark:text-[#f8f3ef]">{t.settings.title}</h1>
-          <p className="mt-2 text-[#6b7280] dark:text-[#9ca3af]">Passen Sie die Darstellung nach Ihren Wünschen an</p>
+          <p className="mt-2 text-[#6b7280] dark:text-[#9ca3af]">{settingsSubtitle}</p> 
         </div>
 
         <Card className="dark:bg-[#2a3529] dark:border-[#404a3f]">

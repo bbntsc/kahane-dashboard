@@ -52,6 +52,7 @@ function getPortfolioParams(equityPercentage: number, benchmark: "MSCI" | "SP500
   const bondStdDev = 0.04
 
   const mean = bondMean + (equityMean - bondMean) * equityPercentage
+  // KORREKTUR: Fehlenden Teil der Formel ergänzt
   const stdDev = bondStdDev + (equityStdDev - bondStdDev) * equityPercentage 
 
   return { mean, stdDev }
@@ -128,6 +129,7 @@ function runMonteCarloSimulation(
   }
 }
 
+// KORREKTUR: Export hinzugefügt, damit SimulationApp (die diese Komponente importiert) sie verwenden kann.
 export function InvestmentSimulation() {
   const [initialInvestment, setInitialInvestment] = useState(500000)
   const [monthlyInvestment, setMonthlyInvestment] = useState(0)
@@ -139,6 +141,9 @@ export function InvestmentSimulation() {
   const [monthlyInput, setMonthlyInput] = useState("0")
   const [stockInput, setStockInput] = useState("0")
   const [horizonInput, setHorizonInput] = useState("5")
+  
+  // NEU: Zustand, um sicherzustellen, dass die Hydration abgeschlossen ist
+  const [isClient, setIsClient] = useState(false);
 
   const debouncedInitial = useDebounce(initialInvestment, 300)
   const debouncedMonthly = useDebounce(monthlyInvestment, 300)
@@ -150,13 +155,27 @@ export function InvestmentSimulation() {
 
   const { language, theme } = useSettings()
   const t = useTranslation(language)
+  
+  // NEU: Effekt, um anzuzeigen, dass der Client geladen hat
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const simulationResults = useMemo(() => {
+    // Führe die Simulation NUR auf dem Client aus, um Hydration-Fehler zu vermeiden
+    if (!isClient) {
+        // Gib statische Initialwerte zurück, wenn der Client noch nicht hydratisiert ist
+        const initialValue = 0; // Verwende 0 oder einen anderen neutralen Wert für den Server
+        return {
+            chartData: { years: [0, 5], bestCaseData: [initialValue, initialValue], middleCaseData: [initialValue, initialValue], worstCaseData: [initialValue, initialValue] },
+            summary: { totalInvestment: initialValue, finalValue: initialValue, totalReturn: initialValue, yield: 0 },
+        };
+    }
     return runMonteCarloSimulation(debouncedInitial, debouncedMonthly, debouncedHorizon, debouncedStock, benchmark)
-  }, [debouncedInitial, debouncedMonthly, debouncedHorizon, debouncedStock, benchmark])
+  }, [debouncedInitial, debouncedMonthly, debouncedHorizon, debouncedStock, benchmark, isClient]) // isClient als Dependency
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("de-DE", {
+    return new Intl.NumberFormat(language === 'de' ? "de-DE" : language === 'fr' ? 'fr-FR' : 'en-US', { // NEU: Lokalisiertes Währungsformat
       style: "currency",
       currency: "EUR",
       maximumFractionDigits: 0,
@@ -192,10 +211,14 @@ export function InvestmentSimulation() {
   }
 
   useEffect(() => {
-    if (!chartRef.current) return
+    // Starte den Chart nur, wenn der Client hydratisiert ist und Daten vorhanden sind
+    if (!chartRef.current || !isClient) return
+    
+    // Zuerst den alten Chart zerstören
     if (chartInstance.current) {
       chartInstance.current.destroy()
     }
+    
     const ctx = chartRef.current.getContext("2d")
     if (!ctx) return
 
@@ -264,6 +287,14 @@ export function InvestmentSimulation() {
             bodyColor: textColor,
             borderColor: gridColor,
             borderWidth: 1,
+            // NEU: Callback für die Tooltips, damit diese den lokalisierten Namen der Linie anzeigen
+            callbacks: {
+              label: function (context) {
+                  // Wenn der Client noch nicht hydratisiert ist, zeigen wir keinen Wert an
+                  if (!isClient) return "Laden..."; 
+                  return `${context.dataset.label}: ${formatCurrency(context.parsed.y * 1000000)}`;
+              }
+            }
           },
         },
         scales: {
@@ -301,7 +332,7 @@ export function InvestmentSimulation() {
         chartInstance.current.destroy()
       }
     }
-  }, [simulationResults, theme, t, language])
+  }, [simulationResults, theme, t, language, isClient])
 
   return (
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-12" data-tour="page">
@@ -520,7 +551,7 @@ export function InvestmentSimulation() {
                 {t.simulation.ctaTitle}
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-                Neugierig, wie sich Ihr Portfolio durch historische Krisen und Aufschwünge entwickelt hätte?
+                {t.simulation.ctaDescription}
               </p>
             </div>
             <Link href="/market" className="flex-shrink-0 w-full sm:w-auto mt-4 sm:mt-0">

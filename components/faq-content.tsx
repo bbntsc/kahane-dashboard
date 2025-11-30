@@ -47,7 +47,7 @@ export function getCombinedFaqs(language: Language): FaqItem[] {
         : language === "fr" 
           ? "La ligne supérieure montre le cas optimiste (90 % des simulations se situent en dessous), la ligne médiane le scénario réaliste (50 %) et la ligne inférieure le cas prudent (seulement 10 % se situent en dessous)." 
           : language === "it" 
-            ? "La linea superiore mostra il caso ottimistico (90% delle simulazioni sono sotto), quella centrale lo scenario realistico (50%) e quella inferiore il caso prudente (solo il 10% è sotto)." 
+            ? "La linea superiore mostra il caso ottimistico (90% delle simulazioni sono sotto), quella centrale lo scenario realistico (50%) und quella inferiore il caso prudente (solo il 10% è sotto)." 
             : "The upper line shows the optimistic case (90% of simulations are below), the middle one the realistic scenario (50%), and the lower one the cautious case (only 10% are below).",
     },
     {
@@ -67,7 +67,7 @@ export function getCombinedFaqs(language: Language): FaqItem[] {
         : language === "fr" 
           ? "Le MSCI World investit à l'échelle mondiale dans les marchés développés, le S&P 500 se concentre sur les 500 plus grandes entreprises américaines. Les deux ont historiquement des rendements et des volatilitäten différents." 
           : language === "it" 
-            ? "L'MSCI World investe a livello globale nei mercati sviluppati, l'S&P 500 si concentra sulle 500 plus grandes entreprises américaines. Entrambi hanno storicamente rendimenti e volatilità diversi." 
+            ? "L'asse X mostra il tempo in anni. Puoi vedere come il tuo investimento si sviluppa nel periodo selezionato." 
             : "The MSCI World invests globally in developed markets, the S&P 500 focuses on the 500 largest US companies. Both have historically different returns and volatilities.",
     },
   ]
@@ -75,7 +75,7 @@ export function getCombinedFaqs(language: Language): FaqItem[] {
   // Fragen und Antworten aus ConciergeHelpModal (market-Kontext)
   const marketHelp = [
     {
-      question: language === "de" ? "Was zeigt mir diese Seite?" : "What does this page show me?",
+      question: language === "de" ? "Was zeigt mir diese Seite?" : language === "fr" ? "Que montre cette page ?" : language === "it" ? "Cosa mostra questa pagina?" : "What does this page show me?",
       answer: language === "de" 
         ? "Hier sehen Sie, wie sich der Markt tatsächlich über verschiedene Zeiträume entwickelt hat – inklusive aller Krisen und Erholungsphasen." 
         : language === "fr" 
@@ -85,17 +85,17 @@ export function getCombinedFaqs(language: Language): FaqItem[] {
             : "Here you can see how the market has actually developed over different periods – including all crises and recovery phases.",
     },
     {
-      question: language === "de" ? "Wie klicke ich auf eine Krise?" : "How do I click on a crisis?",
+      question: language === "de" ? "Wie klicke ich auf eine Krise?" : language === "fr" ? "Comment cliquer sur une crise ?" : language === "it" ? "Come clicco su una crisi?" : "How do I click on a crisis?",
       answer: language === "de" 
         ? "Die roten Punkte markieren historische Krisen. Klicken Sie darauf, um Details zu erfahren, was damals passiert ist und wie sich der Markt erholt hat." 
         : language === "fr" 
-          ? "Les points rouges marquent les crises historiques. Cliquez dessus pour en savoir plus sur ce qui s'est passé à l'époque et comment le marché s'est redressé." 
+          ? "Les points rouges marquent les crises historiques. Cliquez dessus pour en savoir plus sur ce qui s'est passé à l'époque und comment le marché s'est redressé." 
           : language === "it" 
-            ? "I punti rossi contrassegnenano le crisi storiche. Clicca su di essi per scoprire i dettagli di ciò che è successo e come si è ripreso il mercato." 
+            ? "I punti rossi contrassegnano le crisi storiche. Clicca su di essi per scoprire i dettagli di ciò che è successo e come si è ripreso il mercato." 
             : "The red dots mark historical crises. Click on them to learn details about what happened and how the market recovered.",
     },
     {
-      question: language === "de" ? "Warum sind Krisen normal?" : "Why are crises normal?",
+      question: language === "de" ? "Warum sind Krisen normal?" : language === "fr" ? "Pourquoi les crises sont-elles normales ?" : language === "it" ? "Perché le crisi sono normali?" : "Why are crises normal?",
       answer: language === "de" 
         ? "Märkte durchlaufen Zyklen. Krisen gehören dazu, aber langfristig haben sich Märkte historisch immer wieder erholt und neue Höchststände erreicht." 
         : language === "fr" 
@@ -109,7 +109,7 @@ export function getCombinedFaqs(language: Language): FaqItem[] {
   // Fragen und Antworten aus ConciergeHelpModal (contact-Kontext)
   const contactHelp = [
     {
-      question: language === "de" ? "Warum diese Fragen im Kontaktformular?" : "Why these questions in the contact form?",
+      question: language === "de" ? "Warum diese Fragen im Kontaktformular?" : language === "fr" ? "Pourquoi ces questions dans le formulaire de contact ?" : language === "it" ? "Perché queste domande nel modulo di contatto?" : "Why these questions in the contact form?",
       answer: language === "de" 
         ? "Die Fragen helfen unseren Beratern, sich optimal auf Ihr Gespräch vorzubereiten und Ihnen die bestmögliche Unterstützung zu bieten." 
         : language === "fr" 
@@ -119,7 +119,7 @@ export function getCombinedFaqs(language: Language): FaqItem[] {
             : "The questions help our advisors to optimally prepare for your consultation and offer you the best possible support.",
     },
     {
-      question: language === "de" ? "Sind meine Daten sicher?" : "Is my data secure?",
+      question: language === "de" ? "Sind meine Daten sicher?" : language === "fr" ? "Mes données sont-elles sécurisées ?" : language === "it" ? "I miei dati sono al sicuro?" : "Is my data secure?",
       answer: language === "de" 
         ? "Selbstverständlich. Ihre Daten werden vertraulich behandelt und ausschließlich für die Kontaktaufnahme verwendet." 
         : language === "fr" 
@@ -129,7 +129,7 @@ export function getCombinedFaqs(language: Language): FaqItem[] {
             : "Of course. Your data is treated confidentially and used exclusively for contact purposes.",
     },
     {
-      question: language === "de" ? "Wie schnell bekomme ich eine Antwort?" : "How quickly will I get a response?",
+      question: language === "de" ? "Wie schnell bekomme ich eine Antwort?" : language === "fr" ? "À quelle vitesse vais-je obtenir une réponse ?" : language === "it" ? "Quanto velocemente otterrò una risposta?" : "How quickly will I get a response?",
       answer: language === "de" ? "In der Regel meldet sich ein Berater innerhalb von 1-2 Werktagen bei Ihnen." : language === "fr" ? "En règle générale, un conseiller vous contactera dans un délai de 1 à 2 jours ouvrables." : language === "it" ? "Di solito, un consulente ti contatterà entro 1-2 giorni lavorativi." : "Typically, an advisor will contact you within 1-2 business days.",
     },
   ]
@@ -137,33 +137,33 @@ export function getCombinedFaqs(language: Language): FaqItem[] {
   // NEUE KATEGORIEN HINZUGEFÜGT
   const overviewHelp = [
     {
-      question: language === "de" ? "Was sehe ich auf der Übersichtsseite?" : "What do I see on the Overview page?",
-      answer: language === "de" ? "Die Übersichtsseite dient als Dashboard, das Ihnen einen schnellen Einblick in die wichtigsten Kennzahlen und Aktivitäten Ihres Portfolios sowie aktuelle Markt-Insights bietet." : "The overview page serves as a dashboard, giving you a quick insight into the key metrics and activities of your portfolio, along with current market insights.",
+      question: language === "de" ? "Was sehe ich auf der Übersichtsseite?" : language === "fr" ? "Que vois-je sur la page d'aperçu ?" : language === "it" ? "Cosa vedo sulla pagina Panoramica?" : "What do I see on the Overview page?",
+      answer: language === "de" ? "Die Übersichtsseite dient als Dashboard, das Ihnen einen schnellen Einblick in die wichtigsten Kennzahlen und Aktivitäten Ihres Portfolios sowie aktuelle Markt-Insights bietet." : language === "fr" ? "La page d'aperçu sert de tableau de bord, vous donnant un aperçu rapide des métriques clés et des activités de votre portefeuille, ainsi que des aperçus de marché actuels." : language === "it" ? "La pagina Panoramica funge da dashboard, offrendoti una rapida visione delle metriche chiave e delle attività del tuo portafoglio, insieme agli approfondimenti di mercato attuali." : "The overview page serves as a dashboard, giving you a quick insight into the key metrics and activities of your portfolio, along with current market insights.",
     },
     {
-      question: language === "de" ? "Was sind 'Quick Actions'?" : "What are 'Quick Actions'?",
-      answer: language === "de" ? "Die 'Quick Actions' bieten schnelle Verknüpfungen zu den Hauptfunktionen der Anwendung, wie der Vermögenssimulation und der Marktanalyse." : "The 'Quick Actions' provide quick links to the main features of the application, such as the wealth simulation and market analysis.",
+      question: language === "de" ? "Was sind 'Quick Actions'?" : language === "fr" ? "Que sont les 'Actions Rapides' ?" : language === "it" ? "Cosa sono le 'Azioni rapide'?" : "What are 'Quick Actions'?",
+      answer: language === "de" ? "Die 'Quick Actions' bieten schnelle Verknüpfungen zu den Hauptfunktionen der Anwendung, wie der Vermögenssimulation und der Marktanalyse." : language === "fr" ? "Les 'Actions Rapides' fournissent des liens rapides vers les principales fonctionnalités de l'application, telles que la simulation de patrimoine et l'analyse du marché." : language === "it" ? "Le 'Azioni rapide' forniscono collegamenti rapidi alle funzionalità principali dell'applicazione, come la simulazione de patrimonio e l'analyse du marché." : "The 'Quick Actions' provide quick links to the main features of the application, such as the wealth simulation and market analysis.",
     },
   ];
 
   const portfolioHelp = [
     {
-      question: language === "de" ? "Was finde ich unter 'Portfolio'?" : "What can I find under 'Portfolio'?",
-      answer: language === "de" ? "Die Portfolio-Seite bietet eine detaillierte, wenngleich derzeit vereinfachte, Übersicht über Ihre Investments, Asset-Allokation und Performance. (Funktionen werden noch erweitert.)" : "The portfolio page offers a detailed, though currently simplified, overview of your investments, asset allocation, and performance. (Features are still being expanded.)",
+      question: language === "de" ? "Was finde ich unter 'Portfolio'?" : language === "fr" ? "Que puis-je trouver sous 'Portefeuille' ?" : language === "it" ? "Cosa posso trovare sotto 'Portafoglio'?" : "What can I find under 'Portfolio'?",
+      answer: language === "de" ? "Die Portfolio-Seite bietet eine detaillierte, wenngleich derzeit vereinfachte, Übersicht über Ihre Investments, Asset-Allokation und Performance. (Funktionen werden noch erweitert.)" : language === "fr" ? "La page Portefeuille offre un aperçu détaillé, bien que actuellement simplifié, de vos investissements, de votre allocation d'actifs et de vos performances. (Les fonctionnalités sont toujours en cours d'extension.)" : language === "it" ? "La pagina Portafoglio offre una panoramica dettagliata, sebbene attualmente semplificata, dei tuoi investimenti, dell'allocazione degli asset e delle prestazioni. (Le funzionalità sono ancora in fase di espansione.)" : "The portfolio page offers a detailed, though currently simplified, overview of your investments, asset allocation, and performance. (Features are still being expanded.)",
     },
   ];
 
   const feedbackHelp = [
     {
-      question: language === "de" ? "Wofür ist die Feedback-Seite?" : "What is the Feedback page for?",
-      answer: language === "de" ? "Wir schätzen Ihre Meinung! Über diese Seite können Sie uns direkt Feedback zur Simulation und zur gesamten Plattform geben, um uns bei der stetigen Verbesserung zu helfen." : "We value your opinion! Through this page, you can give us direct feedback on the simulation and the entire platform to help us continuously improve.",
+      question: language === "de" ? "Wofür ist die Feedback-Seite?" : language === "fr" ? "À quoi sert la page Feedback ?" : language === "it" ? "A cosa serve la pagina Feedback?" : "What is the Feedback page for?",
+      answer: language === "de" ? "Wir schätzen Ihre Meinung! Über diese Seite können Sie uns direkt Feedback zur Simulation und zur gesamten Plattform geben, um uns bei der stetigen Verbesserung zu helfen." : language === "fr" ? "Nous apprécions votre opinion! Grâce à cette page, vous pouvez nous donner directement des commentaires sur la simulation et l'ensemble de la plateforme pour nous aider à nous améliorer continuellement." : language === "it" ? "Apprezziamo la tua opinione! Attraverso questa pagina, puoi fornirci direttamente feedback sulla simulazione et l'ensemble de la plateforme pour nous aider à nous améliorer continuellement." : "We value your opinion! Through this page, you can give us direct feedback on the simulation and the entire platform to help us continuously improve.",
     },
   ];
 
   const settingsHelp = [
     {
-      question: language === "de" ? "Was kann ich in den Einstellungen anpassen?" : "What can I adjust in the Settings?",
-      answer: language === "de" ? "Hier können Sie grundlegende Einstellungen wie das Design (Hell/Dunkel), die Schriftgröße und die Anzeigesprache der Applikation nach Ihren Wünschen konfigurieren." : "Here you can configure basic settings such as the theme (light/dark), font size, and the display language of the application according to your preferences.",
+      question: language === "de" ? "Was kann ich in den Einstellungen anpassen?" : language === "fr" ? "Que puis-je ajuster dans les paramètres ?" : language === "it" ? "Cosa posso regolare nelle Impostazioni?" : "What can I adjust in the Settings?",
+      answer: language === "de" ? "Hier können Sie grundlegende Einstellungen wie das Design (Hell/Dunkel), die Schriftgröße und die Anzeigesprache der Applikation nach Ihren Wünschen konfigurieren." : language === "fr" ? "Ici, vous pouvez configurer les paramètres de base tels que le thème (clair/sombre), la taille de la police et la langue d'affichage de l'application selon vos préférences." : language === "it" ? "Qui puoi configurare le impostazioni di base come il tema (chiaro/scuro), la dimensione del carattere e la lingua di visualizzazione dell'applicazione in base alle tue preferenze." : "Here you can configure basic settings such as the theme (light/dark), font size, and the display language of the application according to your preferences.",
     },
   ];
   // ENDE NEUE KATEGORIEN
@@ -193,7 +193,7 @@ export function getCombinedFaqs(language: Language): FaqItem[] {
       context: "portfolio",
       icon: PieChart,
       // NEU: Greife auf den übersetzten Namen zu, auch wenn es nur "Portfolio" ist.
-      title: t.nav.overview, 
+      title: t.nav.portfolio, // KORREKTUR: Nutzt jetzt t.nav.portfolio
       questions: portfolioHelp,
     },
     {
@@ -279,13 +279,13 @@ export function FaqContent() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-4">
       <header className="text-center mb-12">
-        {/* HIER WIRD DIE ÜBERSCHRIFT AUF text-3xl REDUZIERT */}
+        {/* HIER WIRD DIE ÜBERSCHRIFT DYNAMISCH ÜBERSETZT */}
         <h1 className="text-3xl font-serif font-bold text-[#1b251d] dark:text-[#f8f3ef] mb-3">
           <HelpCircle className="inline-block w-6 h-6 mr-3 text-[#4a5f52]" /> {/* Icon-Größe angepasst */}
-          {language === "de" ? "Häufige Fragen & Hilfe" : language === "fr" ? "FAQ & Aide" : language === "it" ? "FAQ & Aiuto" : "FAQ & Help"}
+          {t.settings.faqTitle}
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400">
-          {language === "de" ? "Antworten auf die wichtigsten Fragen zur Plattform und Investment-Themen." : language === "fr" ? "Réponses aux questions les plus importantes sur la plateforme et les thèmes d'investissement." : language === "it" ? "Risposte alle domande più importanti sulla piattaforma e sui temi di investimento." : "Answers to the most important questions about the platform and investment topics."}
+          {t.settings.faqSubtitle}
         </p>
       </header>
 
@@ -315,6 +315,7 @@ export function FaqContent() {
 
         <footer className="mt-12 text-center text-gray-600 dark:text-gray-400">
             <p>
+                {/* HIER WIRD DER TEXT WEITERHIN DURCH WENN/DANN ÜBERSETZT, DA ES KOMPLEX IST */}
                 {language === "de" 
                     ? "Haben Sie weitere Fragen? Kontaktieren Sie uns direkt über die"
                     : language === "fr"

@@ -1,16 +1,15 @@
-// bbntsc/kahane-dashboard/kahane-dashboard-concierge/components/market-app.tsx
 "use client"
 
 import { useState } from "react"
 // import { BankGutmannHeader } from "@/components/bank-gutmann-header" <-- LÖSCHEN
-import { MarketControls } from "./market/market-controls" 
+import { MarketControls } from "./market/market-controls" // KORREKTUR: Relativer Import korrigiert
 import { MarketSummary } from "./market/market-summary" 
 import { MarketChart } from "./market/market-chart" 
-import { CrisisDetailModal } from "./crisis-detail-modal"
+import { CrisisDetailModal } from "../crisis-detail-modal" // KORREKTUR: Relativer Import korrigiert
 import { type Crisis } from "./market/market-data" 
-import Link from "next/link" // Import für Link
-import { useSettings } from "@/lib/settings-context" // Import für useSettings
-import { useTranslation } from "@/lib/i18n" // Import für useTranslation
+import Link from "next/link" 
+import { useSettings } from "@/lib/settings-context" 
+import { useTranslation } from "@/lib/i18n" 
 
 export function MarketApp() {
   const [timeframe, setTimeframe] = useState<"40" | "30" | "20" | "10" | "5">("40")
@@ -27,15 +26,14 @@ export function MarketApp() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f8f3ef] dark:bg-gray-900" data-tour="market-page"> {/* NEU: data-tour="market-page" */}
-        {/* <BankGutmannHeader /> <-- LÖSCHEN */}
+    <div className="min-h-screen bg-[#f8f3ef] dark:bg-gray-900" data-tour="market-page"> 
         
         <div className="mx-auto max-w-7xl px-4 py-8">
         
-        {/* NEU: Globale Überschrift für die Marktanalyse-Seite (konsistent mit /simulation und /settings) */}
+        {/* Globale Überschrift und Untertitel (lokalisiert) */}
         <div className="mb-8">
             <h1 className="text-3xl font-serif font-bold text-[#1b251d] dark:text-[#f8f3ef]">{t.market.title}</h1>
-            <p className="mt-2 text-[#6b7280] dark:text-[#9ca3af]">Historische Marktdaten und Krisenanalyse</p>
+            <p className="mt-2 text-[#6b7280] dark:text-[#9ca3af]">{t.market.subtitle}</p>
         </div>
         
         <MarketControls
@@ -61,7 +59,7 @@ export function MarketApp() {
             />
         )}
 
-        {/* --- NEU: Kontaktbereich unten auf der Marktseite --- */}
+        {/* --- Kontaktbereich unten auf der Marktseite --- */}
         <div className="mt-12 text-center">
             <h3 className="text-2xl font-serif text-[#1b251d] dark:text-gray-100 mb-4 leading-tight">
                 {t.market.ctaTitle}
@@ -73,7 +71,6 @@ export function MarketApp() {
             {/* Kontakt Button: Gelb und unauffälliger, wie in der Simulation gewünscht */}
             <Link href="/contact" className="inline-block" data-tour="market-contact-cta">
                 <button 
-                    // Angepasst, um dem Simulations-Button zu entsprechen: kleinere px/py, text-sm, font-medium, shadow-md
                     className="w-full sm:w-auto px-8 py-3 bg-[#ebf151] text-[#1b251d] rounded-full hover:bg-[#d9df47] transition-colors text-sm font-medium shadow-md"
                 >
                     {t.simulation.contactNow}

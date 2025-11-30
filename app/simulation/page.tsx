@@ -1,5 +1,6 @@
 import { DashboardLayout } from "@/components/dashboard-layout"
-import { SimulationApp } from "@/components/simulation-app"
+// KORREKTUR: Importiere SimulationApp als Standard-Import (ohne geschweifte Klammern)
+import SimulationApp from "@/components/simulation-app"
 
 export default function SimulationPage() {
   return (

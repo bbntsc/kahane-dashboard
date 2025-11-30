@@ -11,6 +11,7 @@ import { BankGutmannHeader } from "@/components/bank-gutmann-header"
 import { Menu, X } from "lucide-react"
 
 // WICHTIG: Import des Contextes von der SimulationApp
+// ACHTUNG: Importe aus anderen Komponenten im Komponenten-Ordner, die exportiert werden, MÜSSEN benannt sein.
 import { SimulationContext } from "@/components/simulation-app" 
 
 interface DashboardLayoutProps {
@@ -75,6 +76,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       <div className="lg:pl-64 flex flex-col min-h-screen">
         
         {/* HIER WIRD DER CONTEXT KONSUMIERT */}
+        {/* HINWEIS: Wenn SimulationContext nicht verfügbar ist (z.B. auf der Landing Page), kann dies fehlschlagen. 
+                     Auf der Simulation Page sollte es jedoch funktionieren, da es dort definiert ist. */}
         <SimulationContext.Consumer>
           {({ onLogoClickForTutorial }) => (
             <BankGutmannHeader 

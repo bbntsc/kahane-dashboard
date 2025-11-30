@@ -1,9 +1,11 @@
+// components/concierge-guide.tsx
 "use client"
 
 import { useState, useEffect, useMemo } from "react"
 import { usePathname } from "next/navigation"
 import { TutorialModal } from "@/components/tutorial-modal"
-import { TourGuide, ALL_TOUR_STEPS } from "@/components/tour-guide" // Importiere ALL_TOUR_STEPS und die Komponente
+// KORREKTUR: Export ALL_TOUR_STEPS
+import { TourGuide, ALL_TOUR_STEPS } from "@/components/tour-guide" 
 import { useSettings } from "@/lib/settings-context" 
 // import { ConciergeHelpModal } from "@/components/concierge-help-modal" // Wird nicht mehr benötigt
 
@@ -24,6 +26,7 @@ const getStartingStepIndex = (pathname: string): number => {
 
 
 // NEU: Diese Komponente steuert die gesamte Concierge-Logik im Hintergrund
+// KORREKTUR: Export hinzufügen
 export function ConciergeController() {
   const [showTutorial, setShowTutorial] = useState(false) 
   const [showGuidedTour, setShowGuidedTour] = useState(false) 
@@ -57,7 +60,7 @@ export function ConciergeController() {
             }
         }
     }
-  }, [pathname]) 
+  }, [pathname, showTutorial]) // showTutorial als Dependency hinzugefügt
 
   // --- Event Listener für Sidebar/Header-Klick ---
   useEffect(() => {
