@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useMemo } from "react"
-import { ArrowRight, X } from "lucide-react"
+import { ArrowRight, X, ArrowLeft } from "lucide-react" 
 import { motion, AnimatePresence } from "framer-motion"
 import { usePathname, useRouter } from "next/navigation"
 
@@ -14,7 +14,7 @@ interface TourStep {
 const ALL_TOUR_STEPS: TourStep[] = [
   // --- KATEGORIE 1: ÜBERSICHTS-SEITE (4 Schritte) ---
   {
-    target: "page",
+    target: "sidebar-overview", // NEU: Zielt auf den Übersicht-Link
     message:
       "Willkommen! Dies ist Ihre Übersichtsseite, der zentrale Startpunkt. Hier sehen Sie die wichtigsten Kennzahlen auf einen Blick.",
     path: "/" 
@@ -32,7 +32,7 @@ const ALL_TOUR_STEPS: TourStep[] = [
     path: "/"
   },
   {
-    target: "recent-activities", 
+    target: "sidebar-simulation", // NEU: Zielt auf den Simulations-Link (um den nächsten Schritt zu erklären)
     message:
       "Hier finden Sie einen Feed Ihrer letzten Aktivitäten und wichtige Markt-Insights, die Ihnen helfen, informiert zu bleiben. Weiter geht es zur Simulation.",
     path: "/"
@@ -40,19 +40,19 @@ const ALL_TOUR_STEPS: TourStep[] = [
 
   // --- KATEGORIE 2: SIMULATIONS-SEITE (5 Schritte) ---
   {
-    target: "page",
+    target: "page", // Auf der neuen Seite starten wir wieder mit der ganzen Seite
     message:
       "Dies ist der Kern der Plattform: die Vermögenssimulation. Hier können Sie verschiedene Anlagestrategien testen.",
     path: "/simulation" 
   },
   {
-    target: "sliders",
+    target: "sliders", // Zielt auf die gesamte Slider-Sektion
     message:
       "Passen Sie die zentralen Parameter wie Anlagebetrag, monatliche Investition, Aktienquote und Anlagehorizont an.",
     path: "/simulation"
   },
   {
-    target: "chart",
+    target: "chart-container", // Geändert, um den gesamten Chart-Bereich zu umranden
     message:
       "Das Diagramm zeigt die voraussichtliche Entwicklung Ihres Portfolios in drei Szenarien (optimistisch, realistisch, vorsichtig).",
     path: "/simulation"
@@ -110,25 +110,25 @@ const ALL_TOUR_STEPS: TourStep[] = [
 
   // --- KATEGORIE 4: WEITERE SEITEN (4 Schritte) ---
   {
-    target: "page",
+    target: "sidebar-portfolio", // NEU
     message:
       "Auf der Portfolio-Seite (und auch auf der FAQ/Hilfe- und Feedback-Seite) wird Ihnen weiterhin die Navigation erklärt. Das Portfolio gibt Ihnen eine detaillierte Übersicht Ihrer Anlagen.",
     path: "/portfolio" 
   },
   {
-    target: "page",
+    target: "sidebar-faq", // NEU
     message:
       "Die Seite FAQ/Hilfe ist ein wichtiger Anlaufpunkt. Hier finden Sie alle Fragen und Antworten übersichtlich sortiert.",
     path: "/faq" 
   },
   {
-    target: "page",
+    target: "sidebar-feedback", // NEU
     message:
       "Auf der Seite Feedback können Sie uns schnell Ihre Meinung mitteilen. Ein Klick auf Einstellungen führt zum nächsten Schritt.",
     path: "/feedback" 
   },
   {
-    target: "page",
+    target: "sidebar-settings", // NEU
     message:
       "Die Seite Einstellungen ermöglicht es Ihnen, das Erscheinungsbild (Theme, Schriftgröße und Sprache) der Anwendung anzupassen. Der letzte Schritt ist die Kontaktseite.",
     path: "/settings" 
@@ -182,28 +182,25 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
     const stepsForContext = ALL_TOUR_STEPS.filter(step => pathname.startsWith(step.path || "/"));
     
     // Finde den Index des initialStep in der gefilterten Liste, relativ zum Start des Pfades.
-    const relativeStartIndex = stepsForContext.findIndex(step => step.path === ALL_TOUR_STEPS[initialStep].path);
-
+    const relativeStartIndex = stepsForContext.findIndex(step => 
+      // Nutze den ALL_TOUR_STEPS Index, um den relativen Start in der gefilterten Liste zu finden
+      ALL_TOUR_STEPS[initialStep] && (step.path === ALL_TOUR_STEPS[initialStep].path && step.target === ALL_TOUR_STEPS[initialStep].target)
+    );
+    
     // Schneide die Liste ab dem relativen Startindex ab.
-    // In diesem Modus wollen wir nur die aktuellen Schritte sehen.
+    // Die Subtour sollte den relativen Startindex nicht verwenden, da wir bei Index 0 der Subtour starten.
     const subTour = stepsForContext.slice(relativeStartIndex);
     
     // Füge einen expliziten Endschritt hinzu, wenn der letzte Schritt der subTour nicht der letzte Schritt 
     // der gesamten Tour ist, um ein sauberes Ende zu gewährleisten.
     const lastStep = subTour[subTour.length - 1];
 
-    if (lastStep?.target !== "contact-form" || lastStep?.path !== "/contact") { // Endschritt nur hinzufügen, wenn die Seite nicht ohnehin am Ende der vollen Tour steht
+    if (!lastStep || lastStep.target !== "page") { // Endschritt nur hinzufügen, wenn die Subtour nicht bereits mit einem 'page' Endschritt endet
       subTour.push({
         target: "page",
         message: "Das war der Hilfebereich für diese Seite. Klicken Sie auf Tour beenden, um den Guide zu schließen.",
         path: pathname // Bleibe auf der aktuellen Seite
       })
-    }
-    
-    // Korrektur: Wenn die kontextuelle Tour auf der Kontaktseite endet, entfernen wir den Standard-Abschlussschritt,
-    // da er durch den folgenden (den letzten) Schritt ersetzt wird.
-    if (pathname.startsWith("/contact") && subTour.length > 2 && subTour[subTour.length - 2].target === "contact-form") {
-        return subTour.slice(0, subTour.length - 1);
     }
     
     return subTour;
@@ -233,9 +230,6 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
             const expectedPath = ALL_TOUR_STEPS[stepToResume]?.path;
 
             if (expectedPath && pathname.startsWith(expectedPath)) {
-                // Wir müssen hier den Index in der originalen Liste speichern,
-                // aber der TourGuide arbeitet jetzt immer mit 0-Index für die angezeigte Liste.
-                // Da wir im non-contextual mode sind, ist tourSteps === ALL_TOUR_STEPS.
                 setCurrentStep(stepToResume);
             }
             
@@ -311,6 +305,31 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
         setCurrentStep(nextStep);
     }
   }
+  
+  // NEU: Funktion für den Zurück-Button
+  const handlePrevious = () => {
+    if (currentStep > 0) {
+      const previousStep = currentStep - 1;
+      const previousStepData = tourSteps[previousStep];
+      
+      // Nur im NICHT-KONTEXTUELLEN Modus muss zurück navigiert werden
+      if (!isContextual && previousStepData && previousStepData.path && !pathname.startsWith(previousStepData.path)) {
+        
+        // Finde den Index des vorherigen Schritts in der gesamten Liste, um dort fortzufahren
+        const previousStepInAllList = ALL_TOUR_STEPS.findIndex(s => s.message === previousStepData.message && s.path === previousStepData.path);
+        
+        // Setze den vorherigen Index, bevor wir navigieren
+        localStorage.setItem(TOUR_STEP_KEY, previousStepInAllList.toString());
+        
+        // Navigiere zurück zur vorherigen Seite
+        router.push(previousStepData.path); 
+      } else {
+        // Bleibe auf der gleichen Seite
+        setCurrentStep(previousStep);
+      }
+    }
+  }
+
 
   const handleSkip = () => {
     // Tour abbrechen: Animation starten und onComplete mit Verzögerung aufrufen
@@ -326,10 +345,6 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
   // Wenn die Tour nicht aktiv ist ODER sie gerade beendet wird (isFinishing), wird nichts gerendert.
   if (!isActive || isFinishing || !step || (step.path && !pathname.startsWith(step.path) && !isContextual)) return null
 
-  // Im kontextuellen Modus muss die path-Prüfung anders gehandhabt werden, da die Schritte im Array
-  // eventuell nicht mehr sequenziell nach Pfaden geordnet sind, aber das sollte durch die Filterung behoben sein.
-  // Wir verlassen uns auf das Filtern und die Überprüfung oben.
-
   return (
     <>
       {/* KORREKTUR: HÖCHSTER Z-INDEX für das Dimmer-Overlay */}
@@ -343,9 +358,9 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
           transition={{ duration: 0.3 }} // Animation beschleunigen
           className="fixed bottom-32 left-8 right-8 md:left-auto md:right-32 z-[102] max-w-md" // NEU: Höher als Highlight-Z-Index
         >
-          <div className="bg-white border-2 border-[#8B4513] rounded-2xl shadow-2xl p-6 relative">
+          <div className="bg-white border-2 border-[#668273] rounded-2xl shadow-2xl p-6 relative">
             {/* Speech bubble tail */}
-            <div className="absolute -bottom-3 right-24 w-6 h-6 bg-white border-r-2 border-b-2 border-[#8B4513] transform rotate-45" />
+            <div className="absolute -bottom-3 right-24 w-6 h-6 bg-white border-r-2 border-b-2 border-[#668273] transform rotate-45" />
 
             {/* Der Schließen-Button ruft handleSkip auf (Startet die Exit-Animation) */}
             <button onClick={handleSkip} className="absolute top-2 right-2 text-gray-400 hover:text-gray-600">
@@ -358,14 +373,29 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
               <div className="text-xs text-gray-500">
                 Schritt {currentStep + 1} von {tourSteps.length}
               </div>
-              {/* Der "Verstanden" / "Tour beenden" Button ruft handleNext auf (Startet die Exit-Animation, wenn es der letzte Schritt ist) */}
-              <button
-                onClick={handleNext}
-                className="flex items-center gap-2 px-4 py-2 bg-[#8B4513] text-white rounded-lg hover:bg-[#6B3410] transition-colors text-sm font-medium"
-              >
-                {currentStep < tourSteps.length - 1 ? "Verstanden" : "Tour beenden"}
-                {currentStep < tourSteps.length - 1 && <ArrowRight className="h-4 w-4" />}
-              </button>
+              
+              {/* NEU: Flex-Container für Zurück und Weiter */}
+              <div className="flex gap-2">
+                {currentStep > 0 && (
+                  <button
+                    onClick={handlePrevious}
+                    // Button-Stil auf Gutmann-Farbe mit Outline geändert
+                    className="flex items-center gap-1 px-3 py-2 border border-[#668273] text-[#668273] rounded-lg hover:bg-[#668273]/10 transition-colors text-sm font-medium"
+                  >
+                    <ArrowLeft className="h-4 w-4" />
+                    Zurück
+                  </button>
+                )}
+                <button
+                  onClick={handleNext}
+                  className={`flex items-center gap-2 px-4 py-2 text-white rounded-lg transition-colors text-sm font-medium ${
+                    currentStep < tourSteps.length - 1 ? 'bg-[#668273] hover:bg-[#5a7268]' : 'bg-green-600 hover:bg-green-700'
+                  }`}
+                >
+                  {currentStep < tourSteps.length - 1 ? "Verstanden" : "Tour beenden"}
+                  {currentStep < tourSteps.length - 1 && <ArrowRight className="h-4 w-4" />}
+                </button>
+              </div>
             </div>
           </div>
         </motion.div>
@@ -390,15 +420,26 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
       {/* Highlight target element */}
       {isActive && step.target !== "page" && ( 
         <style jsx global>{`
+          /* WICHTIGE KORREKTUR für alle hervorgehobenen Elemente */
           [data-tour="${step.target}"] {
+            /* Das hervorgehobene Element MUSS eine Stapelkontext schaffen und über dem Dimmer liegen */
             position: relative;
-            z-index: 101; /* KORREKTUR: Muss höher sein als der Dimmer (z-99) */
-            box-shadow: 0 0 0 4px rgba(235, 241, 81, 0.5); 
+            z-index: 101 !important; 
+            /* Gelber Rahmen mit 50% Transparenz */
+            box-shadow: 0 0 0 4px rgba(235, 241, 81, 0.5) !important; /* FARBE ZURÜCK AUF GELB/GOLD */
             border-radius: 12px;
             transition: box-shadow 0.3s ease-in-out; 
           }
-          /* Fix für das Header-Ausblenden (sollte im DashboardLayout auf z-10 sein) */
-          header, .lg\\:pl-64 > .sticky {
+          
+          /* Spezieller Fix für die Sidebar-Links (die in einem FIXED Container liegen) */
+          a[data-tour^="sidebar-"], button[data-tour^="sidebar-"] {
+             /* Fügt relative position hinzu, falls nicht vorhanden, um Z-Index zu respektieren */
+             position: relative !important;
+             z-index: 101 !important; 
+          }
+          
+          /* Header und Sidebar Container niedrig halten (aus dashboard-layout.tsx) */
+          header, .lg\\:pl-64 > .sticky, .lg\\:fixed {
              z-index: 10 !important;
           }
         `}</style>

@@ -14,14 +14,14 @@ export function Sidebar({ onConciergeClick }: SidebarProps) {
   const pathname = usePathname()
 
   const navigation = [
-    { name: "Übersicht", href: "/", icon: LayoutDashboard },
-    { name: "Simulation", href: "/simulation", icon: BarChart3 },
-    { name: "Marktanalyse", href: "/market", icon: TrendingUp },
-    { name: "Portfolio", href: "/portfolio", icon: PieChart },
+    { name: "Übersicht", href: "/", icon: LayoutDashboard, target: "sidebar-overview" },
+    { name: "Simulation", href: "/simulation", icon: BarChart3, target: "sidebar-simulation" },
+    { name: "Marktanalyse", href: "/market", icon: TrendingUp, target: "sidebar-market" },
+    { name: "Portfolio", href: "/portfolio", icon: PieChart, target: "sidebar-portfolio" },
     // { name: "Reports", href: "/reports", icon: FileText }, // Reports entfernt
-    { name: "FAQ/Hilfe", href: "/faq", icon: HelpCircle }, // FAQ/Hilfe hinzugefügt
+    { name: "FAQ/Hilfe", href: "/faq", icon: HelpCircle, target: "sidebar-faq" }, // FAQ/Hilfe hinzugefügt
     // NEU: Feedback-Link hinzugefügt
-    { name: "Feedback", href: "/feedback", icon: Star },
+    { name: "Feedback", href: "/feedback", icon: Star, target: "sidebar-feedback" },
   ]
 
   const isActive = (href: string) => {
@@ -31,7 +31,8 @@ export function Sidebar({ onConciergeClick }: SidebarProps) {
   }
 
   return (
-    <div className="flex flex-col flex-grow border-r border-gray-200 bg-white overflow-y-auto h-full">
+    // Setzt den Z-Index der Sidebar niedrig, damit der Dimmer sie überdeckt.
+    <div className="flex flex-col flex-grow border-r border-gray-200 bg-white overflow-y-auto h-full z-10"> 
       {/* Header */}
       <div className="flex h-16 items-center px-6 border-b border-gray-100">
         <h1 className="text-xl font-bold text-gray-900 font-serif tracking-tight">Kahane</h1>
@@ -48,9 +49,11 @@ export function Sidebar({ onConciergeClick }: SidebarProps) {
               href={item.href}
               className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all ${
                 active 
-                  ? "bg-[#1b251d] text-white shadow-sm" 
+                  // KORREKTUR: Verwende den Olivgrünton (#668273) für den aktiven Hintergrund
+                  ? "bg-[#668273] text-white shadow-sm" 
                   : "text-gray-700 hover:bg-[#f8f3ef] hover:text-[#1b251d]"
               }`}
+              data-tour={item.target} // Hinzufügen des data-tour Attributs
             >
               <Icon className="h-5 w-5" />
               {item.name}
@@ -59,14 +62,15 @@ export function Sidebar({ onConciergeClick }: SidebarProps) {
         })}
       </nav>
 
-      {/* --- DER CONCIERGE BUTTON --- */}
+      {/* --- DER CONCIERGE BUTTON (Zurück zum ursprünglichen Gold-Look) --- */}
       <div className="px-6 py-6 flex justify-center">
         <button 
           onClick={onConciergeClick}
           className="group relative flex flex-col items-center justify-center transition-transform active:scale-95 outline-none"
           title="Concierge rufen"
+          data-tour="sidebar-concierge-bell" // Hinzufügen des data-tour Attributs
         >
-          {/* Kreis-Hintergrund mit schönem Schatten und Farbe */}
+          {/* Kreis-Hintergrund mit schönem Schatten und Farbe (Gold-Look wiederhergestellt) */}
           <div className="relative w-20 h-20 flex items-center justify-center rounded-full bg-gradient-to-br from-amber-50 to-amber-100 border border-amber-200 shadow-lg group-hover:shadow-xl transition-all duration-300">
             
             {/* Versuch das Bild zu laden, Fallback auf Icon */}
@@ -83,11 +87,13 @@ export function Sidebar({ onConciergeClick }: SidebarProps) {
                  }}
                />
                {/* Fallback Icon, falls Bild nicht lädt - positioniert hinter dem Bild */}
+               {/* Icon Farbe auf Gold/Amber gesetzt */}
                <Bell className="absolute inset-0 w-full h-full text-amber-600 opacity-0 group-hover:opacity-100 transition-opacity" /> 
             </div>
             
             {/* Kleiner Ping-Indikator */}
             <span className="absolute top-1 right-1 flex h-4 w-4">
+              {/* Ping-Farbe auf Gold/Amber gesetzt */}
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-4 w-4 bg-amber-500 border-2 border-white"></span>
             </span>
@@ -108,6 +114,7 @@ export function Sidebar({ onConciergeClick }: SidebarProps) {
                 ? "bg-[#1b251d] text-white" 
                 : "text-gray-700 hover:bg-[#f8f3ef]"
           }`}
+          data-tour="sidebar-settings" // Hinzufügen des data-tour Attributs
         >
           <Settings className="h-5 w-5" />
           Einstellungen

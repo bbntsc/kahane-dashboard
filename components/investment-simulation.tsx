@@ -52,7 +52,7 @@ function getPortfolioParams(equityPercentage: number, benchmark: "MSCI" | "SP500
   const bondStdDev = 0.04
 
   const mean = bondMean + (equityMean - bondMean) * equityPercentage
-  const stdDev = bondStdDev + (equityStdDev - bondStdDev) * equityPercentage
+  const stdDev = bondStdDev + (equityStdDev - bondStdDev) * equityPercentage 
 
   return { mean, stdDev }
 }
@@ -290,6 +290,7 @@ export function InvestmentSimulation() {
               font: { size: 11 },
               color: textColor,
             },
+            
           },
         },
       },
@@ -304,7 +305,12 @@ export function InvestmentSimulation() {
 
   return (
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-12" data-tour="page">
-      <div className="lg:col-span-4 space-y-6" data-tour="sliders">
+      {/* KORREKTUR HIER: Setze data-tour="sliders" auf den Container, der die gesamte linke Steuerspalte umschließt, 
+         und gib ihm relative Positionierung, damit die Hervorhebung funktioniert. */}
+      <div 
+        className="lg:col-span-4 space-y-6 relative" // FÜGE relative HINZU
+        data-tour="sliders" // Füge data-tour Attribut hinzu
+      >
         <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-[#ede9e1] dark:border-gray-600">
           <h3 className="text-sm font-medium text-[#1b251d] dark:text-gray-100 mb-3">{t.simulation.benchmark}</h3>
           <div className="flex gap-2">
@@ -331,6 +337,7 @@ export function InvestmentSimulation() {
           </div>
         </div>
 
+        {/* Die folgenden Abschnitte müssen in data-tour="sliders" enthalten sein */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -479,7 +486,7 @@ export function InvestmentSimulation() {
           <div className="text-lg font-serif italic text-gray-400 dark:text-gray-100">Kahane</div>
         </div>
 
-        <div className="h-[300px] bg-white dark:bg-gray-800 rounded-lg p-4 mb-6">
+        <div className="h-[300px] bg-white dark:bg-gray-800 rounded-lg p-4 mb-6" data-tour="chart-container"> {/* NEU: data-tour hier hinzugefügt, um den Chart-Bereich zu umrahmen */}
           <canvas ref={chartRef} />
         </div>
 

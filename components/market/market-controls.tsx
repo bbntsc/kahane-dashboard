@@ -1,4 +1,3 @@
-// bbntsc/kahane-dashboard/kahane-dashboard-concierge/components/market/market-controls.tsx
 "use client"
 
 import { Switch } from "@/components/ui/switch"
@@ -20,7 +19,7 @@ export function MarketControls({
   return (
     <div className="mb-4 flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
       {/* Timeframe-Buttons */}
-      <div data-tour="market-horizon"> {/* NEU: data-tour="market-horizon" */}
+      <div data-tour="market-horizon" className="relative"> {/* KORREKTUR: relative Klasse hinzugefügt */}
         <h3 className="text-lg font-medium text-gray-900">Anlagehorizont (Jahre)</h3>
         <div className="mt-2 flex space-x-2">
           {["40", "30", "20", "10", "5"].map((years) => (
@@ -40,7 +39,7 @@ export function MarketControls({
       </div>
 
       {/* Insights-Switch */}
-      <div className="flex items-center space-x-4" data-tour="market-insights"> {/* NEU: data-tour="market-insights" */}
+      <div className="flex items-center space-x-4 relative" data-tour="market-insights"> {/* KORREKTUR: relative Klasse hinzugefügt */}
         <span className="text-sm font-medium text-gray-700">Insights:</span>
         <Switch checked={showInsights} onCheckedChange={setShowInsights} />
       </div>
