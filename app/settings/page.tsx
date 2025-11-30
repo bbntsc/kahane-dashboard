@@ -16,16 +16,16 @@ export default function SettingsPage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-8 max-w-3xl">
+      {/* mx-auto hinzugefügt, um den max-w-3xl Container zu zentrieren */}
+      <div className="space-y-8 max-w-3xl mx-auto">
         <div>
-          {/* HIER WIRD DIE ÜBERSCHRIFT AUF text-3xl REDUZIERT */}
           <h1 className="text-3xl font-serif text-[#1b251d] dark:text-[#f8f3ef]">{t.settings.title}</h1>
           <p className="mt-2 text-[#6b7280] dark:text-[#9ca3af]">Passen Sie die Darstellung nach Ihren Wünschen an</p>
         </div>
 
         <Card className="dark:bg-[#2a3529] dark:border-[#404a3f]">
           <CardHeader>
-            <CardTitle className="font-serif dark:text-[#f8f3ef]">{t.settings.appearance}</CardTitle>
+            <CardTitle className="font-serif text-[#1b251d] dark:text-[#f8f3ef]">{t.settings.appearance}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Theme Selection */}
@@ -36,10 +36,11 @@ export default function SettingsPage() {
               <div className="grid grid-cols-2 gap-3">
                 <button
                   onClick={() => handleThemeChange("light")}
+                  // Textfarbe im dunklen Modus auf dunkel gelassen, damit sie im Hellmodus sichtbar bleibt
                   className={`flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-colors ${
                     theme === "light"
-                      ? "border-[#1b251d] dark:border-[#f8f3ef] bg-[#f8f3ef] dark:bg-[#1b251d]"
-                      : "border-[#ede9e1] dark:border-[#404a3f] hover:border-[#1b251d]/30"
+                      ? "border-[#1b251d] dark:border-[#f8f3ef] bg-[#f8f3ef] dark:bg-[#1b251d] text-[#1b251d] dark:text-[#f8f3ef]" // Explizit Dark Mode Textfarbe für aktiven Zustand
+                      : "border-[#ede9e1] dark:border-[#404a3f] hover:border-[#1b251d]/30 text-[#1b251d] dark:text-[#f8f3ef]" // Explizit Dark Mode Textfarbe für inaktiven Zustand
                   }`}
                 >
                   <Sun className="w-6 h-6" />
@@ -49,8 +50,8 @@ export default function SettingsPage() {
                   onClick={() => handleThemeChange("dark")}
                   className={`flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-colors ${
                     theme === "dark"
-                      ? "border-[#1b251d] dark:border-[#f8f3ef] bg-[#f8f3ef] dark:bg-[#1b251d]"
-                      : "border-[#ede9e1] dark:border-[#404a3f] hover:border-[#1b251d]/30"
+                      ? "border-[#1b251d] dark:border-[#f8f3ef] bg-[#f8f3ef] dark:bg-[#1b251d] text-[#1b251d] dark:text-[#f8f3ef]" // Explizit Dark Mode Textfarbe für aktiven Zustand
+                      : "border-[#ede9e1] dark:border-[#404a3f] hover:border-[#1b251d]/30 text-[#1b251d] dark:text-[#f8f3ef]" // Explizit Dark Mode Textfarbe für inaktiven Zustand
                   }`}
                 >
                   <Moon className="w-6 h-6" />
@@ -71,8 +72,8 @@ export default function SettingsPage() {
                     onClick={() => setFontSize(size as "small" | "medium" | "large")}
                     className={`flex-1 py-3 px-4 rounded-lg border-2 transition-colors ${
                       fontSize === size
-                        ? "border-[#1b251d] dark:border-[#f8f3ef] bg-[#f8f3ef] dark:bg-[#1b251d]"
-                        : "border-[#ede9e1] dark:border-[#404a3f] hover:border-[#1b251d]/30"
+                        ? "border-[#1b251d] dark:border-[#f8f3ef] bg-[#f8f3ef] dark:bg-[#1b251d] text-[#1b251d] dark:text-[#f8f3ef]" // Explizit Dark Mode Textfarbe
+                        : "border-[#ede9e1] dark:border-[#404a3f] hover:border-[#1b251d]/30 text-[#1b251d] dark:text-[#f8f3ef]" // Explizit Dark Mode Textfarbe
                     }`}
                   >
                     <span className={index === 0 ? "text-sm" : index === 1 ? "text-base" : "text-lg"}>

@@ -31,11 +31,12 @@ export function Sidebar({ onConciergeClick }: SidebarProps) {
   }
 
   return (
-    // Setzt den Z-Index der Sidebar niedrig, damit der Dimmer sie überdeckt.
-    <div className="flex flex-col flex-grow border-r border-gray-200 bg-white overflow-y-auto h-full z-10"> 
+    // Hintergrundfarbe und Border für Dark Mode anpassen
+    <div className="flex flex-col flex-grow border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1b251d] overflow-y-auto h-full z-10"> 
       {/* Header */}
-      <div className="flex h-16 items-center px-6 border-b border-gray-100">
-        <h1 className="text-xl font-bold text-gray-900 font-serif tracking-tight">Kahane</h1>
+      <div className="flex h-16 items-center px-6 border-b border-gray-100 dark:border-gray-700">
+        {/* Textfarbe für Dark Mode anpassen */}
+        <h1 className="text-xl font-bold text-gray-900 dark:text-[#f8f3ef] font-serif tracking-tight">Kahane</h1>
       </div>
 
       {/* Navigation */}
@@ -49,9 +50,10 @@ export function Sidebar({ onConciergeClick }: SidebarProps) {
               href={item.href}
               className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all ${
                 active 
-                  // KORREKTUR: Verwende den Olivgrünton (#668273) für den aktiven Hintergrund
+                  // Aktiver Link: Hintergrund ändert sich nicht im Dark Mode, Text bleibt weiß
                   ? "bg-[#668273] text-white shadow-sm" 
-                  : "text-gray-700 hover:bg-[#f8f3ef] hover:text-[#1b251d]"
+                  // Inaktiver Link: Textfarbe für Dark Mode explizit auf hell setzen
+                  : "text-gray-700 dark:text-gray-300 hover:bg-[#f8f3ef] dark:hover:bg-[#2a3529] hover:text-[#1b251d] dark:hover:text-[#f8f3ef]"
               }`}
               data-tour={item.target} // Hinzufügen des data-tour Attributs
             >
@@ -99,20 +101,23 @@ export function Sidebar({ onConciergeClick }: SidebarProps) {
             </span>
           </div>
           
-          <span className="mt-3 text-sm font-medium text-[#1b251d] opacity-70 group-hover:opacity-100 transition-opacity">
+          {/* Textfarbe für Dark Mode anpassen */}
+          <span className="mt-3 text-sm font-medium text-[#1b251d] dark:text-[#f8f3ef] opacity-70 group-hover:opacity-100 transition-opacity">
             Concierge
           </span>
         </button>
       </div>
       
       {/* Footer / Settings */}
-      <div className="border-t border-gray-100 p-4">
+      <div className="border-t border-gray-100 dark:border-gray-700 p-4">
         <Link
           href="/settings"
           className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
              isActive("/settings") 
-                ? "bg-[#1b251d] text-white" 
-                : "text-gray-700 hover:bg-[#f8f3ef]"
+                // Aktiver Link: Hintergrund ändert sich nicht im Dark Mode, Text bleibt weiß
+                ? "bg-[#1b251d] dark:bg-[#668273] text-white" 
+                // Inaktiver Link: Textfarbe für Dark Mode explizit auf hell setzen
+                : "text-gray-700 dark:text-gray-300 hover:bg-[#f8f3ef] dark:hover:bg-[#2a3529]"
           }`}
           data-tour="sidebar-settings" // Hinzufügen des data-tour Attributs
         >
