@@ -46,10 +46,10 @@ export function TutorialModal({ onClose, onStartTour }: TutorialModalProps) {
         <div className="w-full md:w-2/5 bg-[#f8f3ef] relative min-h-[300px] md:min-h-full flex items-end justify-center pt-10">
            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-[#ebf151]/20 rounded-full blur-3xl"></div>
            
-           {/* HIER IST DIE MAGIC: 'animate-float' */}
-           <div className="relative w-48 h-64 md:w-60 md:h-80 transition-transform duration-700 hover:scale-105 animate-float">
+           {/* HIER WIRD DIE GRÖSSE ANGEPASST */}
+           <div className="relative w-56 h-72 md:w-72 md:h-96 transition-transform duration-700 hover:scale-105 animate-float">
              <Image 
-               src="/images/1.svg" // oder 2.svg, je nachdem welches Bild du bevorzugst
+               src="/images/1.svg" 
                alt="Ihr Concierge" 
                fill
                className="object-contain object-bottom drop-shadow-xl"

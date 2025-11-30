@@ -27,10 +27,17 @@ export function MarketApp() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f8f3ef]" data-tour="market-page"> {/* NEU: data-tour="market-page" */}
+    <div className="min-h-screen bg-[#f8f3ef] dark:bg-gray-900" data-tour="market-page"> {/* NEU: data-tour="market-page" */}
         {/* <BankGutmannHeader /> <-- LÖSCHEN */}
         
         <div className="mx-auto max-w-7xl px-4 py-8">
+        
+        {/* NEU: Globale Überschrift für die Marktanalyse-Seite (konsistent mit /simulation und /settings) */}
+        <div className="mb-8">
+            <h1 className="text-3xl font-serif font-bold text-[#1b251d] dark:text-[#f8f3ef]">{t.market.title}</h1>
+            <p className="mt-2 text-[#6b7280] dark:text-[#9ca3af]">Historische Marktdaten und Krisenanalyse</p>
+        </div>
+        
         <MarketControls
             timeframe={timeframe}
             setTimeframe={setTimeframe}

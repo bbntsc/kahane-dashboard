@@ -21,6 +21,10 @@ export const SimulationContext = React.createContext<SimulationContextProps>({
 
 export function SimulationApp() {
   
+  // Hinzugefügt, um Übersetzungen zu nutzen
+  const { language } = useSettings()
+  const t = useTranslation(language)
+
   // DIESER CONTEXT SOLLTE JETZT VOM PERSISTENTEN LAYOUT GELIEFERT WERDEN.
   // Da die SimulationApp selbst keinen Zustand mehr verwaltet, brauchen wir hier nur den Platzhalter.
   const handleLogoClickForHeader = () => {
@@ -40,13 +44,18 @@ export function SimulationApp() {
   return (
     // Umschließe den Inhalt mit dem Context Provider, um die Funktion bereitzustellen
     <SimulationContext.Provider value={contextValue}>
-        {/* KEIN <div className="min-h-screen bg-[#f8f3ef]"> mehr nötig, da im DashboardLayout */}
         
-            {/* HIER MUSS NUR NOCH DER SIMULATIONSINHALT STEHEN */}
-            <main className="mx-auto max-w-7xl px-6 py-6">
-                <InvestmentSimulation /> 
-                {/* Tutorial und TourGuide wurden entfernt */}
-            </main>
+        <main className="mx-auto max-w-7xl px-6 py-6">
+            
+            {/* NEU: Globale Überschrift für die Simulationsseite */}
+            <div className="mb-8">
+                <h1 className="text-3xl font-serif font-bold text-[#1b251d] dark:text-[#f8f3ef]">{t.simulation.title}</h1>
+                <p className="mt-2 text-[#6b7280] dark:text-[#9ca3af]">Testen Sie verschiedene Anlagestrategien mit unserer Monte-Carlo-Simulation.</p>
+            </div>
+            
+            <InvestmentSimulation /> 
+            {/* Tutorial und TourGuide wurden entfernt */}
+        </main>
         
     </SimulationContext.Provider>
   )

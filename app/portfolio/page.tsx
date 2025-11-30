@@ -6,7 +6,8 @@ export default function PortfolioPage() {
     <DashboardLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Portfolio</h1>
+          {/* HIER WIRD DIE ÜBERSCHRIFT AUF text-3xl REDUZIERT UND FONT-SERIF FÜR KONSISTENZ HINZUGEFÜGT */}
+          <h1 className="text-3xl font-serif text-gray-900 dark:text-[#f8f3ef]">Portfolio</h1>
           <p className="mt-2 text-gray-600">Detaillierte Übersicht über Ihre Investments und Asset-Allokation</p>
         </div>
 

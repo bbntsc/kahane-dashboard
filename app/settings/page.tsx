@@ -18,6 +18,7 @@ export default function SettingsPage() {
     <DashboardLayout>
       <div className="space-y-8 max-w-3xl">
         <div>
+          {/* HIER WIRD DIE ÜBERSCHRIFT AUF text-3xl REDUZIERT */}
           <h1 className="text-3xl font-serif text-[#1b251d] dark:text-[#f8f3ef]">{t.settings.title}</h1>
           <p className="mt-2 text-[#6b7280] dark:text-[#9ca3af]">Passen Sie die Darstellung nach Ihren Wünschen an</p>
         </div>

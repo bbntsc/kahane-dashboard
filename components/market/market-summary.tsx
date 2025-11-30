@@ -9,17 +9,23 @@ export function MarketSummary({ timeframe }: MarketSummaryProps) {
   // müsste hier die Logik ergänzt werden, die die Daten filtert.
   return (
     // 'relative' Klasse hinzugefügt, um Stapelkontext für die Hervorhebung zu definieren
-    <div className="mb-4 rounded-md bg-gray-100 p-4 relative" data-tour="market-summary"> 
-      <h4 className="mb-2 text-sm font-medium text-gray-900">
+    <div 
+        className="mb-4 rounded-md bg-gray-100 dark:bg-gray-800 p-4 relative" 
+        data-tour="market-summary"
+    > 
+      {/* Überschrift für die Zusammenfassung auf text-xl gesetzt (etwas kleiner als die Hauptüberschrift) */}
+      <h4 className="mb-2 text-xl font-serif font-bold text-[#1b251d] dark:text-[#f8f3ef]">
         Historische Betrachtung: {timeframe} Jahre
       </h4>
-      <div className="space-y-1 text-xs text-gray-700">
+      {/* Die darunter liegenden Texte auf text-sm reduziert und Dark Mode Farben angepasst */}
+      <div className="space-y-1 text-sm text-gray-700 dark:text-gray-300">
         <p>Jährliche Extremwerte im Zeitraum:</p>
         <p>Maximaler Verlust: -53% (2008, Finanzkrise)</p>
         <p>Maximaler Gewinn: +33.8% (2003, nach Dotcom-Blase)</p>
       </div>
-      <div className="mt-2 text-sm font-medium text-gray-900">
-        Durchschnittliche Rendite p.a.: <span className="text-[#1b251d]">8.6%</span>
+      {/* Hervorgehobene Rendite auf font-serif und text-lg umgestellt (etwas prominenter) */}
+      <div className="mt-2 text-lg font-serif font-bold text-[#1b251d] dark:text-[#f8f3ef]">
+        Durchschnittliche Rendite p.a.: <span className="text-[#1b251d] dark:text-[#f8f3ef] font-bold">8.6%</span>
       </div>
     </div>
   )

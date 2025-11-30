@@ -13,7 +13,6 @@ const TOUR_ACTIVE_KEY = "is_tour_active" // Schlüssel für die persistente Tour
 
 /**
  * Findet den Startindex in der ALL_TOUR_STEPS Liste basierend auf dem aktuellen Pfad.
- * Wird für den kontextsensitiven Start verwendet.
  */
 const getStartingStepIndex = (pathname: string): number => {
     // Finde den ersten Schritt in ALL_TOUR_STEPS, dessen Pfad mit dem aktuellen pathname übereinstimmt.
@@ -29,7 +28,9 @@ export function ConciergeController() {
   const [showTutorial, setShowTutorial] = useState(false) 
   const [showGuidedTour, setShowGuidedTour] = useState(false) 
   const [currentTourStep, setCurrentTourStep] = useState(0) 
-  const [isContextualTour, setIsContextualTour] = useState(false); // NEU: Zustand für den kontextuellen Modus
+  const [isContextualTour, setIsContextualTour] = useState(false); // Zustand für den kontextuellen Modus
+  // Standardbild ist 1.svg
+  const [conciergeImage, setConciergeImage] = useState("/images/1.svg"); 
   
   const { language } = useSettings()
   const pathname = usePathname();
@@ -50,6 +51,7 @@ export function ConciergeController() {
             const startingIndex = getStartingStepIndex(pathname);
             setCurrentTourStep(startingIndex);
             setIsContextualTour(false); // Angenommen, eine gespeicherte Tour ist die volle Tour
+            setConciergeImage("/images/1.svg"); // Voll-Tour nutzt immer 1.svg
             if (!showTutorial) { 
                setShowGuidedTour(true);
             }
@@ -60,22 +62,24 @@ export function ConciergeController() {
   // --- Event Listener für Sidebar/Header-Klick ---
   useEffect(() => {
     const handleStartIntro = () => {
-        // Logo-Klick: Immer bei Schritt 0 starten
+        // Logo-Klick: Volle Führung
         if (showGuidedTour) {
             handleTourComplete(); // Stoppt die aktuelle Tour
         }
         setIsContextualTour(false);
+        setConciergeImage("/images/1.svg"); // Volle Führung nutzt 1.svg
         setCurrentTourStep(0);
         setShowTutorial(true);
     }
 
     const handleBellClick = () => {
-        // Bell-Klick: Springt direkt zum kontextspezifischen Tour-Schritt
+        // Bell-Klick: Kontextuelle Hilfe
         const startingIndex = getStartingStepIndex(pathname);
         
         // Tour starten und alle anderen Modals/Guides schließen
         setShowTutorial(false);
-        handleStartGuidedTour(startingIndex, true); // Starte im kontextuellen Modus
+        // Starte die Tour mit 2.svg
+        handleStartGuidedTour(startingIndex, true, "/images/2.svg"); 
     }
 
     window.addEventListener('startConciergeIntro', handleStartIntro);
@@ -89,22 +93,29 @@ export function ConciergeController() {
 
 
   // --- Tour-Handler ---
-  const handleStartGuidedTour = (initialIndex: number = 0, contextual: boolean = false) => {
+  // Parameter imagePath hinzugefügt
+  const handleStartGuidedTour = (initialIndex: number = 0, contextual: boolean = false, imagePath: string = "/images/1.svg") => {
     setShowTutorial(false);
     setCurrentTourStep(initialIndex); // Setze den Startindex
     setIsContextualTour(contextual); // Setze den Modus
+    setConciergeImage(imagePath); // Setze das Bild
     setShowGuidedTour(true);
     
     // Nur die volle Tour wird im Local Storage gespeichert
     if (!contextual && typeof window !== 'undefined') {
         sessionStorage.setItem(TUTORIAL_SEEN_KEY, "true")
         localStorage.setItem(TOUR_ACTIVE_KEY, "true"); 
+        // Stelle sicher, dass die persistente Tour (Intro) immer 1.svg nutzt
+        setConciergeImage("/images/1.svg");
     }
   }
   
   const handleTourComplete = () => {
     setShowGuidedTour(false)
     setIsContextualTour(false); // Setze Modus zurück
+    // Setze das Bild zurück auf den Standard (obwohl die Tour nicht mehr aktiv ist)
+    setConciergeImage("/images/1.svg"); 
+    
     // Entferne den aktiven Status, wenn die Tour abgeschlossen ist.
     if (typeof window !== 'undefined') {
         localStorage.removeItem(TOUR_ACTIVE_KEY); 
@@ -120,15 +131,14 @@ export function ConciergeController() {
     }
   }
 
-  // Das ConciergeHelpModal wird nun komplett aus der Logik entfernt.
-
   return (
     <>
       {/* 1. TUTORIAL MODAL (Intro) */}
       {showTutorial && (
           <TutorialModal 
             onClose={handleCloseTutorial} 
-            onStartTour={() => handleStartGuidedTour(0, false)} // Startet immer die volle Tour
+            // Stelle sicher, dass die gestartete Tour 1.svg nutzt
+            onStartTour={() => handleStartGuidedTour(0, false, "/images/1.svg")} 
           />
       )}
       
@@ -137,7 +147,8 @@ export function ConciergeController() {
         isActive={showGuidedTour} 
         onComplete={handleTourComplete} 
         initialStep={currentTourStep} 
-        isContextual={isContextualTour} // NEU: Übergibt den Modus
+        isContextual={isContextualTour} 
+        conciergeImage={conciergeImage} // Übergibt den dynamischen Bildpfad
       />
       
       {/* 3. ConciergeHelpModal wird hier nicht mehr gerendert, da die Glocke nun die Tour startet. */}

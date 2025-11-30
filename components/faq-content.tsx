@@ -75,7 +75,7 @@ export function getCombinedFaqs(language: Language): FaqItem[] {
   // Fragen und Antworten aus ConciergeHelpModal (market-Kontext)
   const marketHelp = [
     {
-      question: language === "de" ? "Was zeigt mir diese Seite?" : language === "fr" ? "Qu'est-ce que cette page me montre ?" : language === "it" ? "Cosa mi mostra questa pagina?" : "What does this page show me?",
+      question: language === "de" ? "Was zeigt mir diese Seite?" : "What does this page show me?",
       answer: language === "de" 
         ? "Hier sehen Sie, wie sich der Markt tatsächlich über verschiedene Zeiträume entwickelt hat – inklusive aller Krisen und Erholungsphasen." 
         : language === "fr" 
@@ -85,7 +85,7 @@ export function getCombinedFaqs(language: Language): FaqItem[] {
             : "Here you can see how the market has actually developed over different periods – including all crises and recovery phases.",
     },
     {
-      question: language === "de" ? "Wie klicke ich auf eine Krise?" : language === "fr" ? "Comment cliquer sur une crise ?" : language === "it" ? "Come clicco su una crisi?" : "How do I click on a crisis?",
+      question: language === "de" ? "Wie klicke ich auf eine Krise?" : "How do I click on a crisis?",
       answer: language === "de" 
         ? "Die roten Punkte markieren historische Krisen. Klicken Sie darauf, um Details zu erfahren, was damals passiert ist und wie sich der Markt erholt hat." 
         : language === "fr" 
@@ -95,7 +95,7 @@ export function getCombinedFaqs(language: Language): FaqItem[] {
             : "The red dots mark historical crises. Click on them to learn details about what happened and how the market recovered.",
     },
     {
-      question: language === "de" ? "Warum sind Krisen normal?" : language === "fr" ? "Pourquoi les crises sont-elles normales ?" : language === "it" ? "Perché le crisi sono normali?" : "Why are crises normal?",
+      question: language === "de" ? "Warum sind Krisen normal?" : "Why are crises normal?",
       answer: language === "de" 
         ? "Märkte durchlaufen Zyklen. Krisen gehören dazu, aber langfristig haben sich Märkte historisch immer wieder erholt und neue Höchststände erreicht." 
         : language === "fr" 
@@ -109,7 +109,7 @@ export function getCombinedFaqs(language: Language): FaqItem[] {
   // Fragen und Antworten aus ConciergeHelpModal (contact-Kontext)
   const contactHelp = [
     {
-      question: language === "de" ? "Warum diese Fragen im Kontaktformular?" : language === "fr" ? "Pourquoi ces questions dans le formulaire de contact ?" : language === "it" ? "Perché queste domande nel modulo di contatto?" : "Why these questions in the contact form?",
+      question: language === "de" ? "Warum diese Fragen im Kontaktformular?" : "Why these questions in the contact form?",
       answer: language === "de" 
         ? "Die Fragen helfen unseren Beratern, sich optimal auf Ihr Gespräch vorzubereiten und Ihnen die bestmögliche Unterstützung zu bieten." 
         : language === "fr" 
@@ -119,7 +119,7 @@ export function getCombinedFaqs(language: Language): FaqItem[] {
             : "The questions help our advisors to optimally prepare for your consultation and offer you the best possible support.",
     },
     {
-      question: language === "de" ? "Sind meine Daten sicher?" : language === "fr" ? "Mes données sont-elles sécurisées ?" : language === "it" ? "I miei dati sono al sicuro?" : "Is my data secure?",
+      question: language === "de" ? "Sind meine Daten sicher?" : "Is my data secure?",
       answer: language === "de" 
         ? "Selbstverständlich. Ihre Daten werden vertraulich behandelt und ausschließlich für die Kontaktaufnahme verwendet." 
         : language === "fr" 
@@ -129,7 +129,7 @@ export function getCombinedFaqs(language: Language): FaqItem[] {
             : "Of course. Your data is treated confidentially and used exclusively for contact purposes.",
     },
     {
-      question: language === "de" ? "Wie schnell bekomme ich eine Antwort?" : language === "fr" ? "À quelle vitesse recevrai-je une réponse ?" : language === "it" ? "Quanto velocemente riceverò una risposta?" : "How quickly will I get a response?",
+      question: language === "de" ? "Wie schnell bekomme ich eine Antwort?" : "How quickly will I get a response?",
       answer: language === "de" ? "In der Regel meldet sich ein Berater innerhalb von 1-2 Werktagen bei Ihnen." : language === "fr" ? "En règle générale, un conseiller vous contactera dans un délai de 1 à 2 jours ouvrables." : language === "it" ? "Di solito, un consulente ti contatterà entro 1-2 giorni lavorativi." : "Typically, an advisor will contact you within 1-2 business days.",
     },
   ]
@@ -279,8 +279,9 @@ export function FaqContent() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-4">
       <header className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-serif font-bold text-[#1b251d] dark:text-[#f8f3ef] mb-3">
-          <HelpCircle className="inline-block w-8 h-8 mr-3 text-[#4a5f52]" />
+        {/* HIER WIRD DIE ÜBERSCHRIFT AUF text-3xl REDUZIERT */}
+        <h1 className="text-3xl font-serif font-bold text-[#1b251d] dark:text-[#f8f3ef] mb-3">
+          <HelpCircle className="inline-block w-6 h-6 mr-3 text-[#4a5f52]" /> {/* Icon-Größe angepasst */}
           {language === "de" ? "Häufige Fragen & Hilfe" : language === "fr" ? "FAQ & Aide" : language === "it" ? "FAQ & Aiuto" : "FAQ & Help"}
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400">
@@ -292,7 +293,8 @@ export function FaqContent() {
         <Card key={catIndex} className="mb-8 rounded-xl p-0 shadow-lg border-[#ede9e1] dark:border-gray-700">
             <header className="flex items-center gap-4 bg-[#f8f3ef] dark:bg-gray-800 p-6 rounded-t-xl border-b border-[#ede9e1] dark:border-gray-700">
                 <category.icon className="h-6 w-6 text-[#1b251d] dark:text-[#f8f3ef] flex-shrink-0" />
-                <h2 className="text-2xl font-serif font-bold text-[#1b251d] dark:text-[#f8f3ef]">
+                {/* Sektionsüberschrift auf text-xl reduziert */}
+                <h2 className="text-xl font-serif font-bold text-[#1b251d] dark:text-[#f8f3ef]">
                     {category.title}
                 </h2>
             </header>

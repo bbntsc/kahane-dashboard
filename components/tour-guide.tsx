@@ -161,10 +161,11 @@ interface TourGuideProps {
   isActive: boolean
   onComplete: () => void
   initialStep?: number // Start-Index-Einstellung (wird für kontextuelle Hilfe verwendet)
-  isContextual?: boolean // NEU: Flag, um Kontext-Modus zu identifizieren
+  isContextual?: boolean // Flag, um Kontext-Modus zu identifizieren
+  conciergeImage: string // NEU: Pfad zum Concierge-Bild
 }
 
-export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual = false }: TourGuideProps) { // isContextual hinzugefügt
+export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual = false, conciergeImage }: TourGuideProps) { // conciergeImage als Prop hinzugefügt
   const [currentStep, setCurrentStep] = useState(initialStep) 
   const router = useRouter()
   const pathname = usePathname()
@@ -175,9 +176,6 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
       return ALL_TOUR_STEPS;
     }
     
-    // Im Kontext-Modus: Filtere nur die Schritte der aktuellen Seite, 
-    // beginnend beim initialStep, und füge einen Abschluss-Schritt hinzu, falls nötig.
-    
     // Finde alle Schritte, die zum aktuellen Pfad gehören.
     const stepsForContext = ALL_TOUR_STEPS.filter(step => pathname.startsWith(step.path || "/"));
     
@@ -187,27 +185,21 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
       ALL_TOUR_STEPS[initialStep] && (step.path === ALL_TOUR_STEPS[initialStep].path && step.target === ALL_TOUR_STEPS[initialStep].target)
     );
     
-    // Schneide die Liste ab dem relativen Startindex ab.
-    // Die Subtour sollte den relativen Startindex nicht verwenden, da wir bei Index 0 der Subtour starten.
     const subTour = stepsForContext.slice(relativeStartIndex);
     
-    // Füge einen expliziten Endschritt hinzu, wenn der letzte Schritt der subTour nicht der letzte Schritt 
-    // der gesamten Tour ist, um ein sauberes Ende zu gewährleisten.
     const lastStep = subTour[subTour.length - 1];
 
-    if (!lastStep || lastStep.target !== "page") { // Endschritt nur hinzufügen, wenn die Subtour nicht bereits mit einem 'page' Endschritt endet
+    if (!lastStep || lastStep.target !== "page") { 
       subTour.push({
         target: "page",
         message: "Das war der Hilfebereich für diese Seite. Klicken Sie auf Tour beenden, um den Guide zu schließen.",
-        path: pathname // Bleibe auf der aktuellen Seite
+        path: pathname 
       })
     }
     
     return subTour;
   }, [isContextual, initialStep, pathname]) 
   
-  // Wichtig: currentStep bezieht sich nun auf den Index in der (möglicherweise gefilterten) tourSteps-Liste.
-
   // Zustand, um zu wissen, ob die Tour gerade beendet wird und die Animation läuft
   const [isFinishing, setIsFinishing] = useState(false);
 
@@ -412,9 +404,10 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
           duration: 4,
           ease: "easeInOut",
         }}
-        className="fixed bottom-8 right-24 w-24 h-24 z-[102]" // NEU: Höher als Highlight-Z-Index
+        // HIER WIRD DIE GRÖSSE ANGEPASST (von w-24 h-24 auf w-32 h-32)
+        className="fixed bottom-8 right-24 w-32 h-32 z-[102]" 
       >
-        <img src="/images/1.svg" alt="Concierge" className="w-full h-full object-contain" />
+        <img src={conciergeImage} alt="Concierge" className="w-full h-full object-contain" />
       </motion.div>
 
       {/* Highlight target element */}
