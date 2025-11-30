@@ -2,10 +2,11 @@
 
 import { useState } from "react"
 // import { BankGutmannHeader } from "@/components/bank-gutmann-header" <-- LÖSCHEN
-import { MarketControls } from "./market/market-controls" // KORREKTUR: Relativer Import korrigiert
+import { MarketControls } from "./market/market-controls" 
 import { MarketSummary } from "./market/market-summary" 
 import { MarketChart } from "./market/market-chart" 
-import { CrisisDetailModal } from "../crisis-detail-modal" // KORREKTUR: Relativer Import korrigiert
+// KORREKTUR: Absoluter Importpfad (Alias) verwenden, da die Komponente auf der Root-Ebene von /components liegt
+import { CrisisDetailModal } from "@/components/crisis-detail-modal" 
 import { type Crisis } from "./market/market-data" 
 import Link from "next/link" 
 import { useSettings } from "@/lib/settings-context" 
