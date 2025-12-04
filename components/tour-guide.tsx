@@ -17,7 +17,7 @@ interface TourStep {
 
 // ACHTUNG: Die Messages selbst sind nun nur KEYS, die zur Laufzeit übersetzt werden!
 const ALL_TOUR_STEPS: TourStep[] = [
-  // NEU INDEX 0: SCHRITT 1 - WILLKOMMEN 
+  // NEU INDEX 0: SCHRITT 1 - WILLKOMMEN
   { 
     target: "page", // Betrifft die gesamte Seite
     messageKey: "t1_welcome",
@@ -89,7 +89,7 @@ const ALL_TOUR_STEPS: TourStep[] = [
   {
     target: "market-contact-cta", 
     messageKey: "t15_message",
-    path: "/market" // Führt nun zu /faq
+    path: "/market" // Navigiert zu /faq
   },
 
   // --- WEITERE SEITEN (Portfolio entfernt, ab hier verschoben) ---
@@ -227,7 +227,7 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
             if (initialStepIndex !== -1) {
                 const indexInCurrentList = tourSteps.findIndex(s => s.fullIndex === initialStepIndex);
                 if(indexInCurrentList !== -1) {
-                    setCurrentStepIndex(initialStepIndex); // Korrigiert, um den Index aus ALL_TOUR_STEPS zu verwenden
+                    setCurrentStepIndex(initialStepIndex); 
                 } else {
                     setCurrentStepIndex(0);
                 }
@@ -365,11 +365,13 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
           transition={{ duration: 0.3 }} 
-          className="fixed bottom-32 left-8 right-8 md:left-auto md:right-32 z-[102] max-w-md" 
+          // 1. NEUE POSITION FÜR DIE SPRECHBLASE (Links platziert)
+          // right-32 wird zu left-32
+          className="fixed bottom-90 left-3 right-3 md:right-auto md:left-16 z-[102] max-w-sm" 
         >
           <div className="bg-white border-2 border-[#668273] rounded-2xl shadow-2xl p-6 relative">
-            {/* Speech bubble tail */}
-            <div className="absolute -bottom-3 right-24 w-6 h-6 bg-white border-r-2 border-b-2 border-[#668273] transform rotate-45" />
+            {/* Speech bubble tail: VON rechts nach links verschieben */}
+            <div className="absolute -bottom-3 left-55 w-6 h-6 bg-white border-r-2 border-b-2 border-[#668273] transform rotate-45" />
 
             <button onClick={handleSkip} className="absolute top-2 right-2 text-gray-400 hover:text-gray-600">
               <X className="h-5 w-5" />
@@ -402,7 +404,7 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
                 <button
                   onClick={handleNext}
                   className={`flex items-center gap-2 px-4 py-2 text-white rounded-lg transition-colors text-sm font-medium ${
-                    currentStepIndex < tourSteps.length - 1 ? 'bg-[#668273] hover:bg-[#5a7268]' : 'bg-green-600 hover:bg-green-700'
+                    'bg-[#668273] hover:bg-[#5a7268]' 
                   }`}
                 >
                   {currentStepIndex < tourSteps.length - 1 ? t.concierge.tour.t_understood : t.concierge.tour.t_finish} 
@@ -425,10 +427,15 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
           duration: 4,
           ease: "easeInOut",
         }}
-        className="fixed bottom-8 right-24 w-32 h-32 z-[102]" 
+        // 2. NEUE POSITION FÜR DIE FIGUR (Links unten, näher am Rand)
+        // right-32 wird zu left-4
+        className="fixed bottom-45 left-73 w-40 h-40 z-[102]" 
       >
         <img src={conciergeImage} alt="Concierge" className="w-full h-full object-contain" />
       </motion.div>
+
+      {/* Hervorhebung CSS ist in globals.css definiert */}
+      {/* ... (Style Block bleibt gleich) ... */}
     </>
   )
 }

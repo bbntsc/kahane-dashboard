@@ -1,10 +1,11 @@
+// kahane-dashboard-concierge 9/components/sidebar.tsx
 "use client"
 
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 // Star-Icon für den neuen Menüpunkt hinzugefügt
-import { LayoutDashboard, TrendingUp, BarChart3, Settings, PieChart, FileText, Bell, Star, HelpCircle } from "lucide-react"
+import { LayoutDashboard, TrendingUp, BarChart3, Settings, PieChart, FileText, Bell, Star, HelpCircle, Mail } from "lucide-react" // Mail Icon hinzugefügt
 import { useSettings } from "@/lib/settings-context" // Importieren Sie useSettings
 import { useTranslation } from "@/lib/i18n" // Importieren Sie useTranslation
 
@@ -26,6 +27,8 @@ export function Sidebar({ onConciergeClick }: SidebarProps) {
     // ENTFERNT: Portfolio
     { name: t.nav.faq, href: "/faq", icon: HelpCircle, target: "sidebar-faq" }, 
     { name: t.nav.feedback, href: "/feedback", icon: Star, target: "sidebar-feedback" },
+    // NEU: Kontakt Link in die Navigation verschoben
+    { name: t.nav.contact, href: "/contact", icon: Mail, target: "sidebar-contact" }, 
   ]
 
   const isActive = (href: string) => {
@@ -37,7 +40,7 @@ export function Sidebar({ onConciergeClick }: SidebarProps) {
   return (
     // Hintergrundfarbe und Border für Dark Mode anpassen
     <div className="flex flex-col flex-grow border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1b251d] overflow-y-auto h-full z-10"> 
-      {/* Header (Gutmann Concierge) */}
+      {/* Header (Kahane zu Gutmann Concierge) */}
       <div className="flex flex-col h-16 justify-center px-6 border-b border-gray-100 dark:border-gray-700">
         <h1 className="text-xl font-bold text-gray-900 dark:text-[#f8f3ef] font-serif tracking-tight leading-none">Gutmann</h1>
         <div className="text-xs tracking-[0.1em] uppercase text-gray-700 dark:text-[#f8f3ef] opacity-80 mt-0.5">Concierge</div>

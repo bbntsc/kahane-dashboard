@@ -83,12 +83,14 @@ export function BankGutmannHeader({ onLogoClick, className }: BankGutmannHeaderP
               >
                 {t.nav.about}
               </a>
+              {/* ENTFERNT: Kontakt Link aus dem Header
               <Link
                 href="/contact"
                 className="text-[#1b251d] dark:text-[#f8f3ef] hover:opacity-70 transition-opacity whitespace-nowrap"
               >
                 {t.nav.contact}
               </Link>
+              */}
 
               <div className="relative" data-tour="header-language-switch">
                 <button
@@ -129,12 +131,14 @@ export function BankGutmannHeader({ onLogoClick, className }: BankGutmannHeaderP
               <a href="#" className="text-[#1b251d] dark:text-[#f8f3ef] hover:opacity-70 transition-opacity py-2">
                 {t.nav.about}
               </a>
+              {/* ENTFERNT: Kontakt Link aus dem Mobile Header
               <Link
                 href="/contact"
                 className="text-[#1b251d] dark:text-[#f8f3ef] hover:opacity-70 transition-opacity py-2"
               >
                 {t.nav.contact}
               </Link>
+              */}
               {/* ZUSÄTZLICH: Sprachauswahl im mobilen Menü (optional, aber sinnvoll) */}
               <div className="relative pt-2">
                 <span className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-2">

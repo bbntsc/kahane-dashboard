@@ -32,8 +32,8 @@ export function ConciergeController() {
   const [showGuidedTour, setShowGuidedTour] = useState(false) 
   const [currentTourStep, setCurrentTourStep] = useState(0) 
   const [isContextualTour, setIsContextualTour] = useState(false); // Zustand für den kontextuellen Modus
-  // Standardbild ist 1.svg
-  const [conciergeImage, setConciergeImage] = useState("/images/1.svg"); 
+  // 1. KORREKTUR: Standardbild auf 2.svg gesetzt (für volle Tour)
+  const [conciergeImage, setConciergeImage] = useState("/images/2.svg"); 
   
   const { language } = useSettings()
   const pathname = usePathname();
@@ -61,7 +61,8 @@ export function ConciergeController() {
             const startingIndex = getStartingStepIndex(pathname);
             setCurrentTourStep(startingIndex);
             setIsContextualTour(false); 
-            setConciergeImage("/images/1.svg"); 
+            // KORREKTUR: Für die PERSISTENTE VOLLE TOUR MUSS 2.svg verwendet werden
+            setConciergeImage("/images/2.svg"); 
             // Aktiviere die geführte Tour nur hier, wenn KEIN Tutorial gezeigt werden muss.
             setShowGuidedTour(true); 
         }
@@ -76,7 +77,8 @@ export function ConciergeController() {
             handleTourComplete(); // Stoppt die aktuelle Tour
         }
         setIsContextualTour(false);
-        setConciergeImage("/images/1.svg"); // Volle Führung nutzt 1.svg
+        // 3. KORREKTUR: Der INTRO-Klick soll das Bild 2.svg verwenden.
+        setConciergeImage("/images/2.svg"); 
         setCurrentTourStep(0);
         setShowTutorial(true);
     }
@@ -87,8 +89,8 @@ export function ConciergeController() {
         
         // Tour starten und alle anderen Modals/Guides schließen
         setShowTutorial(false);
-        // Starte die Tour mit 2.svg
-        handleStartGuidedTour(startingIndex, true, "/images/2.svg"); 
+        // 2. KORREKTUR: Der GLOCKEN-Klick soll das Bild 1.svg verwenden.
+        handleStartGuidedTour(startingIndex, true, "/images/1.svg"); 
     }
 
     window.addEventListener('startConciergeIntro', handleStartIntro);
@@ -103,7 +105,8 @@ export function ConciergeController() {
 
   // --- Tour-Handler ---
   // Parameter imagePath hinzugefügt
-  const handleStartGuidedTour = (initialIndex: number = 0, contextual: boolean = false, imagePath: string = "/images/1.svg") => {
+  // 4. KORREKTUR: Default imagePath auf 2.svg gesetzt
+  const handleStartGuidedTour = (initialIndex: number = 0, contextual: boolean = false, imagePath: string = "/images/2.svg") => { 
     setShowTutorial(false);
     setCurrentTourStep(initialIndex); // Setze den Startindex
     setIsContextualTour(contextual); // Setze den Modus
@@ -114,16 +117,16 @@ export function ConciergeController() {
     if (!contextual && typeof window !== 'undefined') {
         sessionStorage.setItem(TUTORIAL_SEEN_KEY, "true")
         localStorage.setItem(TOUR_ACTIVE_KEY, "true"); 
-        // Stelle sicher, dass die persistente Tour (Intro) immer 1.svg nutzt
-        setConciergeImage("/images/1.svg");
+        // KORREKTUR: Die persistente Tour (Intro) nutzt immer 2.svg.
+        setConciergeImage("/images/2.svg");
     }
   }
   
   const handleTourComplete = () => {
     setShowGuidedTour(false)
     setIsContextualTour(false); // Setze Modus zurück
-    // Setze das Bild zurück auf den Standard (obwohl die Tour nicht mehr aktiv ist)
-    setConciergeImage("/images/1.svg"); 
+    // KORREKTUR: Setze das Bild zurück auf den Standard (volle Tour) 2.svg
+    setConciergeImage("/images/2.svg"); 
     
     // Entferne den aktiven Status, wenn die Tour abgeschlossen ist.
     if (typeof window !== 'undefined') {
@@ -147,8 +150,8 @@ export function ConciergeController() {
       {showTutorial && (
           <TutorialModal 
             onClose={handleCloseTutorial} 
-            // WICHTIG: Die Tour wird NUR über diesen Callback gestartet, wenn der Nutzer auf "Führung starten" klickt.
-            onStartTour={() => handleStartGuidedTour(0, false, "/images/1.svg")} 
+            // KORREKTUR: Startet die Tour mit 2.svg
+            onStartTour={() => handleStartGuidedTour(0, false, "/images/2.svg")} 
           />
       )}
       

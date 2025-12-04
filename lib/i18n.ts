@@ -9,7 +9,6 @@ export const translations = {
         it: "Italiano",
     },
     nav: {
-      about: "Über uns",
       contact: "Kontakt",
       overview: "Übersicht",
       faq: "FAQ", 
@@ -37,8 +36,8 @@ export const translations = {
       realistic: "Realistisch",
       cautious: "Vorsichtig",
       totalInvestment: "Totales Investment",
-      totalReturn: "Gesamtertrag (Mitte)",
-      finalValue: "Finaler Wert (Mitte)",
+      totalReturn: "Gesamtertrag (Realistisch)",
+      finalValue: "Finaler Wert (Realistisch)",
       expectedYield: "Erw. Rendite p.a.",
       ctaTitle: "Wie hätte sich Ihre Investition in der Vergangenheit verhalten?",
       ctaDescription:

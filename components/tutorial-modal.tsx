@@ -54,7 +54,7 @@ export function TutorialModal({ onClose, onStartTour }: TutorialModalProps) {
            {/* HIER WIRD DIE GRÖSSE ANGEPASST */}
            <div className="relative w-56 h-72 md:w-72 md:h-96 transition-transform duration-700 hover:scale-105 animate-float">
              <Image 
-               src="/images/1.svg" 
+               src="/images/2.svg" // KORREKTUR: Bild auf 2.svg geändert
                alt={t.concierge.tutorialTitle} // Alt-Text übersetzt
                fill
                className="object-contain object-bottom drop-shadow-xl"
