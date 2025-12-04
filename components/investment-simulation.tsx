@@ -237,7 +237,7 @@ export function InvestmentSimulation() {
         labels: years,
         datasets: [
           {
-            label: `${t.simulation.optimistic} (90%)`,
+            label: `${t.simulation.optimistic}`,
             data: bestCaseData,
             borderColor: bestCaseColor,
             backgroundColor: "transparent",
@@ -249,7 +249,7 @@ export function InvestmentSimulation() {
             tension: 0.1,
           },
           {
-            label: `${t.simulation.realistic} (50%)`,
+            label: `${t.simulation.realistic} `,
             data: middleCaseData,
             borderColor: middleCaseColor,
             backgroundColor: "transparent",
@@ -261,7 +261,7 @@ export function InvestmentSimulation() {
             tension: 0.1,
           },
           {
-            label: `${t.simulation.cautious} (10%)`,
+            label: `${t.simulation.cautious} `,
             data: worstCaseData,
             borderColor: worstCaseColor,
             backgroundColor: "transparent",
@@ -503,18 +503,18 @@ export function InvestmentSimulation() {
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">
               <div className="h-3 w-3 rounded-full bg-[#4a5f52]"></div>
-              <span className="text-sm text-gray-700 dark:text-gray-100">{t.simulation.optimistic} (90%)</span>
+              <span className="text-sm text-gray-700 dark:text-gray-100">{t.simulation.optimistic} </span>
             </div>
             <div className="flex items-center gap-2">
               <div className="h-3 w-3 rounded-full bg-[#1b251d]"></div>
-              <span className="text-sm text-gray-700 dark:text-gray-100">{t.simulation.realistic} (50%)</span>
+              <span className="text-sm text-gray-700 dark:text-gray-100">{t.simulation.realistic} </span>
             </div>
             <div className="flex items-center gap-2">
               <div className="h-3 w-3 rounded-full bg-[#c7847d]"></div>
-              <span className="text-sm text-gray-700 dark:text-gray-100">{t.simulation.cautious} (10%)</span>
+              <span className="text-sm text-gray-700 dark:text-gray-100">{t.simulation.cautious} </span>
             </div>
           </div>
-          <div className="text-lg font-serif italic text-gray-400 dark:text-gray-100">Kahane</div>
+          <div className="text-lg font-serif italic text-gray-400 dark:text-gray-100"></div>
         </div>
 
         <div className="h-[300px] bg-white dark:bg-gray-800 rounded-lg p-4 mb-6" data-tour="chart-container"> {/* NEU: data-tour hier hinzugefügt, um den Chart-Bereich zu umrahmen */}

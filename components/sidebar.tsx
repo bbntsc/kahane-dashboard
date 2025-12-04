@@ -37,7 +37,7 @@ export function Sidebar({ onConciergeClick }: SidebarProps) {
   return (
     // Hintergrundfarbe und Border für Dark Mode anpassen
     <div className="flex flex-col flex-grow border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1b251d] overflow-y-auto h-full z-10"> 
-      {/* Header (Kahane zu Gutmann Concierge) */}
+      {/* Header (Gutmann Concierge) */}
       <div className="flex flex-col h-16 justify-center px-6 border-b border-gray-100 dark:border-gray-700">
         <h1 className="text-xl font-bold text-gray-900 dark:text-[#f8f3ef] font-serif tracking-tight leading-none">Gutmann</h1>
         <div className="text-xs tracking-[0.1em] uppercase text-gray-700 dark:text-[#f8f3ef] opacity-80 mt-0.5">Concierge</div>

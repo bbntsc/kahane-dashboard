@@ -43,7 +43,7 @@ export function getCombinedFaqs(language: Language): FaqItem[] {
     {
       question: language === "de" ? "Was bedeuten die drei Linien im Diagramm?" : language === "fr" ? "Que signifient les trois lignes du graphique ?" : language === "it" ? "Cosa significano le tre linee del grafico?" : "What do the three lines in the chart mean?",
       answer: language === "de" 
-        ? "Die obere Linie zeigt den optimistischen Fall (90% der Simulationen liegen darunter), die mittlere das realistische Szenario (50%) und die untere den vorsichtigen Fall (nur 10% liegen darunter)." 
+        ? "Die obere Linie zeigt den optimistischen Fall, die mittlere das realistische Szenario und die untere den vorsichtigen Fall." 
         : language === "fr" 
           ? "La ligne supérieure montre le cas optimiste (90 % des simulations se situent en dessous), la ligne médiane le scénario réaliste (50 %) et la ligne inférieure le cas prudent (seulement 10 % se situent en dessous)." 
           : language === "it" 

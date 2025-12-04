@@ -12,7 +12,7 @@ export const translations = {
       about: "Über uns",
       contact: "Kontakt",
       overview: "Übersicht",
-      faq: "FAQ/Hilfe", 
+      faq: "FAQ", 
       simulation: "Simulation", 
       market: "Marktanalyse", 
       portfolio: "Portfolio", 
@@ -20,13 +20,12 @@ export const translations = {
       settings: "Einstellungen", 
     },
     landing: { // NEU
-        title: "Kahane",
+        title: "Gutmann Concierge",
         subtitle: "Erlebe investieren",
     },
     simulation: {
       title: "Vermögenssimulation",
       subtitle: "Testen Sie verschiedene Anlagestrategien mit unserer Monte-Carlo-Simulation.", // NEU
-      benchmark: "Benchmark wählen",
       msciWorld: "MSCI World",
       sp500: "S&P 500",
       initialInvestment: "Veranlagungsbetrag",
@@ -89,7 +88,7 @@ export const translations = {
       callConcierge: "Concierge rufen",
       
       // TUTORIAL MODAL TEXTE
-      tutorialWelcome: "Willkommen bei Kahane",
+      tutorialWelcome: "Willkommen beim Gutmann Concierge",
       tutorialTitle: "Darf ich Sie herumführen?",
       tutorialBody: "Ich bin Ihr persönlicher Concierge. Ich zeige Ihnen gerne die Funktionen unseres Hauses oder lasse Sie sich selbst umsehen.",
       tutorialHint: "Tipp: Falls Sie später Hilfe benötigen, können Sie jederzeit einfach die Glocke im Menü läuten.",
@@ -113,8 +112,8 @@ export const translations = {
         t13_message: "Der Schalter Insights blendet rote Marker ein. Klicken Sie auf diese, um Details zu den Krisen und unseren Empfehlungen zu erhalten.",
         t14_message: "Die Zusammenfassung zeigt Ihnen statistische Kennzahlen wie den Durchschnittsertrag und die maximalen Verluste für den gewählten Zeitraum.",
         t15_message: "Nach der Analyse: Wenn Sie bereit sind, Ihre Erkenntnisse in eine persönliche Strategie umzusetzen, können Sie hier direkt mit uns Kontakt aufnehmen. Nun wechseln wir zum Portfolio.",
-        t16_message: "Auf der Portfolio-Seite (und auch auf der FAQ/Hilfe- und Feedback-Seite) wird Ihnen weiterhin die Navigation erklärt. Das Portfolio gibt Ihnen eine detaillierte Übersicht Ihrer Anlagen.",
-        t17_message: "Die Seite FAQ/Hilfe ist ein wichtiger Anlaufpunkt. Hier finden Sie alle Fragen und Antworten übersichtlich sortiert.",
+        t16_message: "Auf der Portfolio-Seite (und auch auf der FAQ und Feedback-Seite) wird Ihnen weiterhin die Navigation erklärt. Das Portfolio gibt Ihnen eine detaillierte Übersicht Ihrer Anlagen.",
+        t17_message: "Die Seite FAQ ist ein wichtiger Anlaufpunkt. Hier finden Sie alle Fragen und Antworten übersichtlich sortiert.",
         t18_message: "Die Seite Feedback können Sie uns schnell Ihre Meinung mitteilen. Ein Klick auf Einstellungen führt zum nächsten Schritt.",
         t19_message: "Die Seite Einstellungen ermöglicht es Ihnen, das Erscheinungsbild (Theme, Schriftgröße und Sprache) der Anwendung anzupassen. Der letzte Schritt ist die Kontaktseite.",
         t20_message: "Die Kontaktseite ermöglicht Ihnen, direkt mit unseren Beratern in Verbindung zu treten, um Ihre individuelle Anlagestrategie zu besprechen.",
@@ -187,7 +186,7 @@ export const translations = {
       medium: "Mittel",
       large: "Groß",
       // NEUE FÜR FAQ Content
-      faqTitle: "Häufige Fragen & Hilfe",
+      faqTitle: "Häufige Fragen",
       faqSubtitle: "Antworten auf die wichtigsten Fragen zur Plattform und Investment-Themen.",
       settingsSubtitle: "Passen Sie die Darstellung nach Ihren Wünschen an", // NEU
     },
@@ -211,7 +210,7 @@ export const translations = {
       settings: "Settings", 
     },
     landing: { // NEU
-        title: "Kahane",
+        title: "Gutmann Concierge",
         subtitle: "Experience investing",
     },
     simulation: {
@@ -279,7 +278,7 @@ export const translations = {
       callConcierge: "Call concierge",
       
       // TUTORIAL MODAL TEXTE
-      tutorialWelcome: "Welcome to Kahane",
+      tutorialWelcome: "Welcome to Gutmann Concierge",
       tutorialTitle: "May I show you around?",
       tutorialBody: "I am your personal concierge. I would be happy to show you the functions of our house or let you explore on your own.",
       tutorialHint: "Tip: If you need help later, you can always ring the bell in the menu.",
@@ -400,7 +399,7 @@ export const translations = {
       settings: "Paramètres", 
     },
     landing: { // NEU
-        title: "Kahane",
+        title: "Gutmann Concierge",
         subtitle: "Découvrez l'investissement",
     },
     simulation: {
@@ -469,7 +468,7 @@ export const translations = {
       callConcierge: "Appeler le concierge",
 
       // TUTORIAL MODAL TEXTES
-      tutorialWelcome: "Bienvenue chez Kahane",
+      tutorialWelcome: "Bienvenue chez Gutmann Concierge",
       tutorialTitle: "Puis-je vous faire visiter?",
       tutorialBody: "Je suis votre concierge personnel. Je serais ravi de vous montrer les fonctions de notre maison ou de vous laisser explorer par vous-même.",
       tutorialHint: "Astuce: Si vous avez besoin d'aide plus tard, vous pouvez toujours sonner la cloche dans le menu.",
@@ -590,7 +589,7 @@ export const translations = {
       settings: "Impostazioni", 
     },
     landing: { // NEU
-        title: "Kahane",
+        title: "Gutmann Concierge",
         subtitle: "Esperienza di investimento",
     },
     simulation: {
@@ -658,7 +657,7 @@ export const translations = {
       callConcierge: "Chiamare il concierge",
       
       // TUTORIAL MODAL TEXTE
-      tutorialWelcome: "Benvenuto in Kahane",
+      tutorialWelcome: "Benvenuto in Gutmann Concierge",
       tutorialTitle: "Posso mostrarti in giro?",
       tutorialBody: "Sono il tuo concierge personale. Sarei lieto di mostrarti le funzioni della nostra casa o di farti esplorare da solo.",
       tutorialHint: "Suggerimento: Se hai bisogno di aiuto più tardi, puoi sempre suonare il campanello nel menu.",
