@@ -20,39 +20,40 @@ export function Sidebar({ onConciergeClick }: SidebarProps) {
   const t = useTranslation(language)
 
   const navigation = [
-    // NUTZT NUN DYNAMISCHE NAMEN AUS I18N
-    { name: t.nav.overview, href: "/", icon: LayoutDashboard, target: "sidebar-overview" },
+    // ENTFERNT: Überblick (Overview)
     { name: t.nav.simulation, href: "/simulation", icon: BarChart3, target: "sidebar-simulation" },
     { name: t.nav.market, href: "/market", icon: TrendingUp, target: "sidebar-market" },
-    { name: t.nav.portfolio, href: "/portfolio", icon: PieChart, target: "sidebar-portfolio" },
+    // ENTFERNT: Portfolio
     { name: t.nav.faq, href: "/faq", icon: HelpCircle, target: "sidebar-faq" }, 
     { name: t.nav.feedback, href: "/feedback", icon: Star, target: "sidebar-feedback" },
   ]
 
   const isActive = (href: string) => {
-    if (href === "/") return pathname === href
-    // Stellt sicher, dass /faq als aktiv markiert wird, wenn die Seite besucht wird
+    // Wenn auf der Landing Page, markiere Simulation als aktiv
+    if (href === "/simulation" && pathname === "/") return true 
     return pathname.startsWith(href)
   }
 
   return (
     // Hintergrundfarbe und Border für Dark Mode anpassen
     <div className="flex flex-col flex-grow border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1b251d] overflow-y-auto h-full z-10"> 
-      {/* Header */}
-      <div className="flex h-16 items-center px-6 border-b border-gray-100 dark:border-gray-700">
-        {/* Textfarbe für Dark Mode anpassen */}
-        <h1 className="text-xl font-bold text-gray-900 dark:text-[#f8f3ef] font-serif tracking-tight">Kahane</h1>
+      {/* Header (Kahane zu Gutmann Concierge) */}
+      <div className="flex flex-col h-16 justify-center px-6 border-b border-gray-100 dark:border-gray-700">
+        <h1 className="text-xl font-bold text-gray-900 dark:text-[#f8f3ef] font-serif tracking-tight leading-none">Gutmann</h1>
+        <div className="text-xs tracking-[0.1em] uppercase text-gray-700 dark:text-[#f8f3ef] opacity-80 mt-0.5">Concierge</div>
       </div>
 
       {/* Navigation */}
       <nav className="mt-6 flex-1 px-3 space-y-1">
         {navigation.map((item) => {
           const Icon = item.icon
+          // Da /simulation der neue Startpunkt im Menü ist, leiten wir '/' darauf um.
+          const finalHref = item.href === "/" ? "/simulation" : item.href; 
           const active = isActive(item.href)
           return (
             <Link
               key={item.name}
-              href={item.href}
+              href={finalHref}
               className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all ${
                 active 
                   // Aktiver Link: Hintergrund ändert sich nicht im Dark Mode, Text bleibt weiß

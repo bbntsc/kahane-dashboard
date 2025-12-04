@@ -98,11 +98,11 @@ export const translations = {
 
       // TOUR GUIDE TEXTE (ALL_TOUR_STEPS)
       tour: {
-        t1_message: "Willkommen! Dies ist Ihre Übersichtsseite, der zentrale Startpunkt. Hier sehen Sie die wichtigsten Kennzahlen auf einen Blick.",
+        t1_welcome: "Herzlich willkommen zur Investment-Simulation der Bank Gutmann. Ich bin Ihr persönlicher Concierge. Lassen Sie mich Sie diskret begleiten und Ihnen zeigen, wie klar und einfach Investmententscheidungen auf diesem Niveau sein können.",
         t2_message: "Dieser Bereich liefert Ihnen eine aktuelle Zusammenfassung Ihres Gesamtvermögens, der Performance und des Risiko-Scores.",
-        t3_message: "Über diese Schnellzugriffe gelangen Sie direkt zu den Hauptfunktionen wie Simulation und Marktanalyse.",
+        t3_message: "Auf der Übersichtsseite erhalten Sie schnelle Einblicke in die wichtigsten Funktionen der Plattform, ideal für den täglichen Check-up.",
         t4_message: "Hier finden Sie einen Feed Ihrer letzten Aktivitäten und wichtige Markt-Insights, die Ihnen helfen, informiert zu bleiben. Weiter geht es zur Simulation.",
-        t5_message: "Dies ist der Kern der Plattform: die Vermögenssimulation. Hier können Sie verschiedene Anlagestrategien testen.",
+        t5_message: "Beginnen wir mit der Simulation. Hier bestimmen Sie mit nur wenigen Klicks die wichtigsten Parameter Ihrer Anlagestrategie.",
         t6_message: "Passen Sie die zentralen Parameter wie Anlagebetrag, monatliche Investition, Aktienquote und Anlagehorizont an.",
         t7_message: "Das Diagramm zeigt die voraussichtliche Entwicklung Ihres Portfolios in drei Szenarien (optimistisch, realistisch, vorsichtig).",
         t8_message: "Die Zusammenfassung zeigt Ihnen, was Sie investiert haben und welchen potenziellen Finalwert und Ertrag Sie erwarten können.",
@@ -127,6 +127,7 @@ export const translations = {
         t_contextual_end: "Das war der Hilfebereich für diese Seite. Klicken Sie auf Tour beenden, um den Guide zu schließen.",
       }
     },
+    
     contact: { // NEU: Texte für die Formular-Buttons/Überschriften
         title: "Ihre Anlageziele",
         subtitle: "Helfen Sie uns, Sie besser zu verstehen",

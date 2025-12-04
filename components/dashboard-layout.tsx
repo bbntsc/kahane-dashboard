@@ -89,12 +89,12 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           )}
         </SimulationContext.Consumer>
 
-        {/* Mobile Header für Sidebar-Trigger (bleibt für Mobile-Navigation wichtig) */}
+        {/* Mobile Header für Sidebar-Trigger (von Kahane auf Gutmann Concierge umbenannt) */}
         <div className="lg:hidden flex items-center p-4 border-b border-[#ede9e1] bg-white sticky top-0 z-10">
             <button onClick={() => setSidebarOpen(true)} className="text-gray-500 hover:text-gray-900">
                 <Menu className="h-6 w-6" />
             </button>
-            <span className="ml-4 font-bold text-lg font-serif text-[#1b251d]">Kahane</span>
+            <span className="ml-4 font-bold text-lg font-serif text-[#1b251d]">Gutmann Concierge</span>
         </div>
 
         {/* Seiteninhalt */}

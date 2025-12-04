@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const bodoni = Bodoni_Moda({ subsets: ["latin"], variable: "--font-bodoni" })
 
 export const metadata: Metadata = {
-  title: "Bank Gutmann - Investment Simulation und Marktanalyse",
+  title: "Gutmann Concierge - Investment Simulation und Marktanalyse",
   description: "Investment simulation and market analysis platform",
 }
 

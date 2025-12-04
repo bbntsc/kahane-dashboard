@@ -20,7 +20,7 @@ const getStartingStepIndex = (pathname: string): number => {
     // Finde den ersten Schritt in ALL_TOUR_STEPS, dessen Pfad mit dem aktuellen pathname übereinstimmt.
     const index = ALL_TOUR_STEPS.findIndex(step => pathname.startsWith(step.path || "/") && (pathname === step.path || (step.path !== "/" && pathname.includes(step.path))));
 
-    // Wenn kein spezifischer Schritt gefunden wird, starte bei 0 (Overview)
+    // Wenn kein spezifischer Schritt gefunden wird, starte bei 0 (Willkommen)
     return index !== -1 ? index : 0; 
 }
 
@@ -41,26 +41,32 @@ export function ConciergeController() {
   // --- INIT: Modal nur beim ersten Besuch zeigen & Tour-Status wiederherstellen ---
   useEffect(() => {
     if (typeof window !== 'undefined') {
-        // 1. Tutorial anzeigen (nur auf /simulation und wenn nie gesehen)
+        
         const tutorialSeen = sessionStorage.getItem(TUTORIAL_SEEN_KEY)
-        if (!tutorialSeen && pathname === "/simulation") {
+        const isSimulationPage = pathname === "/simulation" || pathname === "/"; 
+        
+        // 1. Tutorial anzeigen (nur auf /simulation und wenn nie gesehen)
+        if (!tutorialSeen && isSimulationPage) {
+            // WICHTIG: Wenn Tutorial gezeigt wird, muss die persistente Tour abgebrochen werden.
+            localStorage.removeItem(TOUR_ACTIVE_KEY); 
             setTimeout(() => setShowTutorial(true), 500); 
+            return; // Beende, um die Tour-Wiederherstellung unten zu verhindern
         }
         
         // 2. TOUR WIEDERHERSTELLUNG (nach Navigation oder F5)
         const tourActiveStorage = localStorage.getItem(TOUR_ACTIVE_KEY);
-        if (tourActiveStorage === "true") {
+        
+        if (tourActiveStorage === "true") { 
             // Wenn Tour aktiv, setze den Startschritt basierend auf dem aktuellen Pfad
             const startingIndex = getStartingStepIndex(pathname);
             setCurrentTourStep(startingIndex);
-            setIsContextualTour(false); // Angenommen, eine gespeicherte Tour ist die volle Tour
-            setConciergeImage("/images/1.svg"); // Voll-Tour nutzt immer 1.svg
-            if (!showTutorial) { 
-               setShowGuidedTour(true);
-            }
+            setIsContextualTour(false); 
+            setConciergeImage("/images/1.svg"); 
+            // Aktiviere die geführte Tour nur hier, wenn KEIN Tutorial gezeigt werden muss.
+            setShowGuidedTour(true); 
         }
     }
-  }, [pathname, showTutorial]) // showTutorial als Dependency hinzugefügt
+  }, [pathname]) 
 
   // --- Event Listener für Sidebar/Header-Klick ---
   useEffect(() => {
@@ -130,6 +136,7 @@ export function ConciergeController() {
   const handleCloseTutorial = () => {
     setShowTutorial(false)
     if (typeof window !== 'undefined') {
+        // Wenn der Nutzer "Selbst erkunden" wählt, markiere das Tutorial als gesehen, starte aber keine Tour.
         sessionStorage.setItem(TUTORIAL_SEEN_KEY, "true")
     }
   }
@@ -140,7 +147,7 @@ export function ConciergeController() {
       {showTutorial && (
           <TutorialModal 
             onClose={handleCloseTutorial} 
-            // Stelle sicher, dass die gestartete Tour 1.svg nutzt
+            // WICHTIG: Die Tour wird NUR über diesen Callback gestartet, wenn der Nutzer auf "Führung starten" klickt.
             onStartTour={() => handleStartGuidedTour(0, false, "/images/1.svg")} 
           />
       )}

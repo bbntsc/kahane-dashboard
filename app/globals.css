@@ -142,6 +142,15 @@ select,
   border-color: #4a524a !important;
 }
 
+/* NEU: CSS-Klasse für die Tour Guide Hervorhebung (Gold/Gelb) */
+.tour-highlight {
+  /* Box-Shadow für den leuchtenden Effekt (Gelb/Gold/Money-Thema) */
+  box-shadow: 0 0 0 4px #ffc107, 0 0 0 8px rgba(255, 193, 7, 0.5) !important; 
+  border-radius: 6px;
+  padding: 4px; 
+  transition: box-shadow 0.3s ease-in-out, padding 0.3s ease-in-out;
+}
+
 @theme inline {
   --font-sans: var(--font-inter); /* ZU INTER GEÄNDERT */
   --font-serif: var(--font-bodoni); /* ZU BODONI GEÄNDERT */
