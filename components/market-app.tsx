@@ -1,3 +1,4 @@
+// kahane-dashboard-concierge 9/components/market-app.tsx
 "use client"
 
 import { useState } from "react"
@@ -27,7 +28,8 @@ export function MarketApp() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f8f3ef] dark:bg-gray-900" data-tour="market-page"> 
+    // Hintergrundfarbe entfernt, da Aufgabe des Layouts
+    <div data-tour="market-page"> 
         
         <div className="mx-auto max-w-7xl px-4 py-8">
         
@@ -60,30 +62,67 @@ export function MarketApp() {
             />
         )}
 
-        {/* --- Kontaktbereich unten auf der Marktseite --- */}
-        <div className="mt-12 text-center">
-            <h3 className="text-2xl font-serif text-[#1b251d] dark:text-gray-100 mb-4 leading-tight">
-                {t.market.ctaTitle}
-            </h3>
-            <p className="text-base text-gray-600 dark:text-gray-300 leading-relaxed max-w-3xl mx-auto mb-6">
-                {t.market.ctaDescription}
-            </p>
-            
-            {/* Kontakt Button: Gelb und unauffälliger, wie in der Simulation gewünscht */}
-            <Link href="/contact" className="inline-block" data-tour="market-contact-cta">
-                <button 
-                    className="w-full sm:w-auto px-8 py-3 bg-[#ebf151] text-[#1b251d] rounded-full hover:bg-[#d9df47] transition-colors text-sm font-medium shadow-md"
-                >
-                    {t.simulation.contactNow}
-                </button>
-            </Link>
-            
-            {/* Disclaimer am Ende der Marktseite (wiederhergestellt) */}
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-8 italic leading-relaxed max-w-3xl mx-auto">
-                {t.simulation.disclaimer}
-            </p>
+        {/* --- CTA / Kontakt Bereich (Spiegelt das 2-Spalten-Layout der Simulation) --- */}
+        <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
+
+            {/* BLOCK LINKS: Primärer Kontakt-CTA ("Jetzt kontaktieren" Button) */}
+            <div 
+                // Style kopiert von Simulation's CTA box, aber hier als linker Block
+                className="bg-white dark:bg-gray-800 border border-[#ede9e1] dark:border-gray-600 rounded-lg p-8 shadow-sm flex flex-col justify-between"
+            >
+                
+                <h3 className="text-lg font-serif text-[#1b251d] dark:text-gray-100 mb-6 leading-tight">
+                    {t.market.ctaTitle} {/* "Bereit, Ihre Anlagestrategie zu besprechen?" */}
+                </h3>
+                
+                {/* Linker, Gelber "Jetzt kontaktieren" Button */}
+                <Link href="/contact" className="inline-block w-full" data-tour="market-contact-button">
+                    <button 
+                        className="w-full px-8 py-3 bg-[#ebf151] text-[#1b251d] rounded-full hover:bg-[#d9df47] transition-colors text-sm font-medium shadow-md"
+                    >
+                        {t.simulation.contactNow}
+                    </button>
+                </Link>
+
+            </div>
+
+            {/* BLOCK RECHTS: Sekundär-CTA Box ("Zurück zur Simulation") - MIT TEXT */}
+            <div 
+              className="bg-white dark:bg-gray-800 border border-[#ede9e1] dark:border-gray-600 rounded-lg p-8 shadow-sm"
+              data-tour="market-secondary-cta" 
+            >
+              {/* Kopiert die Struktur der CTA Box der Simulation */}
+              <div className="flex items-start gap-4 flex-col sm:flex-row sm:items-center sm:justify-between">
+                
+                {/* Textbereich kopiert die H3 und P Tags der Simulation CTA */}
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-lg font-serif text-[#1b251d] dark:text-gray-100 mb-2 leading-tight">
+                    {t.simulation.ctaTitle} {/* "Wie hätte sich Ihre Investition in der Vergangenheit verhalten?" */}
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                    {t.simulation.ctaDescription} {/* "Neugierig, wie sich Ihr Portfolio..." */}
+                  </p>
+                </div>
+                
+                {/* Rechter, Sekundär-Button: Zurück zur Simulation */}
+                <Link href="/simulation" className="flex-shrink-0 w-full sm:w-auto mt-4 sm:mt-0">
+                  <button 
+                    // Grüner Sekundär-Stil, um Konsistenz mit der Simulation zu wahren
+                    className="w-full sm:w-auto px-8 py-3 bg-[#4a5f52] text-white rounded-lg hover:bg-[#3a4f42] transition-colors font-medium inline-flex items-center justify-center gap-2 shadow-md"
+                  >
+                    Zurück zur Simulation
+                    <span className="text-lg ml-2">→</span>
+                  </button>
+                </Link>
+              </div>
+            </div>
         </div>
-        {/* --- ENDE NEUER Kontaktbereich --- */}
+        {/* --- ENDE CTA / Kontakt Bereich --- */}
+
+        {/* Disclaimer (zentriert für das Ende des Inhalts) */}
+        <p className="text-sm text-gray-500 dark:text-gray-400 mt-8 italic leading-relaxed max-w-3xl mx-auto text-center">
+            {t.simulation.disclaimer}
+        </p>
 
         </div>
     </div>
