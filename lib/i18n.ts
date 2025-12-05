@@ -96,9 +96,9 @@ export const translations = {
 
       // TOUR GUIDE TEXTE (ALL_TOUR_STEPS)
       tour: {
-        t1_welcome: "Herzlich willkommen zur Investment-Simulation der Bank Gutmann. Ich bin Ihr persönlicher Concierge. Lassen Sie mich Sie diskret begleiten und Ihnen zeigen, wie klar und einfach Investmententscheidungen auf diesem Niveau sein können.",
+        t1_welcome: "Herzlich willkommen zur Investment Simulation der Bank Gutmann. Ich bin Ihr persönlicher Concierge. Lassen Sie mich Ihnen die Hand reichen und Ihnen zeigen, wie klar und einfach Investmententscheidungen sein können.",
         t2_message: "Dieser Bereich liefert Ihnen eine aktuelle Zusammenfassung Ihres Gesamtvermögens, der Performance und des Risiko-Scores.",
-        t3_message: "Auf der Übersichtsseite erhalten Sie schnelle Einblicke in die wichtigsten Funktionen der Plattform, ideal für den täglichen Check-up.",
+        t3_message: "In der Seitenleiste erhalten Sie einen Überblick zu den wichtigsten Funktionen der Plattform, ideal zur Orientierung.",
         t4_message: "Hier finden Sie einen Feed Ihrer letzten Aktivitäten und wichtige Markt-Insights, die Ihnen helfen, informiert zu bleiben. Weiter geht es zur Simulation.",
         t5_message: "Beginnen wir mit der Simulation. Hier bestimmen Sie mit nur wenigen Klicks die wichtigsten Parameter Ihrer Anlagestrategie.",
         t6_message: "Passen Sie die zentralen Parameter wie Anlagebetrag, monatliche Investition, Aktienquote und Anlagehorizont an.",
