@@ -2,7 +2,7 @@
 
 import * as React from "react" 
 import { useState, useEffect, useMemo } from "react" 
-import { InvestmentSimulation } from "@/components/investment-simulation"
+import { InvestmentSimulation } from "./investment-simulation"
 import { useSettings } from "@/lib/settings-context" 
 import { useTranslation } from "@/lib/i18n" 
 

@@ -3,27 +3,27 @@
 import { Menu, ChevronDown } from "lucide-react"
 import { useState } from "react"
 import Link from "next/link"
-// KORREKTUR: Importiere die echten Hooks
 import { useSettings, type Language } from "@/lib/settings-context" 
 import { useTranslation } from "@/lib/i18n" 
-
-// NOTE: Die simulierten Hooks und Translations wurden entfernt.
-// Das Language-Interface wird jetzt von settings-context.tsx importiert.
 
 
 interface BankGutmannHeaderProps {
   onLogoClick?: () => void
-  className?: string // Füge className hinzu, um vom Layout überschrieben zu werden
+  className?: string 
 }
 
-export function BankGutmannHeader({ onLogoClick, className }: BankGutmannHeaderProps) { 
+// BankGutmannHeader Komponente mit onLogoClick Handler
+export function BankGutmannHeader({ onLogoClick, className }: BankGutmannHeaderProps) {
+  // State für mobiles Menü und Sprachmenü 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  // State für Sprachwahl-Dropdown
   const [languageOpen, setLanguageOpen] = useState(false)
-  
-  // WICHTIG: Nutzt jetzt den echten globalen Kontext
+  // Einstellungen und Übersetzungen
   const { language, setLanguage } = useSettings()
+  // Übersetzungs-Hook
   const t = useTranslation(language)
 
+  // Sprachoptionen
   const languages: { code: Language; name: string }[] = [
     { code: "de" as Language, name: t.languages.de },
     { code: "en" as Language, name: t.languages.en },
@@ -31,9 +31,10 @@ export function BankGutmannHeader({ onLogoClick, className }: BankGutmannHeaderP
     { code: "it" as Language, name: t.languages.it },
   ]
 
-  // NEU: Wählt Link (Standard) oder div (für Klick-Handler)
+  // Bedingte Wrapper-Komponente: Link oder div je nach onLogoClick
   const LogoWrapper = onLogoClick ? 'div' : Link;
 
+  // Design des Headers
   return (
     <header className={`bg-[#f8f3ef] dark:bg-[#1b251d] border-b border-[#ede9e1] dark:border-[#404a3f] relative z-50 ${className}`}>
       <div className="mx-auto max-w-7xl px-6">
@@ -59,13 +60,9 @@ export function BankGutmannHeader({ onLogoClick, className }: BankGutmannHeaderP
                   if (onLogoClick) {
                       onLogoClick();
                   }
-                  // Andernfalls navigiert der Link normal zur Homepage
               }}
             >
-              <div
-                className="font-serif italic text-2xl text-[#1b251d] dark:text-[#f8f3ef] leading-tight"
-                // Entferne unnötiges Inline-Styling, das jetzt global geregelt wird
-              >
+              <div className="font-serif italic text-2xl text-[#1b251d] dark:text-[#f8f3ef] leading-tight">
                 Gutmann
               </div>
               <div className="text-[9px] tracking-[0.2em] text-[#1b251d] dark:text-[#f8f3ef] uppercase mt-0.5">
@@ -83,20 +80,12 @@ export function BankGutmannHeader({ onLogoClick, className }: BankGutmannHeaderP
               >
                 {t.nav.about}
               </a>
-              {/* ENTFERNT: Kontakt Link aus dem Header
-              <Link
-                href="/contact"
-                className="text-[#1b251d] dark:text-[#f8f3ef] hover:opacity-70 transition-opacity whitespace-nowrap"
-              >
-                {t.nav.contact}
-              </Link>
-              */}
-
+              
+              {/* Sprachwahl Dropdown */}
               <div className="relative" data-tour="header-language-switch">
                 <button
                   onClick={() => setLanguageOpen(!languageOpen)}
-                  className="flex items-center gap-1 cursor-pointer hover:opacity-70 transition-opacity"
-                >
+                  className="flex items-center gap-1 cursor-pointer hover:opacity-70 transition-opacity">
                   <span className="text-[#1b251d] dark:text-[#f8f3ef] uppercase">{language}</span>
                   <ChevronDown className="h-3 w-3 text-[#1b251d] dark:text-[#f8f3ef]" />
                 </button>
@@ -113,7 +102,7 @@ export function BankGutmannHeader({ onLogoClick, className }: BankGutmannHeaderP
                         className={`w-full text-left px-4 py-2 hover:bg-[#f8f3ef] dark:hover:bg-[#1b251d] transition-colors ${
                           language === lang.code ? "bg-[#f8f3ef] dark:bg-[#1b251d]" : ""
                         }`}
-                      >
+                        >
                         {lang.name}
                       </button>
                     ))}
@@ -131,15 +120,7 @@ export function BankGutmannHeader({ onLogoClick, className }: BankGutmannHeaderP
               <a href="#" className="text-[#1b251d] dark:text-[#f8f3ef] hover:opacity-70 transition-opacity py-2">
                 {t.nav.about}
               </a>
-              {/* ENTFERNT: Kontakt Link aus dem Mobile Header
-              <Link
-                href="/contact"
-                className="text-[#1b251d] dark:text-[#f8f3ef] hover:opacity-70 transition-opacity py-2"
-              >
-                {t.nav.contact}
-              </Link>
-              */}
-              {/* ZUSÄTZLICH: Sprachauswahl im mobilen Menü (optional, aber sinnvoll) */}
+              {/* ZUSÄTZLICH: Sprachauswahl im mobilen Menü */}
               <div className="relative pt-2">
                 <span className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-2">
                   {t.settings.language}
