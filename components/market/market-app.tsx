@@ -1,30 +1,28 @@
-// kahane-dashboard-concierge 9/components/market-app.tsx
 "use client"
 
 import { useState } from "react"
 import { MarketSummary } from "./market-summary" 
 import { MarketChart } from "./market-chart" 
-import { CrisisDetailModal } from "@/components/crisis-detail-modal" 
+import { CrisisDetailModal } from "./crisis-detail-modal" 
 import { type Crisis } from "./market-data" 
 import Link from "next/link" 
 import { useSettings } from "@/lib/settings-context" 
 import { useTranslation } from "@/lib/i18n" 
-import { SimulationControl } from "@/components/simulation/simulation-control" 
+import { SimulationControl } from "@/components/input_cockpit/simulation-control" 
+import { PortfolioPieChart } from "@/components/input_cockpit/portfolio-pie-chart" 
+import { useInvestment } from "@/lib/investment-context" 
 
 export function MarketApp() {
-  // States für die Regler
-  const [initialInvestment, setInitialInvestment] = useState(500000)
-  const [monthlyInvestment, setMonthlyInvestment] = useState(0)
-  const [stockPercentage, setStockPercentage] = useState(100)
-  
-  // Timeframe ist jetzt eine Zahl, passend zum Slider (Standard 40 Jahre)
-  const [timeframeYears, setTimeframeYears] = useState(40)
+  const { 
+    initialInvestment, setInitialInvestment,
+    monthlyInvestment, setMonthlyInvestment,
+    stockPercentage, setStockPercentage,
+    investmentHorizon, setInvestmentHorizon
+  } = useInvestment()
   
   const [selectedCrisis, setSelectedCrisis] = useState<Crisis | null>(null)
   const [showModal, setShowModal] = useState(false)
   
-  // "showInsights" State entfernt - wird nun standardmäßig als true übergeben
-
   const { language } = useSettings()
   const t = useTranslation(language)
 
@@ -33,7 +31,7 @@ export function MarketApp() {
     setShowModal(true)
   }
 
-  // Hilfsfunktion: Konvertiert die Zahl des Sliders in den String-Typ
+  // Hilfsfunktion: Konvertiert die Zahl des Sliders in den String-Typ für den Chart
   const getTimeframeString = (years: number): "40" | "30" | "20" | "10" | "5" => {
     if (years >= 35) return "40";
     if (years >= 25) return "30";
@@ -42,46 +40,42 @@ export function MarketApp() {
     return "5";
   }
 
-  const timeframeString = getTimeframeString(timeframeYears);
+  const timeframeString = getTimeframeString(investmentHorizon);
 
   return (
     <div data-tour="market-page"> 
         
         <div className="mx-auto max-w-7xl px-4 py-8">
         
-            {/* Globale Überschrift */}
-            <div className="mb-8">
-                <h1 className="text-3xl font-serif font-bold text-[#1b251d] dark:text-[#f8f3ef]">{t.market.title}</h1>
-                <p className="mt-2 text-[#6b7280] dark:text-[#9ca3af]">{t.market.subtitle}</p>
+            {/* --- NEUER HEADER BEREICH --- */}
+            {/* Flexbox sorgt dafür, dass Titel links und Button rechts stehen */}
+            <div className="mb-8 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                <div>
+                    <h1 className="text-3xl font-serif font-bold text-[#1b251d] dark:text-[#f8f3ef]">{t.market.title}</h1>
+                    <p className="mt-2 text-[#6b7280] dark:text-[#9ca3af]">{t.market.subtitle}</p>
+                </div>
+
+                {/* Button oben rechts positioniert */}
+                <Link href="/contact">
+                    <button className="px-10 py-3 bg-[#ebf151] text-[#1b251d] rounded-full hover:bg-[#d9df47] transition-colors text-sm font-medium shadow-md whitespace-nowrap">
+                        {t.simulation.contactNow}
+                    </button>
+                </Link>
             </div>
             
-            {/* --- GRID LAYOUT (12 Spalten wie Simulation) --- */}
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
 
                 {/* --- LINKE SPALTE: CONTROLS --- */}
                 <div className="lg:col-span-4 space-y-6 relative" data-tour="market-horizon">
                     
-                    {/* 1. Anlagehorizont (Steuert den Chart Zeitraum) */}
-                    <SimulationControl 
-                        label={t.simulation.investmentHorizon} 
-                        value={timeframeYears} 
-                        onChange={setTimeframeYears} 
-                        min={5} max={40} step={5} 
-                        unit={t.simulation.years}
-                    />
-
-                    {/* Insight-Switch wurde hier entfernt */}
-
-                    {/* 2. Startkapital */}
                     <SimulationControl 
                         label={t.simulation.initialInvestment} 
                         value={initialInvestment} 
                         onChange={setInitialInvestment} 
-                        min={1000} max={1000000} step={1000} 
+                        min={400000} max={5000000} step={25000} 
                         isCurrency={true}
                     />
 
-                    {/* 3. Monatliche Investition */}
                     <SimulationControl 
                         label={t.simulation.monthlyInvestment} 
                         value={monthlyInvestment} 
@@ -90,7 +84,6 @@ export function MarketApp() {
                         isCurrency={true} 
                     />
 
-                    {/* 4. Aktienquote */}
                     <SimulationControl 
                         label={t.simulation.stockPercentage} 
                         value={stockPercentage} 
@@ -99,22 +92,28 @@ export function MarketApp() {
                         unit="%"
                     />
 
-                    {/* Kontakt Button Links */}
-                    <Link href="/contact" className="hidden lg:block">
-                        <button className="w-full py-3 bg-[#ebf151] text-[#1b251d] rounded-full hover:bg-[#d9df47] transition-colors text-sm font-medium mt-4 shadow-md">
-                            {t.simulation.contactNow}
-                        </button>
-                    </Link>
+                    <SimulationControl 
+                        label={t.simulation.investmentHorizon} 
+                        value={investmentHorizon} 
+                        onChange={setInvestmentHorizon} 
+                        min={5} max={40} step={1} 
+                        unit={t.simulation.years}
+                    />
+
+                    <div className="pt-4">
+                      <PortfolioPieChart stockPercentage={stockPercentage} />
+                    </div>
+
+                    {/* HINWEIS: Der Button wurde hier entfernt, da er jetzt oben ist */}
                 </div>
 
                 {/* --- RECHTE SPALTE: CHART & SUMMARY --- */}
                 <div className="lg:col-span-8 space-y-6">
                     
-                    {/* Chart Container */}
                     <div className="space-y-4">
                         <MarketChart
                             timeframe={timeframeString}
-                            showInsights={true} // Insights sind jetzt immer an
+                            showInsights={true} 
                             onCrisisClick={handleCrisisClick}
                         />
                         
@@ -144,16 +143,6 @@ export function MarketApp() {
                         </div>
                     </div>
 
-                    {/* Mobile Kontakt Button */}
-                    <div className="lg:hidden pt-4">
-                         <Link href="/contact">
-                            <button className="w-full py-3 bg-[#ebf151] text-[#1b251d] rounded-full hover:bg-[#d9df47] transition-colors text-sm font-medium shadow-md">
-                                {t.simulation.contactNow}
-                            </button>
-                        </Link>
-                    </div>
-
-                    {/* Disclaimer */}
                     <p className="text-xs text-gray-400 dark:text-gray-500 mt-4 italic text-center lg:text-left">
                         {t.simulation.disclaimer}
                     </p>

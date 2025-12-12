@@ -1,4 +1,3 @@
-// kahane-dashboard-concierge 9/components/kahane-landing.tsx
 "use client"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"

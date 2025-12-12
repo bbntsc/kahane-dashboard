@@ -1,11 +1,10 @@
 import type { Metadata } from "next"
-// Inter ist gut für Sans-Serif. Bodoni Moda ist die aktuelle Serif-Wahl.
 import { Inter, Bodoni_Moda } from "next/font/google"
-import "./globals.css"
-// WICHTIG: Importiere den SettingsProvider, damit die Simulation läuft
+import "@/app/globals.css"
 import { SettingsProvider } from "@/lib/settings-context" 
+// NEU: InvestmentProvider importieren
+import { InvestmentProvider } from "@/lib/investment-context"
 
-// Wir behalten Inter für Sans und Bodoni_Moda für Serif, da es professionell aussieht.
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const bodoni = Bodoni_Moda({ subsets: ["latin"], variable: "--font-bodoni" })
 
@@ -22,9 +21,11 @@ export default function RootLayout({
   return (
     <html lang="de">
       <body className={`${inter.variable} ${bodoni.variable} font-sans antialiased`}>
-        {/* Wir wrappen die App in den SettingsProvider */}
         <SettingsProvider>
-          {children}
+          {/* NEU: App in InvestmentProvider wrappen */}
+          <InvestmentProvider>
+            {children}
+          </InvestmentProvider>
         </SettingsProvider>
       </body>
     </html>

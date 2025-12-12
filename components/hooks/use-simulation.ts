@@ -1,6 +1,7 @@
 // hooks/use-simulation.ts
 import { useState, useMemo, useEffect } from "react"
-import { runMonteCarloSimulation } from "./simulation-logic"
+import { runMonteCarloSimulation } from "@/components/simulation/simulation-logic"
+import { useInvestment } from "@/lib/investment-context" // NEU
 
 function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState<T>(value)
@@ -12,13 +13,21 @@ function useDebounce<T>(value: T, delay: number): T {
 }
 
 export function useSimulation() {
-  const [initialInvestment, setInitialInvestment] = useState(500000)
-  const [monthlyInvestment, setMonthlyInvestment] = useState(0)
-  const [stockPercentage, setStockPercentage] = useState(0)
-  const [investmentHorizon, setInvestmentHorizon] = useState(5)
-  // Benchmark State entfernt
+  // State kommt jetzt aus dem Context
+  const {
+    initialInvestment,
+    setInitialInvestment,
+    monthlyInvestment,
+    setMonthlyInvestment,
+    stockPercentage,
+    setStockPercentage,
+    investmentHorizon,
+    setInvestmentHorizon
+  } = useInvestment()
+
   const [isClient, setIsClient] = useState(false)
 
+  // Debounce values for simulation calculation to prevent lag
   const dInitial = useDebounce(initialInvestment, 300)
   const dMonthly = useDebounce(monthlyInvestment, 300)
   const dStock = useDebounce(stockPercentage, 300)
@@ -33,7 +42,6 @@ export function useSimulation() {
         summary: { totalInvestment: 0, finalValue: 0, totalReturn: 0, yield: 0 },
       }
     }
-    // Aufruf ohne Benchmark-Parameter
     return runMonteCarloSimulation(dInitial, dMonthly, dHorizon, dStock)
   }, [dInitial, dMonthly, dHorizon, dStock, isClient])
 

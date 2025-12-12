@@ -5,59 +5,56 @@ import { useState, useEffect, useMemo } from "react"
 import { InvestmentSimulation } from "./investment-simulation"
 import { useSettings } from "@/lib/settings-context" 
 import { useTranslation } from "@/lib/i18n" 
+import Link from "next/link"
 
 
-// NEU: Context Definition (bleibt, um Logo-Klick aus dem Header zu ermöglichen)
 interface SimulationContextProps {
   onLogoClickForTutorial: (() => void) | undefined
 }
-// KORREKTUR: SimulationContext bleibt ein benannter Export
+
 export const SimulationContext = React.createContext<SimulationContextProps>({
     onLogoClickForTutorial: undefined,
 }); 
 
-// KORREKTUR: Die Hauptkomponente wird nun zum Default Export
 function SimulationApp() {
-  
-  // Hinzugefügt, um Übersetzungen zu nutzen
   const { language } = useSettings()
   const t = useTranslation(language)
 
-  // DIESER CONTEXT SOLLTE JETZT VOM PERSISTENTEN LAYOUT GELIEFERT WERDEN.
-  // Da die SimulationApp selbst keinen Zustand mehr verwaltet, brauchen wir hier nur den Platzhalter.
   const handleLogoClickForHeader = () => {
-    // Da die Logik jetzt im DashboardLayout ist, feuern wir ein custom Event.
-    // Das Layout muss dieses Event abhören, um die Tour zu starten/zeigen.
     if (typeof window !== 'undefined') {
         window.dispatchEvent(new CustomEvent('startConciergeIntro'));
     }
   }
 
-  // Memoisiert den Context-Wert
   const contextValue = useMemo(() => ({
     onLogoClickForTutorial: handleLogoClickForHeader
   }), []);
 
-
   return (
-    // Umschließe den Inhalt mit dem Context Provider, um die Funktion bereitzustellen
     <SimulationContext.Provider value={contextValue}>
         
-        <main className="mx-auto max-w-7xl px-1 py-1">
+        <main className="mx-auto max-w-7xl px-4 py-8"> {/* Padding angepasst an Market App */}
             
-            {/* NEU: Globale Überschrift für die Simulationsseite (lokalisiert) */}
-            <div className="mb-8">
-                <h1 className="text-3xl font-serif font-bold text-[#1b251d] dark:text-[#f8f3ef]">{t.simulation.title}</h1>
-                <p className="mt-2 text-[#6b7280] dark:text-[#9ca3af]">{t.simulation.subtitle}</p> 
+            {/* NEUER HEADER MIT BUTTON */}
+            <div className="mb-8 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                <div>
+                    <h1 className="text-3xl font-serif font-bold text-[#1b251d] dark:text-[#f8f3ef]">{t.simulation.title}</h1>
+                    <p className="mt-2 text-[#6b7280] dark:text-[#9ca3af]">{t.simulation.subtitle}</p> 
+                </div>
+
+                {/* Button oben rechts */}
+                <Link href="/contact">
+                    <button className="px-10 py-3 bg-[#ebf151] text-[#1b251d] rounded-full hover:bg-[#d9df47] transition-colors text-sm font-medium shadow-md whitespace-nowrap">
+                        {t.simulation.contactNow}
+                    </button>
+                </Link>
             </div>
             
             <InvestmentSimulation /> 
-            {/* Tutorial und TourGuide wurden entfernt */}
         </main>
         
     </SimulationContext.Provider>
   )
 }
 
-// KORREKTUR: Exportiere SimulationApp als Standard-Export, wie von Next.js erwartet
 export default SimulationApp;

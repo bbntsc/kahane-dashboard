@@ -1,5 +1,5 @@
 "use client"
-import { Slider } from "@/components/ui/slider"
+import { Slider } from "@/components/input_cockpit/slider"
 import { Info } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useSettings } from "@/lib/settings-context" // Wichtig für die Lokalisierung

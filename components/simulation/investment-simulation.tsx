@@ -3,16 +3,15 @@
 import Link from "next/link"
 import { useSettings } from "@/lib/settings-context"
 import { useTranslation } from "@/lib/i18n"
-import { useSimulation } from "./use-simulation"
+import { useSimulation } from "@/components/hooks/use-simulation"
 import { SimulationChart } from "./simulation-chart"
-import { SimulationControl } from "./simulation-control"
-import { PortfolioPieChart } from "./portfolio-pie-chart"
+import { SimulationControl } from "../input_cockpit/simulation-control"
+import { PortfolioPieChart } from "../input_cockpit/portfolio-pie-chart"
 
 export function InvestmentSimulation() {
   const { language } = useSettings()
   const t = useTranslation(language)
   
-  // Hook liefert keine Benchmark-Werte mehr zurück
   const { values, setters, results, isClient } = useSimulation()
 
   const formatCurrency = (value: number) => {
@@ -27,8 +26,6 @@ export function InvestmentSimulation() {
       {/* --- LINKE SPALTE: CONTROLS --- */}
       <div className="lg:col-span-4 space-y-6 relative" data-tour="sliders">
         
-        {/* HIER WURDE DER BENCHMARK-SWITCH ENTFERNT */}
-
         <SimulationControl 
             label={t.simulation.initialInvestment} 
             value={values.initialInvestment} 
@@ -57,16 +54,11 @@ export function InvestmentSimulation() {
             min={5} max={40} step={1} 
             unit={t.simulation.years}
         />
-        {/* --- NEU: Das Pie Chart --- */}
-        <div className="pt-4"> {/* Ein wenig extra Padding nach oben */}
+        
+        <div className="pt-4"> 
           <PortfolioPieChart stockPercentage={values.stockPercentage} />
         </div>
 
-        <Link href="/contact">
-          <button className="w-full py-3 bg-[#ebf151] text-[#1b251d] rounded-full hover:bg-[#d9df47] transition-colors text-sm font-medium mt-8 shadow-md">
-            {t.simulation.contactNow}
-          </button>
-        </Link>
       </div>
 
       {/* --- RECHTE SPALTE: CHART & SUMMARY --- */}
@@ -110,7 +102,6 @@ export function InvestmentSimulation() {
   )
 }
 
-// Interne Helper für sauberes JSX
 function LegendItem({ color, label }: { color: string, label: string }) {
     return (
         <div className="flex items-center gap-2">

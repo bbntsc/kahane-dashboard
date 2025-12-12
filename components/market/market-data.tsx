@@ -339,3 +339,123 @@ export const baseMSCIData = [
         { year: 2024, value: 620 }, // Trump uncertainty
         { year: 2025, value: 640 },
 ]
+
+// NEU: Hilfsfunktion zur Berechnung der Portfolio-Entwicklung
+export function calculatePortfolioHistory(
+  startCapital: number,
+  monthlyInvest: number,
+  stockQuota: number, // 0 bis 100
+  startYear: number,
+  endYear: number
+) {
+  // 1. Jährliche Renditen des MSCI World aus den Basisdaten ableiten
+  const marketReturns = new Map<number, number>();
+  
+  for (let i = 1; i < baseMSCIData.length; i++) {
+    const prev = baseMSCIData[i - 1];
+    const curr = baseMSCIData[i];
+    // Prozentuale Veränderung: (Neu / Alt) - 1
+    const pctChange = (curr.value / prev.value) - 1;
+    marketReturns.set(curr.year, pctChange);
+  }
+
+  // 2. Portfolio berechnen
+  let currentCapital = startCapital;
+  const history = [];
+  
+  // Annahme für den "Sicheren Anteil" (Cash/Anleihen): 
+  // Stabile 2% Rendite pro Jahr, kaum Volatilität.
+  const safeRate = 0.02; 
+  const stockRatio = stockQuota / 100;
+  const safeRatio = 1 - stockRatio;
+
+  // Startwert hinzufügen
+  history.push({ year: startYear, value: currentCapital });
+
+  for (let year = startYear + 1; year <= endYear; year++) {
+    // Aktienrendite für das Jahr holen (oder 0 falls Daten fehlen)
+    const stockReturn = marketReturns.get(year) || 0;
+    
+    // Gemischte Portfoliorendite berechnen
+    // Hohe Aktienquote = Ergebnis nah an stockReturn (volatil)
+    // Niedrige Aktienquote = Ergebnis nah an safeRate (stabil)
+    const portfolioReturn = (stockReturn * stockRatio) + (safeRate * safeRatio);
+
+    // Berechnung: (Kapital + Jährliche Einzahlung) * (1 + Rendite)
+    // Vereinfacht: Einzahlungen passieren über das Jahr verteilt
+    const yearlyContribution = monthlyInvest * 12;
+    
+    // Wir nehmen an, Einzahlungen partizipieren zur Hälfte an der Rendite des Jahres
+    currentCapital = (currentCapital * (1 + portfolioReturn)) + yearlyContribution;
+
+    history.push({ year, value: Math.round(currentCapital) });
+  }
+
+  return history;
+}
+
+// NEU: Funktion für die statistischen Kennzahlen der Box unten
+export function calculateScenarioStatistics(
+  stockQuota: number,
+  horizonYears: number
+) {
+  const currentYear = 2025;
+  const startYear = currentYear - horizonYears;
+  
+  // Wir filtern die Basisdaten auf den gewählten Zeitraum
+  // Wir brauchen das Jahr VOR dem Startjahr, um die Rendite des ersten Jahres zu berechnen
+  const relevantData = baseMSCIData.filter(d => d.year >= startYear - 1 && d.year <= currentYear);
+  
+  let maxDrawdown = 0;
+  let maxDrawdownYear = 0;
+  let maxGain = -Infinity;
+  let maxGainYear = 0;
+  let totalReturnSum = 0;
+  let count = 0;
+
+  const stockRatio = stockQuota / 100;
+  const safeRatio = 1 - stockRatio;
+  const safeRate = 0.02; // 2% für den sicheren Teil
+
+  // Wir iterieren durch die Jahre und berechnen die fiktive Strategie-Rendite
+  for (let i = 1; i < relevantData.length; i++) {
+    const prev = relevantData[i - 1];
+    const curr = relevantData[i];
+    
+    // Reine Marktrendite dieses Jahres
+    const marketReturn = (curr.value / prev.value) - 1;
+    
+    // Die Rendite UNSERER Strategie (Gewichtet)
+    const strategyReturn = (marketReturn * stockRatio) + (safeRate * safeRatio);
+    
+    // Statistiken aktualisieren
+    if (strategyReturn < maxDrawdown) {
+      maxDrawdown = strategyReturn;
+      maxDrawdownYear = curr.year;
+    }
+    
+    if (strategyReturn > maxGain) {
+      maxGain = strategyReturn;
+      maxGainYear = curr.year;
+    }
+
+    totalReturnSum += strategyReturn;
+    count++;
+  }
+
+  const averageReturn = count > 0 ? (totalReturnSum / count) : 0;
+
+  return {
+    averageReturn: averageReturn * 100, // In Prozent
+    maxDrawdown: maxDrawdown * 100,     // In Prozent (ist negativ)
+    maxDrawdownYear,
+    maxGain: maxGain * 100,             // In Prozent
+    maxGainYear
+  };
+}
+
+// Hilfsfunktion, um zu prüfen, ob ein Jahr eine benannte Krise war
+export function getCrisisName(year: number): string | null {
+  const crisis = crises.find(c => c.year === year || c.year === year - 1); // Manche Krisen wirken im Folgejahr
+  return crisis ? crisis.name : null;
+}

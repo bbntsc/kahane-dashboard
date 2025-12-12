@@ -7,7 +7,6 @@ import { ConciergeController } from "@/components/concierge-guide"
 import { BankGutmannHeader } from "@/components/base/bank-gutmann-header"
 import { Menu, X } from "lucide-react"
 
-// WICHTIG: KEIN Import des SimulationContext hier! Das löst den Zirkelbezug.
 
 interface DashboardLayoutProps {
   children: React.ReactNode
