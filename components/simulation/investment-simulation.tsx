@@ -6,6 +6,7 @@ import { useTranslation } from "@/lib/i18n"
 import { useSimulation } from "./use-simulation"
 import { SimulationChart } from "./simulation-chart"
 import { SimulationControl } from "./simulation-control"
+import { PortfolioPieChart } from "./portfolio-pie-chart"
 
 export function InvestmentSimulation() {
   const { language } = useSettings()
@@ -32,7 +33,7 @@ export function InvestmentSimulation() {
             label={t.simulation.initialInvestment} 
             value={values.initialInvestment} 
             onChange={setters.setInitialInvestment} 
-            min={1000} max={1000000} step={1000} 
+            min={400000} max={5000000} step={25000} 
             isCurrency={true}
         />
         <SimulationControl 
@@ -56,6 +57,10 @@ export function InvestmentSimulation() {
             min={5} max={40} step={1} 
             unit={t.simulation.years}
         />
+        {/* --- NEU: Das Pie Chart --- */}
+        <div className="pt-4"> {/* Ein wenig extra Padding nach oben */}
+          <PortfolioPieChart stockPercentage={values.stockPercentage} />
+        </div>
 
         <Link href="/contact">
           <button className="w-full py-3 bg-[#ebf151] text-[#1b251d] rounded-full hover:bg-[#d9df47] transition-colors text-sm font-medium mt-8 shadow-md">

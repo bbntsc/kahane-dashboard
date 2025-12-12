@@ -78,7 +78,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         </div>
 
         {/* Seiteninhalt */}
-        <main className="flex-1 py-8 px-4 sm:px-6 lg:px-8">
+        <main className="flex-1 py-2 px-4 sm:px-6 lg:px-8">
             {children}
         </main>
       </div>

@@ -43,7 +43,7 @@ function SimulationApp() {
     // Umschließe den Inhalt mit dem Context Provider, um die Funktion bereitzustellen
     <SimulationContext.Provider value={contextValue}>
         
-        <main className="mx-auto max-w-7xl px-6 py-6">
+        <main className="mx-auto max-w-7xl px-1 py-1">
             
             {/* NEU: Globale Überschrift für die Simulationsseite (lokalisiert) */}
             <div className="mb-8">
