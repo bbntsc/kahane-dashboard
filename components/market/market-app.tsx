@@ -4,6 +4,7 @@ import { useState } from "react"
 import { MarketSummary } from "./market-summary" 
 import { MarketChart } from "./market-chart" 
 import { CrisisDetailModal } from "./crisis-detail-modal" 
+import { Switch } from "@/components/ui/switch" 
 import { type Crisis } from "./market-data" 
 import Link from "next/link" 
 import { useSettings } from "@/lib/settings-context" 
@@ -22,6 +23,7 @@ export function MarketApp() {
   
   const [selectedCrisis, setSelectedCrisis] = useState<Crisis | null>(null)
   const [showModal, setShowModal] = useState(false)
+  const [showInsights, setShowInsights] = useState(false) // Insights sind standardmäßig FALSE
   
   const { language } = useSettings()
   const t = useTranslation(language)
@@ -42,13 +44,16 @@ export function MarketApp() {
 
   const timeframeString = getTimeframeString(investmentHorizon);
 
+  // Kombinierte Beschriftung für den Chart-Blick
+  const viewLabel = `${t.market.viewLabel}${investmentHorizon} ${t.simulation.years}`;
+  const stockLabel = `${stockPercentage}% ${t.simulation.stockPercentage} (MSCI World Basis)`;
+
   return (
     <div data-tour="market-page"> 
         
         <div className="mx-auto max-w-7xl px-4 py-8">
         
-            {/* --- NEUER HEADER BEREICH --- */}
-            {/* Flexbox sorgt dafür, dass Titel links und Button rechts stehen */}
+            {/* --- HEADER BEREICH --- */}
             <div className="mb-8 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-serif font-bold text-[#1b251d] dark:text-[#f8f3ef]">{t.market.title}</h1>
@@ -75,7 +80,6 @@ export function MarketApp() {
                         min={400000} max={5000000} step={25000} 
                         isCurrency={true}
                     />
-
                     <SimulationControl 
                         label={t.simulation.monthlyInvestment} 
                         value={monthlyInvestment} 
@@ -104,16 +108,35 @@ export function MarketApp() {
                       <PortfolioPieChart stockPercentage={stockPercentage} />
                     </div>
 
-                    {/* HINWEIS: Der Button wurde hier entfernt, da er jetzt oben ist */}
                 </div>
 
                 {/* --- RECHTE SPALTE: CHART & SUMMARY --- */}
                 <div className="lg:col-span-8 space-y-6">
                     
+                    {/* Dynamische Zeithorizont-Anzeige und Insights Switch OBERHALB des Charts */}
+                    <div className="flex flex-col space-y-2 relative mb-4"> 
+                        
+                        {/* 1. Zeithorizont-Anzeige */}
+                        <div className="text-lg font-bold text-[#1b251d] dark:text-[#f8f3ef]">
+                            {viewLabel}
+                        </div>
+                        
+                        {/* 2. Stock Percentage und Insights Switch in einer Zeile (rechtsbündig) */}
+                        <div className="flex items-center justify-between">
+                            <div className="text-sm text-gray-700 dark:text-gray-300">
+                                {stockLabel}
+                            </div>
+                            <div className="flex items-center space-x-2" data-tour="market-insights">
+                                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{t.market.insightToggle}</span>
+                                <Switch checked={showInsights} onCheckedChange={setShowInsights} />
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div className="space-y-4">
                         <MarketChart
                             timeframe={timeframeString}
-                            showInsights={true} 
+                            showInsights={showInsights} 
                             onCrisisClick={handleCrisisClick}
                         />
                         

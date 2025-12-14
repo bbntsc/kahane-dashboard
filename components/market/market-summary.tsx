@@ -2,8 +2,8 @@
 
 import { useSettings } from "@/lib/settings-context"
 import { useTranslation } from "@/lib/i18n"
-import { useInvestment } from "@/lib/investment-context" // NEU
-import { calculateScenarioStatistics, getCrisisName } from "./market-data" // NEU
+import { useInvestment } from "@/lib/investment-context" 
+import { calculateScenarioStatistics, getCrisisName } from "./market-data" // IMPORTS KORRIGIERT
 import { useMemo } from "react"
 
 // Interface Props können entfernt werden, da wir Context nutzen, 

@@ -12,6 +12,12 @@ export interface Crisis {
   donts: string[]
 }
 
+// Interface für einen Datenpunkt (Jahr/Wert)
+export interface PortfolioDataPoint {
+  year: number
+  value: number // Berechneter Portfoliowert
+}
+
 // Array mit allen Krisen-Objekten
 export const crises: Crisis[] = [
   {
@@ -340,70 +346,63 @@ export const baseMSCIData = [
         { year: 2025, value: 640 },
 ]
 
-// NEU: Hilfsfunktion zur Berechnung der Portfolio-Entwicklung
+// Funktion zur Berechnung der Portfolio-Historie
 export function calculatePortfolioHistory(
   startCapital: number,
   monthlyInvest: number,
   stockQuota: number, // 0 bis 100
   startYear: number,
   endYear: number
-) {
-  // 1. Jährliche Renditen des MSCI World aus den Basisdaten ableiten
-  const marketReturns = new Map<number, number>();
+): PortfolioDataPoint[] {
+  const stockRatio = stockQuota / 100
+  const bondRatio = 1 - stockRatio
   
-  for (let i = 1; i < baseMSCIData.length; i++) {
-    const prev = baseMSCIData[i - 1];
-    const curr = baseMSCIData[i];
-    // Prozentuale Veränderung: (Neu / Alt) - 1
-    const pctChange = (curr.value / prev.value) - 1;
-    marketReturns.set(curr.year, pctChange);
+  const filteredMSCI = baseMSCIData.filter(d => d.year >= startYear - 1 && d.year <= endYear)
+  
+  if (filteredMSCI.length < 2) return []
+
+  const annualBondReturn = 0.02 
+
+  let portfolioValue = startCapital 
+  const history: PortfolioDataPoint[] = []
+
+  // Erster Datenpunkt
+  history.push({ year: startYear, value: startCapital })
+  
+  for (let i = 1; i < filteredMSCI.length; i++) {
+    const prevMSCI = filteredMSCI[i - 1];
+    const currentMSCI = filteredMSCI[i];
+    
+    // Berechne die prozentuale Veränderung des Aktienindex im aktuellen Jahr
+    const msciReturn = (currentMSCI.value / prevMSCI.value) - 1;
+    
+    // Portfolio-Rendite (Aktien und Bonds gewichtet)
+    const portfolioReturn = (msciReturn * stockRatio) + (annualBondReturn * bondRatio);
+    
+    // Zuwachs/Verlust des aktuellen Kapitals
+    portfolioValue *= (1 + portfolioReturn);
+
+    // Füge die monatliche Investition hinzu (einfache Endjahres-Summierung)
+    portfolioValue += monthlyInvest * 12; 
+
+    history.push({
+      year: currentMSCI.year,
+      value: Math.round(portfolioValue),
+    })
   }
 
-  // 2. Portfolio berechnen
-  let currentCapital = startCapital;
-  const history = [];
-  
-  // Annahme für den "Sicheren Anteil" (Cash/Anleihen): 
-  // Stabile 2% Rendite pro Jahr, kaum Volatilität.
-  const safeRate = 0.02; 
-  const stockRatio = stockQuota / 100;
-  const safeRatio = 1 - stockRatio;
-
-  // Startwert hinzufügen
-  history.push({ year: startYear, value: currentCapital });
-
-  for (let year = startYear + 1; year <= endYear; year++) {
-    // Aktienrendite für das Jahr holen (oder 0 falls Daten fehlen)
-    const stockReturn = marketReturns.get(year) || 0;
-    
-    // Gemischte Portfoliorendite berechnen
-    // Hohe Aktienquote = Ergebnis nah an stockReturn (volatil)
-    // Niedrige Aktienquote = Ergebnis nah an safeRate (stabil)
-    const portfolioReturn = (stockReturn * stockRatio) + (safeRate * safeRatio);
-
-    // Berechnung: (Kapital + Jährliche Einzahlung) * (1 + Rendite)
-    // Vereinfacht: Einzahlungen passieren über das Jahr verteilt
-    const yearlyContribution = monthlyInvest * 12;
-    
-    // Wir nehmen an, Einzahlungen partizipieren zur Hälfte an der Rendite des Jahres
-    currentCapital = (currentCapital * (1 + portfolioReturn)) + yearlyContribution;
-
-    history.push({ year, value: Math.round(currentCapital) });
-  }
-
-  return history;
+  return history.filter(d => d.year >= startYear); // Filtert das unnötige Vorjahr raus, falls es enthalten ist
 }
 
 // NEU: Funktion für die statistischen Kennzahlen der Box unten
-export function calculateScenarioStatistics(
+export function calculateScenarioStatistics( // EXPORT HINZUGEFÜGT
   stockQuota: number,
   horizonYears: number
 ) {
   const currentYear = 2025;
   const startYear = currentYear - horizonYears;
   
-  // Wir filtern die Basisdaten auf den gewählten Zeitraum
-  // Wir brauchen das Jahr VOR dem Startjahr, um die Rendite des ersten Jahres zu berechnen
+  // Wir filtern die Basisdaten auf den gewählten Zeitraum (brauchen Vorjahr für Renditeberechnung)
   const relevantData = baseMSCIData.filter(d => d.year >= startYear - 1 && d.year <= currentYear);
   
   let maxDrawdown = 0;
@@ -422,10 +421,7 @@ export function calculateScenarioStatistics(
     const prev = relevantData[i - 1];
     const curr = relevantData[i];
     
-    // Reine Marktrendite dieses Jahres
     const marketReturn = (curr.value / prev.value) - 1;
-    
-    // Die Rendite UNSERER Strategie (Gewichtet)
     const strategyReturn = (marketReturn * stockRatio) + (safeRate * safeRatio);
     
     // Statistiken aktualisieren
