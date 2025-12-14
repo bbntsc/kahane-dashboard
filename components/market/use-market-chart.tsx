@@ -109,7 +109,7 @@ function drawCrisisMarkers(chart: Chart, filteredCrises: Crisis[], years: number
 
 export function useMarketChart(
   chartRef: React.RefObject<HTMLCanvasElement | null>,
-  timeframe: string, // Wird eigentlich durch investmentHorizon überschrieben, aber wir lassen es als Prop
+  timeframe: string, 
   showInsights: boolean, 
   onCrisisClick: (crisis: Crisis) => void,
 ) {
@@ -117,7 +117,6 @@ export function useMarketChart(
   const { language, theme } = useSettings()
   const t = useTranslation(language)
   
-  // NEU: Werte aus dem Context holen
   const { 
     initialInvestment, 
     monthlyInvestment, 
@@ -129,12 +128,22 @@ export function useMarketChart(
   const textColor = isDark ? "#f5f5f5" : "#374151"
   const gridColor = isDark ? "#4b5563" : "#e5e7eb"
 
-  // Währungsformatierer
-  const formatCurrency = (val: number) => {
+  // Währungsformatierer für Ticks (mit EUR, ohne Dezimalstellen)
+  const formatCurrencyForTicks = (val: number) => {
     return new Intl.NumberFormat(language === 'de' ? 'de-DE' : 'en-US', {
       style: 'currency',
       currency: 'EUR',
       notation: val > 1000000 ? "compact" : "standard",
+      maximumFractionDigits: 0 
+    }).format(val)
+  }
+
+  // Währungsformatierer für Tooltip (mit EUR, mit Dezimalstellen)
+  const formatCurrencyForTooltip = (val: number) => {
+    return new Intl.NumberFormat(language === 'de' ? 'de-DE' : 'en-US', {
+      style: 'currency',
+      currency: 'EUR',
+      notation: "standard", 
       maximumFractionDigits: 1
     }).format(val)
   }
@@ -149,11 +158,14 @@ export function useMarketChart(
     const ctx = chartRef.current.getContext("2d")
     if (!ctx) return
 
-    // 1. Zeitraum definieren basierend auf dem Regler
+    // 1. Zeitraum definieren
     const currentYear = 2025
-    // Wir nutzen hier den echten investmentHorizon aus dem Context
     const horizon = investmentHorizon || 40 
     const startYear = currentYear - horizon
+    
+    // NEU: Berechne die Anzahl der Jahre, um die Ticks besser zu steuern
+    const numberOfYears = currentYear - startYear + 1;
+
 
     // 2. Daten berechnen
     const portfolioData = calculatePortfolioHistory(
@@ -165,7 +177,7 @@ export function useMarketChart(
     )
 
     const years = portfolioData.map((d) => d.year)
-    const values = portfolioData.map((d) => d.value)
+    const values = portfolioData.map((d) => d.value) 
 
     // 3. Krisen filtern
     const filteredCrises = crises.filter((crisis) => {
@@ -180,7 +192,7 @@ export function useMarketChart(
         datasets: [
           {
             label: "Portfolio Wert",
-            data: values,
+            data: values, 
             borderColor: isDark ? "#f8f3ef" : "#1b251d",
             backgroundColor: (context) => {
               const ctx = context.chart.ctx;
@@ -195,10 +207,10 @@ export function useMarketChart(
               return gradient;
             },
             borderWidth: 2,
-            pointRadius: 0, // Punkte nur bei Hover oder Krisen
+            pointRadius: 0, 
             pointHoverRadius: 6,
             pointHitRadius: 10,
-            tension: 0.4, // Weiche Kurve
+            tension: 0.4, 
             fill: true,
           },
         ],
@@ -208,7 +220,7 @@ export function useMarketChart(
         maintainAspectRatio: false,
         layout: {
           padding: {
-            top: 30, // VERGRÖSSERT: Mehr Platz am oberen Rand für die Label-Boxen
+            top: 30, 
             bottom: 0,
             left: 0,
             right: 0
@@ -216,16 +228,14 @@ export function useMarketChart(
         },
         onClick: (event, elements, chart) => {
           if (!showInsights) return 
-          // ... (Klick-Logik bleibt ähnlich, prüfen auf Nähe zu Krisenjahren)
+          
           const clickX = event.x;
           const meta = chart.getDatasetMeta(0);
           const xScale = chart.scales.x;
           
-          // Finde den nächstgelegenen Datenpunkt (Jahr)
           const index = xScale.getValueForPixel(clickX);
           if (index !== undefined && index >= 0 && index < years.length) {
              const yearClicked = years[index];
-             // Finde die Krise, die im angeklickten Jahr liegt
              const crisis = filteredCrises.find(c => c.year === yearClicked);
              if (crisis) {
                  onCrisisClick(crisis);
@@ -234,28 +244,43 @@ export function useMarketChart(
         },
         scales: {
           x: {
-            grid: { display: false, color: gridColor }, // Vertikale Linien aus für cleaneren Look
+            grid: { display: false, color: gridColor }, 
+            type: 'category', // Sicherstellen, dass die Achse mit Labels arbeitet
+            
             ticks: {
               font: { size: 11 },
               color: textColor,
               maxRotation: 0,
-              callback: (value, index) => {
-                const year = years[index]
-                // Zeige nur jedes 5. Jahr oder Start/Ende
-                if (index === 0 || index === years.length - 1 || year % 5 === 0) return year
-                return ""
-              },
+              
+              // *** NEU: Dynamische Tick-Kontrolle ***
+              // Löscht die alte callback-Logik
+              source: 'labels', // Ticks basieren auf den Labels (Jahren)
+              autoSkip: true, // Erlaubt Chart.js, Ticks zu überspringen, um Überlappung zu vermeiden
+              
+              // Steuert die maximale Anzahl an Ticks, um bei kurzen Zeiträumen jährlich zu bleiben,
+              // und bei langen Zeiträumen automatisch auf 5- oder 10-Jahresschritte zu wechseln.
+              // MaxTicksLimit von 15-20 funktioniert gut für die Darstellung von 40 Jahren in 5er-Schritten.
+              maxTicksLimit: Math.min(20, Math.ceil(numberOfYears / 5) * 2), 
             },
+            title: {
+              // *** HINZUGEFÜGT: Titel "Jahre" ***
+              display: true, 
+              text: "Jahr", 
+              color: textColor,
+              font: { size: 12, weight: 'bold' },
+              padding: { top: 8, bottom: 0 }
+            }
           },
           y: {
             grid: { display: true, color: gridColor, drawBorder: false },
             ticks: { 
                 font: { size: 11 }, 
                 color: textColor,
-                callback: (value) => formatCurrency(Number(value)) 
+                // *** BEIBEHALTEN: EUR ohne Dezimalstellen ***
+                callback: (value) => formatCurrencyForTicks(Number(value)) 
             },
             title: {
-              display: false, // Label sparen wir uns, Währung ist selbsterklärend
+              display: false, 
             },
           },
         },
@@ -271,13 +296,12 @@ export function useMarketChart(
             borderWidth: 1,
             padding: 10,
             callbacks: {
-              label: (context) => `Portfolio: ${formatCurrency(context.parsed.y)}`,
+              label: (context) => `Portfolio: ${formatCurrencyForTooltip(context.parsed.y)}`, 
               title: (items) => `Jahr ${items[0].label}`
             },
           },
         },
       },
-      // Hinzufügen des Plugins zum Zeichnen der Krisen-Marker
       plugins: [
         {
           id: "crisisMarkers",
