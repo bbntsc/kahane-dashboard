@@ -17,28 +17,28 @@ interface TourStep {
 
 // ACHTUNG: Die Messages selbst sind nun nur KEYS, die zur Laufzeit übersetzt werden!
 const ALL_TOUR_STEPS: TourStep[] = [
-  // NEU INDEX 0: SCHRITT 1 - WILLKOMMEN
+  // INDEX 0: SCHRITT 1 - WILLKOMMEN
   { 
     target: "page", // Betrifft die gesamte Seite
     messageKey: "t1_welcome",
     path: "/"
   },
   
-  // NEU INDEX 1: Quick Actions (alt: 3) - NEUER ECHTER STARTPUNKT
+  // INDEX 1: Quick Actions (Sidebar Einleitung)
   { 
     target: "quick-actions", 
     messageKey: "t3_message",
     path: "/"
   },
   
-  // NEU INDEX 2: Navigieren zu Simulation (alt: 5)
+  // INDEX 2: Navigieren zu Simulation
   {
     target: "page", // Betrifft die gesamte Seite
     messageKey: "t5_message",
     path: "/simulation" 
   },
   
-  // --- SIMULATIONS-SCHRITTE (ab hier unverändert in der Logik) ---
+  // --- SIMULATIONS-SCHRITTE ---
   {
     target: "sliders", 
     messageKey: "t6_message",
@@ -60,12 +60,14 @@ const ALL_TOUR_STEPS: TourStep[] = [
     path: "/simulation" 
   },
 
-  // --- MARKTAANALYSE-SCHRITTE ---
+  // INDEX 7: Navigieren zu Marktanalyse
   {
     target: "market-page", 
     messageKey: "t10_message",
     path: "/market" 
   },
+  
+  // --- MARKTAANALYSE-SCHRITTE (alle auf /market) ---
   {
     target: "market-horizon",
     messageKey: "t11_message",
@@ -86,41 +88,60 @@ const ALL_TOUR_STEPS: TourStep[] = [
     messageKey: "t14_message",
     path: "/market"
   },
+  
+  // INDEX 12: MARKTAANALYSE-CTA: 'Jetzt Kontaktieren' hervorheben (bleibt auf Market)
   {
     target: "market-contact-cta", 
     messageKey: "t15_message",
-    path: "/market" // Navigiert zu /faq
+    path: "/market" 
+  },
+  // INDEX 13: NEU: Navigationsschritt Market -> Contact (Nur für Global Guide)
+  {
+    target: "page", 
+    messageKey: "t16_nav_contact", 
+    path: "/contact" 
   },
 
-  // --- WEITERE SEITEN (Portfolio entfernt, ab hier verschoben) ---
-  {
-    target: "sidebar-faq", 
-    messageKey: "t17_message",
-    path: "/faq" 
-  },
-  {
-    target: "sidebar-feedback", 
-    messageKey: "t18_message",
-    path: "/feedback" 
-  },
-  {
-    target: "sidebar-settings", 
-    messageKey: "t19_message",
-    path: "/settings" 
-  },
-  
-  // --- KONTAKT UND ABSCHLUSS ---
+  // INDEX 14: KONTAKTFORMULAR
   {
     target: "contact-form", 
     messageKey: "t20_message",
     path: "/contact" 
   },
   
-  // ABSCHLUSS-SCHRITT
+  // INDEX 15: NEU: Navigationsschritt Contact -> FAQ (Nur für Global Guide)
+  {
+    target: "sidebar-faq", 
+    messageKey: "t22_nav_faq", 
+    path: "/faq" 
+  },
+  
+  // INDEX 16: FAQ (auf /faq)
+  {
+    target: "page", // Betrifft die gesamte Seite
+    messageKey: "t17_message",
+    path: "/faq" 
+  },
+  
+  // INDEX 17: Feedback (auf /feedback)
+  {
+    target: "sidebar-feedback", 
+    messageKey: "t18_message",
+    path: "/feedback" 
+  },
+  
+  // INDEX 18: Settings (auf /settings)
+  {
+    target: "sidebar-settings", 
+    messageKey: "t19_message",
+    path: "/settings" 
+  },
+  
+  // INDEX 19: ABSCHLUSS-SCHRITT
   {
     target: "page", 
     messageKey: "t21_message",
-    path: "/contact" 
+    path: "/settings" // Abschluss auf der Settings-Seite
   }
 ]
 
@@ -129,6 +150,10 @@ export { ALL_TOUR_STEPS };
 
 
 const TOUR_STEP_KEY = "activeTourStep"
+
+interface TourStepWithIndex extends TourStep {
+    fullIndex: number;
+}
 
 interface TourGuideProps {
   isActive: boolean
@@ -146,35 +171,64 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
   const { language } = useSettings()
   const t = useTranslation(language)
 
-  const tourSteps: (TourStep & { fullIndex?: number })[] = useMemo(() => {
+  const tourSteps: TourStepWithIndex[] = useMemo(() => {
     if (!isContextual) {
       return ALL_TOUR_STEPS.map((step, index) => ({ ...step, fullIndex: index }));
     }
     
-    const stepsForContext = ALL_TOUR_STEPS.filter(step => pathname.startsWith(step.path || "/") && step.messageKey !== "t1_welcome");
+    // --- LOKALER (KONTEXTUELLER) GUIDE LOGIK ---
     
-    const initialStepData = ALL_TOUR_STEPS[initialStep];
-    
-    if (!initialStepData) return [];
+    let stepsForContext = ALL_TOUR_STEPS.filter(step => {
+        // 1. Willkommensschritt und Sidebar-Einleitung (t3_message) immer entfernen
+        if (step.messageKey === "t1_welcome" || step.messageKey === "t3_message") {
+            return false;
+        }
 
-    const relativeStartIndex = stepsForContext.findIndex(step => 
-      step.target === initialStepData.target && step.path === initialStepData.path
-    );
-    
-    const subTour = stepsForContext.slice(relativeStartIndex);
-    
-    const lastStep = subTour[subTour.length - 1];
+        // 2. Navigationsschritte entfernen: Schritte, deren Zielpfad nicht der aktuelle Pfad ist, entfernen.
+        // Das stellt sicher, dass Navigationsschritte (t5, t9, t10, t16_nav_contact, t22_nav_faq, t18, t19)
+        // aus dem lokalen Kontext entfernt werden.
+        if (step.path && step.path !== pathname) {
+            // Ausnahme: Startseite "/" gilt als Match, wenn wir auf der Startseite sind
+            if (pathname === '/' && step.path === '/') return true; 
 
-    if (!lastStep || (lastStep.messageKey !== "t21_message" && lastStep.target !== "page")) { 
-      subTour.push({
-        target: "page",
-        messageKey: "t_contextual_end", 
-        path: pathname 
-      } as TourStep);
+            return false;
+        }
+        
+        // 3. Schritte, die den gesamten Pfad abdecken und keine Navigationsschritte sind, behalten
+        return pathname.startsWith(step.path || "/");
+    }).map((step) => ({
+        ...step, 
+        fullIndex: ALL_TOUR_STEPS.findIndex(s => s.messageKey === step.messageKey && s.path === step.path)
+    }));
+    
+    // Sicherstellen, dass die Tour mindestens einen passenden Schritt enthält, falls der Filter zu viel entfernt hat.
+    if (stepsForContext.length === 0) {
+        // Versuche, den ersten relevanten Schritt für die aktuelle Seite zu finden.
+        const firstStep = ALL_TOUR_STEPS.find(step => 
+            pathname.startsWith(step.path || "/") && 
+            step.messageKey !== "t1_welcome" &&
+            step.messageKey !== "t3_message" &&
+            step.path === pathname 
+        );
+        
+        if (firstStep) {
+             stepsForContext.push({...firstStep, fullIndex: ALL_TOUR_STEPS.findIndex(s => s.messageKey === firstStep.messageKey && s.path === firstStep.path)});
+        }
     }
     
-    return subTour.map(step => ({...step, fullIndex: ALL_TOUR_STEPS.findIndex(s => s.messageKey === step.messageKey && s.path === step.path)}));
-  }, [isContextual, initialStep, pathname, language])
+    // 4. Den kontextuellen Abschluss-Schritt hinzufügen
+    const lastStep = stepsForContext[stepsForContext.length - 1];
+    if (!lastStep || lastStep.messageKey !== "t_contextual_end") { 
+      stepsForContext.push({
+        target: "page",
+        messageKey: "t_contextual_end", 
+        path: pathname,
+        fullIndex: -1 
+      } as TourStepWithIndex);
+    }
+    
+    return stepsForContext;
+  }, [isContextual, pathname])
   
   const [isFinishing, setIsFinishing] = useState(false);
   const currentStep = tourSteps[currentStepIndex]; 
@@ -290,6 +344,7 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
     const nextStep = currentStepIndex + 1;
     const nextStepData = tourSteps[nextStep];
 
+    // Globale Guide Navigation (Nur wenn nicht isContextual)
     if (!isContextual && nextStepData && nextStepData.path && !pathname.startsWith(nextStepData.path)) {
         const nextStepInAllList = nextStepData.fullIndex; 
         if (nextStepInAllList !== undefined) {
@@ -310,6 +365,7 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
       const previousStep = currentStepIndex - 1;
       const previousStepData = tourSteps[previousStep];
       
+      // Globale Guide Navigation (Nur wenn nicht isContextual)
       if (!isContextual && previousStepData && previousStepData.path && !pathname.startsWith(previousStepData.path)) {
         
         const previousStepInAllList = previousStepData.fullIndex;
@@ -337,9 +393,13 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
     }, 300);
   }
   
-  if (!isActive || isFinishing || !currentStep || (currentStep.path && !pathname.startsWith(currentStep.path) && !isContextual)) return null
+  if (!isActive || isFinishing || !currentStep || (!isContextual && currentStep.path && !pathname.startsWith(currentStep.path))) return null
 
   const getTranslatedMessage = (key: keyof typeof t.concierge.tour) => {
+    if (key === "t_contextual_end") {
+        return "Das waren die Funktionen für diese Seite. Solltest Du mich auf einer anderen Seite erneut brauchen, zöger nicht die Glocke zu klingeln! Ich bin jederzeit für Dich da.";
+    }
+    
     if (key in t.concierge.tour) {
         return t.concierge.tour[key] as string;
     }
@@ -349,10 +409,20 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
   const currentMessage = getTranslatedMessage(currentStep.messageKey as keyof typeof t.concierge.tour)
 
   const isWelcomeStep = currentStep.messageKey === "t1_welcome";
-  const displayStepNumber = isWelcomeStep ? 0 : currentStepIndex; 
+  const isContextualEndStep = currentStep.messageKey === "t_contextual_end"; 
   const totalSteps = tourSteps.length;
-  const displayTotalSteps = totalSteps - (tourSteps[0]?.messageKey === "t1_welcome" ? 1 : 0);
-  const showNumbering = !isWelcomeStep;
+  
+  // Zähle die Schritte ohne Metaschritte (Willkommen und Kontext-Ende)
+  const stepsWithoutMeta = totalSteps - (tourSteps[0]?.messageKey === "t1_welcome" ? 1 : 0) - (tourSteps[tourSteps.length - 1]?.messageKey === "t_contextual_end" ? 1 : 0);
+  
+  let currentDisplayStep = currentStepIndex;
+  
+  if (!isWelcomeStep) {
+    currentDisplayStep = currentStepIndex - (tourSteps[0]?.messageKey === "t1_welcome" ? 1 : 0) + 1;
+  }
+
+  // Nummerierung nur anzeigen, wenn es sich um einen relevanten Schritt handelt
+  const showNumbering = !isWelcomeStep && !isContextualEndStep && stepsWithoutMeta > 0;
 
   return (
     <>
@@ -382,12 +452,14 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
             <div className="flex items-center justify-between">
               {showNumbering ? (
                 <div className="text-xs text-gray-500">
-                  {t.concierge.tour.t_step} {currentStepIndex} {t.concierge.tour.t_from} {displayTotalSteps} 
+                  {t.concierge.tour.t_step} {currentDisplayStep} {t.concierge.tour.t_from} {stepsWithoutMeta} 
                 </div>
               ) : (
                   // NEU: Platzhalter für den Willkommensschritt
                 <div className="text-xs font-semibold text-[#668273]">
-                    {t.concierge.tutorialWelcome}
+                    {isWelcomeStep
+                      ? t.concierge.tutorialWelcome
+                      : ""}
                 </div>
               )}
               
@@ -433,9 +505,6 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
       >
         <img src={conciergeImage} alt="Concierge" className="w-full h-full object-contain" />
       </motion.div>
-
-      {/* Hervorhebung CSS ist in globals.css definiert */}
-      {/* ... (Style Block bleibt gleich) ... */}
     </>
   )
 }
