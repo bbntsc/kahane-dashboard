@@ -62,7 +62,7 @@ function drawCrisisMarkers(chart: Chart, filteredCrises: Crisis[], years: number
     const textWidth = textMetrics.width;
     const padding = 8;
     const boxWidth = textWidth + padding * 2;
-    const boxHeight = 16; // Etwas höher für besseren Look
+    const boxHeight = 20; // Etwas höher für besseren Look
     
     // Position der Box
     const boxX = xPos - boxWidth / 2;
@@ -70,8 +70,8 @@ function drawCrisisMarkers(chart: Chart, filteredCrises: Crisis[], years: number
     const boxY = yPos - 15 - boxHeight; 
     const boxRadius = 4;
 
-    // Box zeichnen (hellgelbe/beige Farbe wie im Bild)
-    ctx.fillStyle = '#FAF0C4'; // Helle Farbe (Pale Gold/Beige)
+    // Box zeichnen
+    ctx.fillStyle = '#FAF0E6'; // Hintergrundfarbe in einem hellen Beige-Ton
     
     // Funktion, um Rechteck mit abgerundeten Ecken zu zeichnen
     ctx.beginPath();
@@ -93,7 +93,7 @@ function drawCrisisMarkers(chart: Chart, filteredCrises: Crisis[], years: number
     ctx.textBaseline = 'middle';
     ctx.fillText(text, xPos, boxY + boxHeight / 2);
     
-    // Optional: Kleiner Pfeil nach unten zur Bubble (wie im Bild)
+    // Optional: Kleiner Pfeil nach unten zur Bubble
     ctx.fillStyle = '#FAF0C4';
     ctx.beginPath();
     ctx.moveTo(xPos - 4, boxY + boxHeight);
