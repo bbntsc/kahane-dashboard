@@ -3,9 +3,10 @@
 import { Menu, ChevronDown } from "lucide-react"
 import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image" // Hinzugefügt
 import { useSettings, type Language } from "@/lib/settings-context" 
 import { useTranslation } from "@/lib/i18n" 
-
+import logo from "@/lib/logo.svg" // Logo importiert
 
 interface BankGutmannHeaderProps {
   onLogoClick?: () => void
@@ -62,12 +63,13 @@ export function BankGutmannHeader({ onLogoClick, className }: BankGutmannHeaderP
                   }
               }}
             >
-              <div className="font-serif italic text-2xl text-[#1b251d] dark:text-[#f8f3ef] leading-tight">
-                Gutmann
-              </div>
-              <div className="text-[9px] tracking-[0.2em] text-[#1b251d] dark:text-[#f8f3ef] uppercase mt-0.5">
-                Private Bankers
-              </div>
+              {/* Logo Bild statt Text */}
+              <Image 
+                src={logo}
+                alt="Gutmann Private Bankers"
+                className="h-12 w-auto dark:invert" 
+                priority
+              />
             </LogoWrapper>
           </div>
 

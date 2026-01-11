@@ -42,9 +42,23 @@ export function Sidebar({ onConciergeClick }: SidebarProps) {
     // Hintergrundfarbe und Border für Dark Mode anpassen
     <div className="flex flex-col flex-grow border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1b251d] overflow-y-auto h-full z-10"> 
       {/* Header "Gutmann Concierge" */}
-      <div className="flex flex-col h-16 justify-center px-6 border-b border-gray-100 dark:border-gray-700">
-        <h1 className="text-xl font-bold text-gray-900 dark:text-[#f8f3ef] font-serif tracking-tight leading-none">Gutmann</h1>
-        <div className="text-xs tracking-[0.1em] uppercase text-gray-700 dark:text-[#f8f3ef] opacity-80 mt-0.5">Concierge</div>
+      <div className="flex flex-col items-center justify-center py-6">
+        {/* TITEL: Schriftgröße angepasst (z.B. 4xl statt 120px) */}
+        <h1 className="text-4xl font-script text-[#1b251d] mb-0 leading-none">
+          Gutmann
+        </h1>
+
+        {/* SEPARATOR: Breiten und Abstände reduziert */}
+        <div className="flex items-center justify-center my-2">
+          <div className="w-8 h-px bg-[#1b251d] opacity-50" />
+          <div className="w-1 h-1 mx-1.5 rounded-full bg-[#1b251d] opacity-50" />
+          <div className="w-8 h-px bg-[#1b251d] opacity-50" />
+        </div>
+
+        {/* UNTERZEILE: Kleiner (text-xs) aber Tracking beibehalten */}
+        <div className="text-[10px] tracking-[0.3em] uppercase text-[#1b251d] mt-0">
+          CONCIERGE
+        </div>
       </div>
 
       {/* Navigation */}
