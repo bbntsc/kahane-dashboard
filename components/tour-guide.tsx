@@ -15,9 +15,9 @@ interface TourStep {
 }
 
 const ALL_TOUR_STEPS: TourStep[] = [
-  { target: "page", messageKey: "t1_welcome", path: "/" }, // Schritt 1: Keine Umrandung
-  { target: "quick-actions", messageKey: "t3_message", path: "/" }, // Schritt 2: Sidebar Umrandung
-  { target: "page", messageKey: "t5_message", path: "/simulation" }, // Schritt 3: Seite Umrandung
+  { target: "page", messageKey: "t1_welcome", path: "/" },
+  { target: "quick-actions", messageKey: "t3_message", path: "/" },
+  { target: "page", messageKey: "t5_message", path: "/simulation" },
   { target: "sliders", messageKey: "t6_message", path: "/simulation" },
   { target: "chart-container", messageKey: "t7_message", path: "/simulation" },
   { target: "summary", messageKey: "t8_message", path: "/simulation" },
@@ -70,8 +70,13 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
       return ALL_TOUR_STEPS.map((step, index) => ({ ...step, fullIndex: index }));
     }
     
+    // Logik für den Glocken-Modus (isContextual)
     let stepsForContext = ALL_TOUR_STEPS.filter(step => {
-        if (step.messageKey === "t1_welcome" || step.messageKey === "t3_message") return false;
+        // Willkommensnachrichten UND die globale Abschlussnachricht (t21) entfernen
+        if (step.messageKey === "t1_welcome" || step.messageKey === "t3_message" || step.messageKey === "t21_message") {
+            return false;
+        }
+
         if (step.path && step.path !== pathname) {
             if (pathname === '/' && step.path === '/') return true; 
             return false;
@@ -87,6 +92,7 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
             pathname.startsWith(step.path || "/") && 
             step.messageKey !== "t1_welcome" &&
             step.messageKey !== "t3_message" &&
+            step.messageKey !== "t21_message" &&
             step.path === pathname 
         );
         if (firstStep) {
@@ -94,15 +100,13 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
         }
     }
     
-    const lastStep = stepsForContext[stepsForContext.length - 1];
-    if (!lastStep || lastStep.messageKey !== "t_contextual_end") { 
-      stepsForContext.push({
-        target: "page",
-        messageKey: "t_contextual_end", 
-        path: pathname,
-        fullIndex: -1 
-      } as TourStepWithIndex);
-    }
+    // Hier wird die neue Endnachricht angehängt (nutzt den Key t_contextual_end aus der i18n)
+    stepsForContext.push({
+      target: "page",
+      messageKey: "t_contextual_end", 
+      path: pathname,
+      fullIndex: -2 
+    } as TourStepWithIndex);
     
     return stepsForContext;
   }, [isContextual, pathname])
@@ -118,7 +122,6 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
     }
 
     const globalIndex = currentStep.fullIndex;
-    // NUR BEI SCHRITT 2 (Index 1) Sidebar aktivieren
     if (globalIndex === 1) {
       window.dispatchEvent(new CustomEvent('highlightSidebar', { detail: { active: true } }));
     } else {
@@ -131,7 +134,6 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
   }, [currentStepIndex, isActive, currentStep]);
 
   const applyHighlight = (targetId: string, stepIndex: number) => {
-    // Wenn es Schritt 1 (Index 0) ist, machen wir GAR KEINE Umrandung
     if (stepIndex === 0) return;
 
     const element = document.querySelector(`[data-tour="${targetId}"]`) as HTMLElement;
@@ -173,8 +175,6 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
     const timeoutId = setTimeout(() => {
       const element = document.querySelector(`[data-tour="${currentStep.target}"]`)
       if (element) element.scrollIntoView({ behavior: "smooth", block: "center" })
-      
-      // Highlight anwenden, außer für den allerersten Schritt (Index 0)
       applyHighlight(currentStep.target, currentStep.fullIndex); 
     }, 200); 
 
