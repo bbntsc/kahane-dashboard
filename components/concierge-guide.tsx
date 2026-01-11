@@ -18,7 +18,7 @@ export function ConciergeController() {
   const [showTutorial, setShowTutorial] = useState(false) 
   const [showGuidedTour, setShowGuidedTour] = useState(false) 
   const [currentTourStep, setCurrentTourStep] = useState(0) 
-  const [tourKey, setTourKey] = useState(0) // Erwingt Reset der Tour
+  const [tourKey, setTourKey] = useState(0) 
   const [isContextualTour, setIsContextualTour] = useState(false); 
   const [conciergeImage, setConciergeImage] = useState("/images/2.svg"); 
   
@@ -48,21 +48,18 @@ export function ConciergeController() {
 
   useEffect(() => {
     const handleStartIntro = () => {
-        // Erst alles schließen und Schlüssel ändern
         setShowGuidedTour(false);
         localStorage.removeItem("activeTourStep"); 
         localStorage.removeItem(TOUR_ACTIVE_KEY);
         
-        // Neustart vorbereiten
         setTourKey(prev => prev + 1);
         setCurrentTourStep(0);
         setIsContextualTour(false);
         setConciergeImage("/images/2.svg"); 
         
-        // Modal mit kleiner Verzögerung öffnen
         setTimeout(() => {
             setShowTutorial(true);
-        }, 30);
+        }, 50);
     }
 
     const handleBellClick = () => {
@@ -112,7 +109,6 @@ export function ConciergeController() {
           />
       )}
       
-      {/* Der Key sorgt für den Reset bei 0 */}
       <TourGuide 
         key={tourKey}
         isActive={showGuidedTour} 
