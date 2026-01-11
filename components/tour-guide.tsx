@@ -14,6 +14,7 @@ interface TourStep {
   path?: string 
 }
 
+// Alle globalen Schritte der Hausführung
 const ALL_TOUR_STEPS: TourStep[] = [
   { target: "page", messageKey: "t1_welcome", path: "/" },
   { target: "quick-actions", messageKey: "t3_message", path: "/" },
@@ -43,6 +44,7 @@ const TOUR_STEP_KEY = "activeTourStep"
 
 interface TourStepWithIndex extends TourStep {
     fullIndex: number;
+    customMessage?: string; 
 }
 
 interface TourGuideProps {
@@ -70,10 +72,13 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
       return ALL_TOUR_STEPS.map((step, index) => ({ ...step, fullIndex: index }));
     }
     
-    // Logik für den Glocken-Modus (isContextual)
     let stepsForContext = ALL_TOUR_STEPS.filter(step => {
-        // Willkommensnachrichten UND die globale Abschlussnachricht (t21) entfernen
-        if (step.messageKey === "t1_welcome" || step.messageKey === "t3_message" || step.messageKey === "t21_message") {
+        const key = step.messageKey as string;
+        // Entfernt Willkommensnachrichten, Navigations-Schritte (_nav_) und die lange Endnachricht (t21)
+        if (key === "t1_welcome" || 
+            key === "t3_message" || 
+            key === "t21_message" || 
+            key.includes("_nav_")) {
             return false;
         }
 
@@ -87,9 +92,11 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
         fullIndex: ALL_TOUR_STEPS.findIndex(s => s.messageKey === step.messageKey && s.path === step.path)
     }));
     
+    // Fallback falls eine Seite keine eigenen Schritte hat
     if (stepsForContext.length === 0) {
         const firstStep = ALL_TOUR_STEPS.find(step => 
             pathname.startsWith(step.path || "/") && 
+            !(step.messageKey as string).includes("_nav_") &&
             step.messageKey !== "t1_welcome" &&
             step.messageKey !== "t3_message" &&
             step.messageKey !== "t21_message" &&
@@ -100,13 +107,14 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
         }
     }
     
-    // Hier wird die neue Endnachricht angehängt (nutzt den Key t_contextual_end aus der i18n)
+    // Hänge die höfliche Endnachricht im Sie-Stil an
     stepsForContext.push({
       target: "page",
-      messageKey: "t_contextual_end", 
+      messageKey: "t_contextual_end" as any, 
+      customMessage: "Das waren die Funktionen für diese Seite. Sollten Sie mich auf einer anderen Seite erneut brauchen, zögern Sie nicht, die Glocke zu klingeln! Ich bin jederzeit für Sie da.",
       path: pathname,
       fullIndex: -2 
-    } as TourStepWithIndex);
+    });
     
     return stepsForContext;
   }, [isContextual, pathname])
@@ -114,28 +122,24 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
   const [isFinishing, setIsFinishing] = useState(false);
   const currentStep = tourSteps[currentStepIndex]; 
 
-  // --- LOGIK FÜR SIDEBAR-UMRANDUNG ---
   useEffect(() => {
     if (!isActive || !currentStep) {
       window.dispatchEvent(new CustomEvent('highlightSidebar', { detail: { active: false } }));
       return;
     }
-
     const globalIndex = currentStep.fullIndex;
     if (globalIndex === 1) {
       window.dispatchEvent(new CustomEvent('highlightSidebar', { detail: { active: true } }));
     } else {
       window.dispatchEvent(new CustomEvent('highlightSidebar', { detail: { active: false } }));
     }
-
     return () => {
       window.dispatchEvent(new CustomEvent('highlightSidebar', { detail: { active: false } }));
     };
   }, [currentStepIndex, isActive, currentStep]);
 
   const applyHighlight = (targetId: string, stepIndex: number) => {
-    if (stepIndex === 0) return;
-
+    if (stepIndex === 0 && !isContextual) return; 
     const element = document.querySelector(`[data-tour="${targetId}"]`) as HTMLElement;
     if (element) {
       element.classList.add("tour-highlight");
@@ -161,7 +165,6 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
         setCurrentStepIndex(0); 
         return;
     }
-    
     const savedStep = localStorage.getItem(TOUR_STEP_KEY);
     if (savedStep !== null) {
         const indexInCurrentList = tourSteps.findIndex(s => s.fullIndex === Number(savedStep));
@@ -193,7 +196,6 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
       }, 300); 
       return
     }
-
     const nextStepData = tourSteps[currentStepIndex + 1];
     if (!isContextual && nextStepData?.path && !pathname.startsWith(nextStepData.path)) {
         localStorage.setItem(TOUR_STEP_KEY, nextStepData.fullIndex.toString());
@@ -217,7 +219,7 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
 
   if (!isActive || isFinishing || !currentStep) return null
 
-  const currentMessage = t.concierge.tour[currentStep.messageKey] as string;
+  const currentMessage = currentStep.customMessage || (t.concierge.tour[currentStep.messageKey] as string);
 
   const isWelcomeStep = currentStep.messageKey === "t1_welcome";
   const totalSteps = tourSteps.length;
@@ -244,7 +246,6 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
             <div className="flex items-center justify-between">
               {showNumbering && <div className="text-xs text-gray-500">{t.concierge.tour.t_step} {currentDisplayStep} {t.concierge.tour.t_from} {stepsWithoutMeta}</div>}
               {!showNumbering && isWelcomeStep && <div className="text-xs font-semibold text-[#668273]">{t.concierge.tutorialWelcome}</div>}
-              
               <div className="flex gap-2 ml-auto">
                 {currentStepIndex > 0 && (
                   <button onClick={handlePrevious} className="flex items-center gap-1 px-3 py-2 border border-[#668273] text-[#668273] rounded-lg text-sm font-medium hover:bg-[#668273]/10"><ArrowLeft className="h-4 w-4" />{t.concierge.tour.t_back}</button>
