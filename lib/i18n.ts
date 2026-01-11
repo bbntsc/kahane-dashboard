@@ -103,13 +103,13 @@ export const translations = {
         t6_message: "Hier können Sie vier zentrale Regler anpassen: Startkapital, monatliche Sparrate, Ihre gewünschte Aktienquote und den Anlagehorizont in Jahren.",
         t7_message: "Dieses Diagramm visualisiert die voraussichtliche Entwicklung Ihres Portfolios als Bandbreite über drei Szenarien: optimistisch (oben), realistisch (Mitte) und vorsichtig (unten).",
         t8_message: "Die Zusammenfassung zeigt Ihnen auf einen Blick den investierten Gesamtbetrag, den erwarteten Gesamtertrag und den resultierenden Finalwert im realistischen Szenario.",
-        t9_message: "Sind Ihre Annahmen realistisch? Mit einem Klick auf Blick in den Markt vergleichen Sie Ihre Strategie mit den härtesten historischen Marktkrisen. Wir navigieren jetzt zur Marktanalyse.",
-        t10_message: "Willkommen bei der Marktanalyse! Hier sehen Sie, wie sich der Weltmarktindex (MSCI World) über verschiedene Zeiträume tatsächlich entwickelt hat, inklusive aller Hochs und Tiefs.",
+        t9_message: "Wie hätten sich Ihre aktuellen Einstellungen in der Vergangenheit entwickelt? Im Blick in den Markt simulieren wir Ihr gewähltes Portfolio unter realen historischen Marktphasen - inklusive extremer Krisen. Wir navigieren jetzt zur Marktanalyse.",
+        t10_message: "Willkommen bei der Marktanalyse! Hier sehen Sie, wie sich Ihre Strategie über verschiedene Zeiträume tatsächlich entwickelt hat, inklusive aller Höhen und Tiefen.",
         t11_message: "Wählen Sie hier den Anlagehorizont (z. B. 40 Jahre), um zu sehen, wie sich die historischen Krisen auf eine Langfristanlage ausgewirkt haben.",
-        t12_message: "Das Diagramm zeigt den Indexverlauf im Detail. Konzentrieren Sie sich auf die langfristige Entwicklung, die kleinen roten Punkte markieren historische Krisen.",
+        t12_message: "Das Diagramm zeigt die historische Entwicklung des simulierten Portfolios im Detail. Konzentrieren Sie sich auf den langfristigen Verlauf; die roten Markierungen kennzeichnen ausgewählte historische Marktkrisen.",
         t13_message: "Aktivieren Sie die Insights, um die roten Krisenpunkte im Chart sichtbar zu machen. Klicken Sie darauf, um eine detaillierte Fallstudie zur Krise zu erhalten.",
         t14_message: "Die historische Zusammenfassung berechnet für den gewählten Zeitraum den Durchschnittsertrag, den maximalen Verlust und den maximalen Gewinn.",
-        t15_message: "Sie haben die Marktdaten analysiert. Über den 'Jetzt Kontaktieren'-Button können Sie Ihre Strategie direkt mit einem unserer Berater besprechen.", // Korrigierter Text
+        t15_message: "Über ‚Zurück zur Simulation‘ gelangen Sie erneut zur Simulationsansicht", // Korrigierter Text
         t16_nav_contact: "Perfekt. Wir fahren mit der Kontaktaufnahme fort, wo Sie Ihre Daten eingeben können.", // NEU: Navigationsschritt zu /contact
         t17_message: "Die FAQ Seite bietet Ihnen schnelle Antworten auf die wichtigsten Fragen zur App, zur Simulation und zu allgemeinen Investmentthemen.",
         t18_message: "Über die Feedback Seite können Sie uns jederzeit Ihre Meinung zur Plattform mitteilen. Ihre Rückmeldung ist uns wichtig für die stetige Optimierung.",
