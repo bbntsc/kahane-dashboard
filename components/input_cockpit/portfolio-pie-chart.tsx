@@ -2,44 +2,39 @@
 
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts"
 import { useSettings } from "@/lib/settings-context"
+import { useTranslation } from "@/lib/i18n"
 
 interface PortfolioPieChartProps {
   stockPercentage: number
 }
 
-// Gutmann Farbpalette für das Chart
 const COLORS = [
-  "#4a5f52", // Dunkelgrün (Primary Brand Color) - für Hauptaktien
-  "#6b8e23", // Olivgrün - für weitere Aktien
-  "#a4a855", // Gedecktes Gold/Oliv - für Mischformen/Rohstoffe
-  "#d9df47", // Helles Akzent-Gold - für Anleihen
-  "#8c8981", // Grau-Beige - für Liquidität/Sicheres
+  "#4a5f52", 
+  "#6b8e23", 
+  "#a4a855", 
+  "#d9df47", 
+  "#8c8981", 
 ]
 
 export function PortfolioPieChart({ stockPercentage }: PortfolioPieChartProps) {
-  const { theme } = useSettings()
+  const { theme, language } = useSettings()
+  const t = useTranslation(language)
   const isDark = theme === "dark"
 
-  // Fiktive Logik zur Erstellung der Portfolio-Zusammensetzung basierend auf der Aktienquote
   const generateData = (stockPct: number) => {
     const bondPct = 100 - stockPct
-
     const data = []
 
-    // Aktienanteil aufteilen (wenn vorhanden)
     if (stockPct > 0) {
-      data.push({ name: "Aktien Industrieländer", value: Math.round(stockPct * 0.6) })
-      data.push({ name: "Aktien Schwellenländer", value: Math.round(stockPct * 0.4) })
+      data.push({ name: t.simulation.stockDeveloped, value: Math.round(stockPct * 0.6) })
+      data.push({ name: t.simulation.stockEmerging, value: Math.round(stockPct * 0.4) })
     }
 
-    // Anleihen/Liquiditätsanteil aufteilen (wenn vorhanden)
     if (bondPct > 0) {
-      data.push({ name: "Staats- & Unternehmensanl.", value: Math.round(bondPct * 0.7) })
-      data.push({ name: "Liquidität/Geldmarkt", value: Math.round(bondPct * 0.3) })
+      data.push({ name: t.simulation.bondCorporate, value: Math.round(bondPct * 0.7) })
+      data.push({ name: t.simulation.liquidity, value: Math.round(bondPct * 0.3) })
     }
 
-    // Filtern von Einträgen mit 0%, damit sie nicht in der Legende erscheinen,
-    // und Zuweisung der Farben.
     return data
       .filter(item => item.value > 0)
       .map((entry, index) => ({
@@ -50,7 +45,6 @@ export function PortfolioPieChart({ stockPercentage }: PortfolioPieChartProps) {
 
   const chartData = generateData(stockPercentage)
 
-  // Benutzerdefinierte Legende für besseres Styling
   const renderLegend = (props: any) => {
     const { payload } = props;
     return (
@@ -69,11 +63,10 @@ export function PortfolioPieChart({ stockPercentage }: PortfolioPieChartProps) {
     );
   }
 
-
   return (
     <div className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-[#ede9e1] dark:border-gray-700 shadow-sm">
       <h3 className="text-center text-lg font-serif font-bold text-[#1b251d] dark:text-[#f8f3ef] mb-4">
-        Beispielhafte Zusammensetzung
+        {t.simulation.portfolioComposition}
       </h3>
       <div className="h-[300px] w-full font-sans">
         <ResponsiveContainer width="100%" height="100%">
@@ -82,11 +75,11 @@ export function PortfolioPieChart({ stockPercentage }: PortfolioPieChartProps) {
               data={chartData}
               cx="50%"
               cy="50%"
-              innerRadius={60} // Macht es zum Donut-Chart, sieht moderner aus
+              innerRadius={60}
               outerRadius={80}
-              paddingAngle={2} // Kleiner Abstand zwischen den Segmenten
+              paddingAngle={2}
               dataKey="value"
-              stroke={isDark ? "#1f2937" : "#ffffff"} // Weißer Rahmen um Segmente im Light Mode, dunkler im Dark Mode
+              stroke={isDark ? "#1f2937" : "#ffffff"}
               strokeWidth={2}
             >
               {chartData.map((entry, index) => (
@@ -107,7 +100,7 @@ export function PortfolioPieChart({ stockPercentage }: PortfolioPieChartProps) {
         </ResponsiveContainer>
       </div>
        <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 italic">
-          Dies ist eine illustrative Darstellung und keine Anlageempfehlung. Die tatsächliche Zusammensetzung wird individuell ermittelt.
+          {t.simulation.portfolioDisclaimer}
        </p>
     </div>
   )
