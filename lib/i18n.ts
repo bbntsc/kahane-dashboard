@@ -20,7 +20,7 @@ export const translations = {
     },
     landing: {
       title: "Gutmann Concierge",
-      subtitle: "Erleben Sie Investieren",
+      subtitle: "Erlebe investieren",
     },
     simulation: {
       title: "Vermögenssimulation",
@@ -488,7 +488,7 @@ export const translations = {
         t_step: "Étape",
         t_from: "de",
         t_back: "Retour",
-        t_contextual_end: "C'était la section d'aide pour cette page. Si vous avez encore besoin de moi sur une autre page, n'hésitez pas à sonner la cloche ! Je suis là pour vous à tout moment.",
+        t_contextual_end: "C'étaient les fonctionnalités de cette page. Si vous avez de nouveau besoin de moi sur une autre page, n'hésitez pas à sonner la cloche ! Je suis à votre disposition à tout moment.",
       }
     },
     contact: {
@@ -604,7 +604,7 @@ export const translations = {
       ctaButton: "Analisi di Mercato",
       contactNow: "Contatti Ora",
       xAxisLabel: "Anno",
-      yAxisLabel: "Valore del Portafoglio (Mio. €)",
+      yAxisLabel: "Valore del Portafoglio (Mio. è)",
       disclaimer: "Avvertenza: Le performance passate non garantiscono rendimenti futuri. Investire in titoli comporta rischi.",
     },
     market: {
@@ -649,7 +649,7 @@ export const translations = {
         t1_welcome: "Benvenuto ! Sono il Suo concierge personale. Ti guiderò attraverso l'applicazione e ti aiuterò a visualizzare la Sua strategia di investimento.",
         t3_message: "La barra laterale è il Suo strumento di navigazione centrale, che fornisce accesso a tutte le funzioni.",
         t4_message: "Successivamente, daremo un'occhiata all'Analisi di Mercato. Questa funzione fornisce approfondimenti storici per rivedere le Sue ipotesi.",
-        t5_message: "Immergiamoci ora nella Simulazione Patrimoniale. È il cuore della piattaforma per pianificare realisticamente i Suoi obiettivi di investimento individuali.",
+        t5_message: "Immergiamoci ora nella Simulazione Patrimoniale. è il cuore della piattaforma per pianificare realisticamente i Suoi obiettivi di investimento individuali.",
         t6_message: "Qui può regolare quattro parametri centrali: investimento iniziale, contributo mensile, la Sua quota azionaria desiderata e l'orizzonte di investimento in anni.",
         t7_message: "Questo grafico visualizza lo sviluppo atteso del Suo portafoglio come un intervallo su tre scenari: ottimistico (alto), realistico (medio) e cauto (basso).",
         t8_message: "Il riepilogo Le mostra a colpo d'occhio l'importo totale investito, il rendimento totale atteso e il valore finale risultante nello scenario realistico.",
@@ -673,7 +673,7 @@ export const translations = {
         t_step: "Passo",
         t_from: "di",
         t_back: "Indietro",
-        t_contextual_end: "Questa era la sezione di aiuto per questa pagina. Se ha ancora bisogno di me su un'altra pagina, non esiti a suonare il campanello ! Sono qui per Lei in qualsiasi momento.",
+        t_contextual_end: "Queste erano le funzionalità per questa pagina. Se avesse nuovamente bisogno di me su un'altra pagina, non esiti a suonare il campanello ! Sono a Sua disposizione in qualsiasi momento.",
       }
     },
     contact: {

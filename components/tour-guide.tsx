@@ -102,10 +102,10 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
         }
     }
     
+    // HIER WAR DER FEHLER: customMessage entfernt, damit messageKey t_contextual_end genutzt wird
     stepsForContext.push({
       target: "page",
       messageKey: "t_contextual_end" as any, 
-      customMessage: "Das waren die Funktionen für diese Seite. Sollten Sie mich auf einer anderen Seite erneut brauchen, zögern Sie nicht, die Glocke zu klingeln! Ich bin jederzeit für Sie da.",
       path: pathname,
       fullIndex: -2 
     });
@@ -213,6 +213,7 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
 
   if (!isActive || isFinishing || !currentStep) return null
 
+  // Nutzt jetzt immer t.concierge.tour[currentStep.messageKey], es sei denn customMessage ist explizit gesetzt
   const currentMessage = currentStep.customMessage || (t.concierge.tour[currentStep.messageKey] as string);
 
   const isWelcomeStep = currentStep.messageKey === "t1_welcome";
