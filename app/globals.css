@@ -38,7 +38,7 @@ select,
   }
 }
 
-/* Theme und Farben bleiben unverändert, um den aktuellen Stand der App zu erhalten */
+/* Theme und Farben bleiben unverändert */
 @theme {
   --color-background: #ffffff;
   --color-foreground: #1b251d;
@@ -98,7 +98,6 @@ select,
   --sidebar-ring: oklch(0.708 0 0);
 }
 
-/* Softer, warmer dark mode with higher contrast for readability */
 .dark {
   --background: oklch(0.22 0.015 30);
   --foreground: oklch(0.95 0.01 50);
@@ -142,18 +141,26 @@ select,
   border-color: #4a524a !important;
 }
 
-/* NEU: CSS-Klasse für die Tour Guide Hervorhebung (Gold/Gelb) */
+/* VERBESSERTE CSS-Klasse für die Tour Guide Hervorhebung */
 .tour-highlight {
-  /* Box-Shadow für den leuchtenden Effekt (Gelb/Gold/Money-Thema) */
-  box-shadow: 0 0 0 4px #ffc107, 0 0 0 8px rgba(255, 193, 7, 0.5) !important; 
+  /* Nutzt Outline statt Border, um das Layout nicht zu verschieben */
+  outline: 4px solid #ffc107 !important;
+  outline-offset: 2px; 
+  
+  /* Stellt sicher, dass das Element über dem Dimmer liegt */
+  position: relative !important;
+  z-index: 101 !important;
+  
+  /* Ein klarer Glow-Effekt zur Abhebung */
+  box-shadow: 0 0 15px rgba(255, 193, 7, 0.4) !important;
+  
   border-radius: 6px;
-  padding: 4px; 
-  transition: box-shadow 0.3s ease-in-out, padding 0.3s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 @theme inline {
-  --font-sans: var(--font-inter); /* ZU INTER GEÄNDERT */
-  --font-serif: var(--font-bodoni); /* ZU BODONI GEÄNDERT */
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-bodoni);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -194,7 +201,10 @@ select,
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply outline-ring/50;
+  }
+  *, ::before, ::after {
+    border-color: var(--border);
   }
   body {
     @apply bg-background text-foreground;
