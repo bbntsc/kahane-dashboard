@@ -18,7 +18,7 @@ export function ConciergeController() {
   const [showTutorial, setShowTutorial] = useState(false) 
   const [showGuidedTour, setShowGuidedTour] = useState(false) 
   const [currentTourStep, setCurrentTourStep] = useState(0) 
-  const [tourKey, setTourKey] = useState(0) // NEU: Erzwingt Re-Render der Tour
+  const [tourKey, setTourKey] = useState(0) // Erwingt Reset der Tour
   const [isContextualTour, setIsContextualTour] = useState(false); 
   const [conciergeImage, setConciergeImage] = useState("/images/2.svg"); 
   
@@ -48,20 +48,21 @@ export function ConciergeController() {
 
   useEffect(() => {
     const handleStartIntro = () => {
-        // RADIKALER RESET
+        // Erst alles schließen und Schlüssel ändern
         setShowGuidedTour(false);
         localStorage.removeItem("activeTourStep"); 
         localStorage.removeItem(TOUR_ACTIVE_KEY);
         
-        // Tour neu initialisieren
-        setTourKey(prev => prev + 1); // Ändert den Key -> TourGuide wird neu erstellt
+        // Neustart vorbereiten
+        setTourKey(prev => prev + 1);
         setCurrentTourStep(0);
         setIsContextualTour(false);
         setConciergeImage("/images/2.svg"); 
         
+        // Modal mit kleiner Verzögerung öffnen
         setTimeout(() => {
             setShowTutorial(true);
-        }, 50);
+        }, 30);
     }
 
     const handleBellClick = () => {
@@ -111,7 +112,7 @@ export function ConciergeController() {
           />
       )}
       
-      {/* Der key={tourKey} sorgt dafür, dass die Komponente bei jedem Logo-Klick neu startet */}
+      {/* Der Key sorgt für den Reset bei 0 */}
       <TourGuide 
         key={tourKey}
         isActive={showGuidedTour} 

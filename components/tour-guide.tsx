@@ -1,4 +1,3 @@
-// components/tour-guide.tsx
 "use client"
 
 import { useState, useEffect, useMemo } from "react"
@@ -16,9 +15,9 @@ interface TourStep {
 }
 
 const ALL_TOUR_STEPS: TourStep[] = [
-  { target: "page", messageKey: "t1_welcome", path: "/" },
-  { target: "quick-actions", messageKey: "t3_message", path: "/" }, // Index 1: Sidebar Einleitung
-  { target: "page", messageKey: "t5_message", path: "/simulation" }, // Index 2: Navigiere zu Simulation
+  { target: "page", messageKey: "t1_welcome", path: "/" }, // Schritt 1: Keine Umrandung
+  { target: "quick-actions", messageKey: "t3_message", path: "/" }, // Schritt 2: Sidebar Umrandung
+  { target: "page", messageKey: "t5_message", path: "/simulation" }, // Schritt 3: Seite Umrandung
   { target: "sliders", messageKey: "t6_message", path: "/simulation" },
   { target: "chart-container", messageKey: "t7_message", path: "/simulation" },
   { target: "summary", messageKey: "t8_message", path: "/simulation" },
@@ -61,6 +60,10 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
   
   const { language } = useSettings()
   const t = useTranslation(language)
+
+  useEffect(() => {
+    setCurrentStepIndex(initialStep);
+  }, [initialStep]);
 
   const tourSteps: TourStepWithIndex[] = useMemo(() => {
     if (!isContextual) {
@@ -107,7 +110,7 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
   const [isFinishing, setIsFinishing] = useState(false);
   const currentStep = tourSteps[currentStepIndex]; 
 
-  // --- NEUER EFFEKT FÜR DIE GELBE SIDEBAR-UMRANDUNG ---
+  // --- LOGIK FÜR SIDEBAR-UMRANDUNG ---
   useEffect(() => {
     if (!isActive || !currentStep) {
       window.dispatchEvent(new CustomEvent('highlightSidebar', { detail: { active: false } }));
@@ -115,8 +118,8 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
     }
 
     const globalIndex = currentStep.fullIndex;
-    // Wenn wir bei Schritt 1 (Sidebar Intro) oder Schritt 2 (Simulation Nav) sind
-    if (globalIndex === 1 || globalIndex === 2) {
+    // NUR BEI SCHRITT 2 (Index 1) Sidebar aktivieren
+    if (globalIndex === 1) {
       window.dispatchEvent(new CustomEvent('highlightSidebar', { detail: { active: true } }));
     } else {
       window.dispatchEvent(new CustomEvent('highlightSidebar', { detail: { active: false } }));
@@ -127,9 +130,12 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
     };
   }, [currentStepIndex, isActive, currentStep]);
 
-  const applyHighlight = (targetId: string) => {
+  const applyHighlight = (targetId: string, stepIndex: number) => {
+    // Wenn es Schritt 1 (Index 0) ist, machen wir GAR KEINE Umrandung
+    if (stepIndex === 0) return;
+
     const element = document.querySelector(`[data-tour="${targetId}"]`) as HTMLElement;
-    if (element && targetId !== "page") {
+    if (element) {
       element.classList.add("tour-highlight");
       element.style.zIndex = "101"; 
       element.style.position = "relative"; 
@@ -167,7 +173,9 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
     const timeoutId = setTimeout(() => {
       const element = document.querySelector(`[data-tour="${currentStep.target}"]`)
       if (element) element.scrollIntoView({ behavior: "smooth", block: "center" })
-      if(currentStep.target !== 'page') applyHighlight(currentStep.target); 
+      
+      // Highlight anwenden, außer für den allerersten Schritt (Index 0)
+      applyHighlight(currentStep.target, currentStep.fullIndex); 
     }, 200); 
 
     return () => {
@@ -209,20 +217,17 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
 
   if (!isActive || isFinishing || !currentStep) return null
 
-  const currentMessage = currentStep.messageKey === "t_contextual_end" 
-    ? "Das waren die Funktionen für diese Seite..." 
-    : (t.concierge.tour[currentStep.messageKey] as string);
+  const currentMessage = t.concierge.tour[currentStep.messageKey] as string;
 
   const isWelcomeStep = currentStep.messageKey === "t1_welcome";
-  const isContextualEndStep = currentStep.messageKey === "t_contextual_end"; 
   const totalSteps = tourSteps.length;
-  const stepsWithoutMeta = totalSteps - (tourSteps[0]?.messageKey === "t1_welcome" ? 1 : 0) - (tourSteps[tourSteps.length - 1]?.messageKey === "t_contextual_end" ? 1 : 0);
+  const stepsWithoutMeta = totalSteps - (tourSteps[0]?.messageKey === "t1_welcome" ? 1 : 0);
   
   let currentDisplayStep = currentStepIndex;
   if (!isWelcomeStep) {
     currentDisplayStep = currentStepIndex - (tourSteps[0]?.messageKey === "t1_welcome" ? 1 : 0) + 1;
   }
-  const showNumbering = !isWelcomeStep && !isContextualEndStep && stepsWithoutMeta > 0;
+  const showNumbering = !isWelcomeStep && stepsWithoutMeta > 0;
 
   return (
     <>
