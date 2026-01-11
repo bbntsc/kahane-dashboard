@@ -28,14 +28,14 @@ export function PortfolioPieChart({ stockPercentage }: PortfolioPieChartProps) {
 
     // Aktienanteil aufteilen (wenn vorhanden)
     if (stockPct > 0) {
-      data.push({ name: "Globale Aktien (Dev.)", value: Math.round(stockPct * 0.6) })
-      data.push({ name: "Schwellenländer & Themen", value: Math.round(stockPct * 0.4) })
+      data.push({ name: "Aktien Industrieländer", value: Math.round(stockPct * 0.6) })
+      data.push({ name: "Aktien Schwellenländer", value: Math.round(stockPct * 0.4) })
     }
 
     // Anleihen/Liquiditätsanteil aufteilen (wenn vorhanden)
     if (bondPct > 0) {
       data.push({ name: "Staats- & Unternehmensanl.", value: Math.round(bondPct * 0.7) })
-      data.push({ name: "Liquidität & Geldmarkt", value: Math.round(bondPct * 0.3) })
+      data.push({ name: "Liquidität/Geldmarkt", value: Math.round(bondPct * 0.3) })
     }
 
     // Filtern von Einträgen mit 0%, damit sie nicht in der Legende erscheinen,
