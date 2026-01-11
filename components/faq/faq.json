@@ -5,29 +5,29 @@
       "de": {
         "title": "Übersicht",
         "items": [
-          { "question": "Was sehe ich auf der Übersichtsseite?", "answer": "Die Übersichtsseite dient als Dashboard, das Ihnen einen schnellen Einblick in die wichtigsten Kennzahlen und Aktivitäten Ihres Portfolios sowie aktuelle Markt-Insights bietet." },
-          { "question": "Was sind 'Quick Actions'?", "answer": "Die 'Quick Actions' bieten schnelle Verknüpfungen zu den Hauptfunktionen der Anwendung, wie der Vermögenssimulation und der Marktanalyse." }
+          { "question": "Was sehe ich auf der Übersichtsseite?", "answer": "Die Übersichtsseite dient als Ihr persönliches Dashboard. Sie erhalten hier einen schnellen Überblick über die wichtigsten Kennzahlen Ihres Portfolios sowie aktuelle Markt-Insights." },
+          { "question": "Was sind 'Quick Actions'?", "answer": "Diese bieten Ihnen direkte Verknüpfungen zu den Kernfunktionen: Starten Sie sofort eine Vermögenssimulation oder analysieren Sie historische Marktdaten." }
         ]
       },
       "fr": {
         "title": "Aperçu",
         "items": [
-          { "question": "Que vois-je sur la page d'aperçu ?", "answer": "La page d'aperçu sert de tableau de bord, vous donnant un aperçu rapide des métriques clés et des activités de votre portefeuille, ainsi que des aperçus de marché actuels." },
-          { "question": "Que sont les 'Actions Rapides' ?", "answer": "Les 'Actions Rapides' fournissent des liens rapides vers les principales fonctionnalités de l'application, telles que la simulation de patrimoine et l'analyse du marché." }
+          { "question": "Que vois-je sur la page d'aperçu ?", "answer": "La page d'aperçu sert de tableau de bord personnel. Elle vous donne un aperçu rapide des indicateurs clés de votre portefeuille et des actualités du marché." },
+          { "question": "Que sont les 'Actions Rapides' ?", "answer": "Elles vous offrent des raccourcis directs vers les fonctions essentielles : lancez immédiatement une simulation de patrimoine ou analysez les données historiques du marché." }
         ]
       },
       "it": {
         "title": "Panoramica",
         "items": [
-          { "question": "Cosa vedo sulla pagina Panoramica?", "answer": "La pagina Panoramica funge da dashboard, offrendoti una rapida visione delle metriche chiave e delle attività del tuo portafoglio, insieme agli approfondimenti di mercato attuali." },
-          { "question": "Cosa sono le 'Azioni rapide'?", "answer": "Le 'Azioni rapide' forniscono collegamenti rapidi alle funzionalità principali dell'applicazione, come la simulazione de patrimonio e l'analyse du marché." }
+          { "question": "Cosa vedo sulla pagina Panoramica?", "answer": "La pagina Panoramica funge da dashboard, offrendoti una rapida visione delle metriche chiave e delle attività del tuo portafoglio." },
+          { "question": "Cosa sono le 'Azioni rapide'?", "answer": "Le 'Azioni rapide' forniscono collegamenti rapidi alle funzionalità principali, come la simulazione del patrimonio." }
         ]
       },
       "en": {
         "title": "Overview",
         "items": [
-          { "question": "What do I see on the Overview page?", "answer": "The overview page serves as a dashboard, giving you a quick insight into the key metrics and activities of your portfolio, along with current market insights." },
-          { "question": "What are 'Quick Actions'?", "answer": "The 'Quick Actions' provide quick links to the main features of the application, such as the wealth simulation and market analysis." }
+          { "question": "What do I see on the Overview page?", "answer": "The overview page serves as a dashboard, giving you a quick insight into your key metrics and market insights." },
+          { "question": "What are 'Quick Actions'?", "answer": "These provide quick links to the main features of the application, such as wealth simulation." }
         ]
       }
     }
@@ -36,43 +36,35 @@
     "context": "simulation",
     "content": {
       "de": {
-        "title": "Simulation",
+        "title": "Vermögenssimulation",
         "items": [
-          { "question": "Was zeigt mir diese Seite?", "answer": "Hier können Sie Ihre Vermögensentwicklung simulieren." },
-          { "question": "Wie stelle ich die Regler ein?", "answer": "Ziehen Sie die Regler mit der Maus oder klicken Sie auf das Eingabefeld rechts daneben, um Werte direkt einzugeben." },
-          { "question": "Was bedeuten die drei Linien im Diagramm?", "answer": "Die obere Linie zeigt den optimistischen Fall, die mittlere das realistische Szenario und die untere den vorsichtigen Fall." },
-          { "question": "Was ist die Aktienquote?", "answer": "Die Aktienquote bestimmt, wie viel Ihres Portfolios in Aktien investiert wird. Höhere Aktienquoten bieten mehr Wachstumspotenzial, aber auch mehr Schwankungen." },
-          { "question": "Warum MSCI World vs. S&P 500?", "answer": "Der MSCI World investiert global in entwickelte Märkte, der S&P 500 konzentriert sich auf die 500 größten US-Unternehmen. Beide haben historisch unterschiedliche Renditen und Volatilitäten." }
+          { "question": "Wie funktioniert die Monte-Carlo-Simulation?", "answer": "Anstatt nur einen festen Wert zu berechnen, simuliert unser System tausende verschiedene Marktverläufe. So sehen Sie nicht nur eine Zahl, sondern eine realistische Bandbreite möglicher Ergebnisse für Ihre Zukunft." },
+          { "question": "Was bedeutet die Aktienquote für mein Risiko?", "answer": "Die Aktienquote ist der Haupthebel für Ihre Renditeerwartung. Eine höhere Quote bietet langfristig mehr Wachstumschancen, erhöht aber auch die Schwankungen in Ihrem Portfolio." },
+          { "question": "Was bedeuten die drei Linien im Diagramm?", "answer": "Die mittlere Linie zeigt den realistischen Verlauf. Die obere Linie stellt ein optimistisches Marktumfeld dar, während die untere Linie zeigt, wie sich Ihr Vermögen in schwierigen Marktphasen entwickeln könnte." },
+          { "question": "Warum ist der Anlagehorizont so wichtig?", "answer": "Zeit ist ein entscheidender Faktor. Ein längerer Horizont ermöglicht es Ihnen, kurzfristige Marktschwankungen gelassener auszusitzen und vom Zinseszinseffekt zu profitieren." }
         ]
       },
       "fr": {
-        "title": "Simulation",
+        "title": "Simulation de patrimoine",
         "items": [
-          { "question": "Que montre cette page ?", "answer": "Ici, vous pouvez simuler l'évolution de votre patrimoine." },
-          { "question": "Comment régler les curseurs ?", "answer": "Faites glisser les curseurs avec la souris ou cliquez sur le champ de saisie à droite pour entrer directement les valeurs." },
-          { "question": "Que signifient les trois lignes du graphique ?", "answer": "La ligne supérieure montre le cas optimiste (90 % des simulations se situent en dessous), la ligne médiane le scénario réaliste (50 %) et la ligne inférieure le cas prudent (seulement 10 % se situent en dessous)." },
-          { "question": "Qu'est-ce que la part d'actions ?", "answer": "La part d'actions détermine la part de votre portefeuille investie en actions. Des parts d'actions plus élevées offrent un plus grand potentiel de croissance, mais aussi plus de fluctuations." },
-          { "question": "Pourquoi MSCI World vs. S&P 500?", "answer": "Le MSCI World investit à l'échelle mondiale dans les marchés développés, le S&P 500 se concentre sur les 500 plus grandes entreprises américaines. Les deux ont historiquement des rendements et des volatilitäten différents." }
+          { "question": "Comment fonctionne la simulation Monte-Carlo ?", "answer": "Au lieu de calculer une valeur fixe, notre système simule des milliers de trajectoires de marché. Vous voyez ainsi une fourchette réaliste de résultats possibles pour votre avenir." },
+          { "question": "Que signifie la part d'actions pour mon risque ?", "answer": "La part d'actions est le levier principal de votre rendement. Une part plus élevée offre plus d'opportunités de croissance, mais augmente aussi la volatilité." },
+          { "question": "Que signifient les trois lignes du graphique ?", "answer": "La ligne centrale montre l'évolution réaliste. La ligne supérieure représente un environnement optimiste, et la ligne inférieure montre l'évolution dans des phases difficiles." },
+          { "question": "Pourquoi l'horizon d'investissement est-il crucial ?", "answer": "Le temps est un facteur clé. Un horizon long permet de traverser les fluctuations à court terme et de profiter pleinement des intérêts composés." }
         ]
       },
       "it": {
         "title": "Simulazione",
         "items": [
-          { "question": "Cosa mostra questa pagina?", "answer": "Qui puoi simulare lo sviluppo del tuo patrimonio." },
-          { "question": "Come regolo i cursori?", "answer": "Trascina i cursori con il mouse o clicca sul campo di input a destra per inserire direttamente i valori." },
-          { "question": "Cosa significano le tre linee del grafico?", "answer": "La linea superiore mostra il caso ottimistico (90% delle simulazioni sono sotto), quella centrale lo scenario realistico (50%) und quella inferiore il caso prudente (solo il 10% è sotto)." },
-          { "question": "Cos'è la quota azionaria?", "answer": "La quota azionaria determina quanto del tuo portafoglio è investito in azioni. Quote azionarie più elevate offrono un maggiore potenziale di crescita, ma anche più volatilità." },
-          { "question": "Perché MSCI World vs. S&P 500?", "answer": "L'asse X mostra il tempo in anni. Puoi vedere come il tuo investimento si sviluppa nel periodo selezionato." }
+          { "question": "Come funziona la simulazione?", "answer": "Il sistema simula migliaia di scenari di mercato per mostrare una gamma realistica di risultati per il vostro futuro." },
+          { "question": "Cosa significa la quota azionaria?", "answer": "È la leva principale per il rendimento. Una quota più alta offre più crescita ma comporta più oscillazioni." }
         ]
       },
       "en": {
         "title": "Simulation",
         "items": [
-          { "question": "What does this page show me?", "answer": "Here you can simulate your wealth development." },
-          { "question": "How do I set the sliders?", "answer": "Drag the sliders with the mouse or click the input field to the right to enter values directly." },
-          { "question": "What do the three lines in the chart mean?", "answer": "The upper line shows the optimistic case (90% of simulations are below), the middle one the realistic scenario (50%), and the lower one the cautious case (only 10% are below)." },
-          { "question": "What is the equity allocation?", "answer": "The equity allocation determines how much of your portfolio is invested in stocks. Higher equity allocations offer greater growth potential, but also more volatility." },
-          { "question": "Why MSCI World vs. S&P 500?", "answer": "The MSCI World invests globally in developed markets, the S&P 500 focuses on the 500 largest US companies. Both have historically different returns and volatilities." }
+          { "question": "How does the Monte Carlo simulation work?", "answer": "Instead of a fixed value, our system simulates thousands of market paths to show a realistic range of possible outcomes." },
+          { "question": "What does equity allocation mean for my risk?", "answer": "Equity allocation is the main lever for expected returns. A higher allocation offers more growth potential but increases volatility." }
         ]
       }
     }
@@ -81,65 +73,69 @@
     "context": "market",
     "content": {
       "de": {
-        "title": "Marktanalyse",
+        "title": "Marktanalyse & Insights",
         "items": [
-          { "question": "Was zeigt mir diese Seite?", "answer": "Hier sehen Sie, wie sich der Markt tatsächlich über verschiedene Zeiträume entwickelt hat – inklusive aller Krisen und Erholungsphasen." },
-          { "question": "Wie klicke ich auf eine Krise?", "answer": "Die roten Punkte markieren historische Krisen. Klicken Sie darauf, um Details zu erfahren, was damals passiert ist und wie sich der Markt erholt hat." },
-          { "question": "Warum sind Krisen normal?", "answer": "Märkte durchlaufen Zyklen. Krisen gehören dazu, aber langfristig haben sich Märkte historisch immer wieder erholt und neue Höchststände erreicht." }
+          { "question": "Was erfahre ich in den Krisen-Insights (Bubbles)?", "answer": "Die roten Markierungen im Chart sind interaktive Wissenspunkte. Wenn Sie darauf klicken, erfahren Sie historische Fakten der jeweiligen Krise und erhalten konkrete Verhaltensvorschläge (Dos & Don'ts)." },
+          { "question": "Welche Tipps erhalte ich in den Bubbles?", "answer": "Wir erklären Ihnen, warum Panikverkäufe meist schaden und wie Sie durch besonnenes Handeln (Dos) gestärkt aus Krisen hervorgehen, anstatt Fehler (Don'ts) zu begehen." },
+          { "question": "Sind Krisen ein Grund zur Sorge?", "answer": "Historisch gesehen sind Krisen ein normaler Teil der Marktzyklen. Unsere Analyse zeigt Ihnen: Auf jeden Abschwung folgte in der Vergangenheit eine Erholung und oft neue Höchststände." },
+          { "question": "Warum basiert die Analyse auf dem MSCI World?", "answer": "Der MSCI World repräsentiert die globale Wirtschaftskraft entwickelter Märkte. Er dient als hervorragender Maßstab für eine breit gestreute und solide langfristige Strategie." }
         ]
       },
       "fr": {
-        "title": "Marchéanalyse",
+        "title": "Analyse du marché & Insights",
         "items": [
-          { "question": "Que montre cette page ?", "answer": "Ici, vous voyez comment le marché a réellement évolué sur différentes périodes – y compris toutes les crises et phases de reprise." },
-          { "question": "Comment cliquer sur une crise ?", "answer": "Les points rouges marquent les crises historiques. Cliquez dessus pour en savoir plus sur ce qui s'est passé à l'époque und comment le marché s'est redressé." },
-          { "question": "Pourquoi les crises sont-elles normales ?", "answer": "Les marchés traversent des cycles. Les crises en font partie, mais à long terme, les marchés se sont historiquement toujours rétablis et ont atteint de nouveaux sommets." }
+          { "question": "Que m'apprennent les Insights de crise (bulles) ?", "answer": "Les marques rouges sont interactives. En cliquant dessus, vous découvrirez les faits historiques et recevrez des conseils concrets (Dos & Don'ts)." },
+          { "question": "Quels conseils trouve-t-on dans les bulles ?", "answer": "Nous expliquons pourquoi les ventes de panique sont nuisibles et comment une action réfléchie (Dos) permet de sortir renforcé des crises." },
+          { "question": "Les crises sont-elles inquiétantes ?", "answer": "Historiquement, les crises sont normales. Notre analyse montre que chaque ralentissement a été suivi par une reprise et de nouveaux sommets." },
+          { "question": "Pourquoi utiliser le MSCI World ?", "answer": "Il représente la puissance économique mondiale et sert d'étalon pour une stratégie à long terme solide et diversifiée." }
         ]
       },
       "it": {
-        "title": "Mercatoanalisi",
+        "title": "Analisi di mercato",
         "items": [
-          { "question": "Cosa mostra questa pagina?", "answer": "Qui puoi vedere come il mercato si è effettivamente sviluppato in diversi periodi – comprese tutte le crisi e le fasi di recupero." },
-          { "question": "Come clicco su una crisi?", "answer": "I punti rossi contrassegnano le crisi storiche. Clicca su di essi per scoprire i dettagli di ciò che è successo e come si è ripreso il mercato." },
-          { "question": "Perché le crisi sono normali?", "answer": "I mercati attraversano cicli. Le crisi ne fanno parte, ma a lungo termine i mercati si sono sempre ripresi e hanno raggiunto nuovi massimi storici." }
+          { "question": "Cosa sono i punti rossi?", "answer": "Sono punti interattivi che spiegano le crisi storiche e forniscono consigli su cosa fare e cosa evitare (Dos & Don'ts)." }
         ]
       },
       "en": {
-        "title": "Marketanalysis",
+        "title": "Market Analysis",
         "items": [
-          { "question": "What does this page show me?", "answer": "Here you can see how the market has actually developed over different periods – including all crises and recovery phases." },
-          { "question": "How do I click on a crisis?", "answer": "The red dots mark historical crises. Click on them to learn details about what happened and how the market recovered." },
-          { "question": "Why are crises normal?", "answer": "Markets go through cycles. Crises are part of it, but in the long term, markets have historically always recovered and reached new highs." }
+          { "question": "What do I learn from crisis insights (bubbles)?", "answer": "The red dots are interactive points. Clicking them reveals historical facts and specific behavioral suggestions (Dos & Don'ts)." }
         ]
       }
     }
   },
-  
+  {
+    "context": "contact",
+    "content": {
+      "de": {
+        "title": "Kontakt & Beratung",
+        "items": [
+          { "question": "Wie bereitet das Formular mein Beratungsgespräch vor?", "answer": "Durch Ihre Angaben können sich unsere Experten der Bank Gutmann gezielt auf Ihre Situation vorbereiten. Das ermöglicht eine wesentlich tiefere Beratung von der ersten Minute an." },
+          { "question": "Sind meine Daten sicher?", "answer": "Selbstverständlich. Ihre Daten werden streng vertraulich behandelt und ausschließlich für die persönliche Kontaktaufnahme durch unsere Berater verwendet." }
+        ]
+      },
+      "fr": {
+        "title": "Contact & Conseil",
+        "items": [
+          { "question": "Comment ce formulaire prépare-t-il mon entretien ?", "answer": "Grâce à vos informations, nos experts peuvent se préparer spécifiquement à votre situation pour un conseil approfondi dès la première minute." },
+          { "question": "Mes données sont-elles sécurisées ?", "answer": "Absolument. Vos données sont traitées de manière strictement confidentielle pour la prise de contact par nos conseillers." }
+        ]
+      }
+    }
+  },
   {
     "context": "feedback",
     "content": {
       "de": {
         "title": "Feedback",
         "items": [
-          { "question": "Wofür ist die Feedback-Seite?", "answer": "Wir schätzen Ihre Meinung! Über diese Seite können Sie uns direkt Feedback zur Simulation und zur gesamten Plattform geben, um uns bei der stetigen Verbesserung zu helfen." }
+          { "question": "Warum ist mein Feedback wichtig?", "answer": "Ihre Meinung hilft uns, den Gutmann Concierge stetig zu verbessern. Wir schätzen Ihre Anmerkungen zur Benutzerfreundlichkeit und zum Inhalt sehr." }
         ]
       },
       "fr": {
         "title": "Feedback",
         "items": [
-          { "question": "À quoi sert la page Feedback ?", "answer": "Nous apprécions votre opinion! Grâce à cette page, vous pouvez nous donner directement des commentaires sur la simulation et l'ensemble de la plateforme pour nous aider à nous améliorer continuellement." }
-        ]
-      },
-      "it": {
-        "title": "Feedback",
-        "items": [
-          { "question": "A cosa serve la pagina Feedback?", "answer": "Apprezziamo la tua opinione! Attraverso questa pagina, puoi fornirci direttamente feedback sulla simulazione et l'ensemble de la plateforme pour nous aider à nous améliorer continuellement." }
-        ]
-      },
-      "en": {
-        "title": "Feedback",
-        "items": [
-          { "question": "What is the Feedback page for?", "answer": "We value your opinion! Through this page, you can give us direct feedback on the simulation and the entire platform to help us continuously improve." }
+          { "question": "Pourquoi mon avis est-il important ?", "answer": "Votre opinion nous aide à améliorer constamment le Concierge. Nous apprécions vos retours sur l'ergonomie et le contenu." }
         ]
       }
     }
@@ -150,62 +146,13 @@
       "de": {
         "title": "Einstellungen",
         "items": [
-          { "question": "Was kann ich in den Einstellungen anpassen?", "answer": "Hier können Sie grundlegende Einstellungen wie das Design (Hell/Dunkel), die Schriftgröße und die Anzeigesprache der Applikation nach Ihren Wünschen konfigurieren." }
+          { "question": "Was kann ich hier anpassen?", "answer": "Sie können das Design (Hell/Dunkel), die Schriftgröße und die Anzeigesprache der Applikation nach Ihren persönlichen Vorlieben konfigurieren." }
         ]
       },
       "fr": {
         "title": "Paramètres",
         "items": [
-          { "question": "Que puis-je ajuster dans les paramètres ?", "answer": "Ici, vous pouvez configurer les paramètres de base tels que le thème (clair/sombre), la taille de la police et la langue d'affichage de l'application selon vos préférences." }
-        ]
-      },
-      "it": {
-        "title": "Impostazioni",
-        "items": [
-          { "question": "Cosa posso regolare nelle Impostazioni?", "answer": "Qui puoi configurare le impostazioni di base come il tema (chiaro/scuro), la dimensione del carattere e la lingua di visualizzazione dell'applicazione in base alle tue preferenze." }
-        ]
-      },
-      "en": {
-        "title": "Settings",
-        "items": [
-          { "question": "What can I adjust in the Settings?", "answer": "Here you can configure basic settings such as the theme (light/dark), font size, and the display language of the application according to your preferences." }
-        ]
-      }
-    }
-  },
-  {
-    "context": "contact",
-    "content": {
-      "de": {
-        "title": "Kontakt",
-        "items": [
-          { "question": "Warum diese Fragen im Kontaktformular?", "answer": "Die Fragen helfen unseren Beratern, sich optimal auf Ihr Gespräch vorzubereiten und Ihnen die bestmögliche Unterstützung zu bieten." },
-          { "question": "Sind meine Daten sicher?", "answer": "Selbstverständlich. Ihre Daten werden vertraulich behandelt und ausschließlich für die Kontaktaufnahme verwendet." },
-          { "question": "Wie schnell bekomme ich eine Antwort?", "answer": "In der Regel meldet sich ein Berater innerhalb von 1-2 Werktagen bei Ihnen." }
-        ]
-      },
-      "fr": {
-        "title": "Contact",
-        "items": [
-          { "question": "Pourquoi ces questions dans le formulaire de contact ?", "answer": "Les questions aident nos conseillers à se préparer au mieux à votre entretien et à vous offrir le meilleur soutien possible." },
-          { "question": "Mes données sont-elles sécurisées ?", "answer": "Bien sûr. Vos données sont traitées de manière confidentielle et utilisées uniquement pour la prise de contact." },
-          { "question": "À quelle vitesse vais-je obtenir une réponse ?", "answer": "En règle générale, un conseiller vous contactera dans un délai de 1 à 2 jours ouvrables." }
-        ]
-      },
-      "it": {
-        "title": "Contatto",
-        "items": [
-          { "question": "Perché queste domande nel modulo di contatto?", "answer": "Le domande aiutano i nostri consulenti a prepararsi in modo ottimale per il tuo colloquio e offrirti il miglior supporto possibile." },
-          { "question": "I miei dati sono al sicuro?", "answer": "Certamente. I tuoi dati sono trattati in modo confidenziale e utilizzati esclusivamente per scopi di contatto." },
-          { "question": "Quanto velocemente otterrò una risposta?", "answer": "Di solito, un consulente ti contatterà entro 1-2 giorni lavorativi." }
-        ]
-      },
-      "en": {
-        "title": "Contact",
-        "items": [
-          { "question": "Why these questions in the contact form?", "answer": "The questions help our advisors to optimally prepare for your consultation and offer you the best possible support." },
-          { "question": "Is my data secure?", "answer": "Of course. Your data is treated confidentially and used exclusively for contact purposes." },
-          { "question": "How quickly will I get a response?", "answer": "Typically, an advisor will contact you within 1-2 business days." }
+          { "question": "Que puis-je ajuster ici ?", "answer": "Vous pouvez configurer le thème (clair/sombre), la taille de la police et la langue d'affichage selon vos préférences." }
         ]
       }
     }

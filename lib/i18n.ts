@@ -18,13 +18,13 @@ export const translations = {
       feedback: "Feedback", 
       settings: "Einstellungen", 
     },
-    landing: { // NEU
+    landing: {
         title: "Gutmann Concierge",
         subtitle: "Erlebe investieren",
     },
     simulation: {
       title: "Vermögenssimulation",
-      subtitle: "Testen Sie verschiedene Anlagestrategien mit unserer Monte-Carlo-Simulation.", // NEU
+      subtitle: "Testen Sie verschiedene Anlagestrategien mit unserer Monte-Carlo-Simulation.",
       msciWorld: "MSCI World",
       sp500: "S&P 500",
       initialInvestment: "Veranlagungsbetrag",
@@ -40,22 +40,20 @@ export const translations = {
       finalValue: "Finaler Wert (Realistisch)",
       expectedYield: "Erw. Rendite p.a.",
       ctaTitle: "Wie hätte sich Ihre Investition in der Vergangenheit verhalten?",
-      ctaDescription:
-        "Neugierig, wie sich Ihr Portfolio durch historische Krisen und Aufschwünge entwickelt hätte?",
+      ctaDescription: "Neugierig, wie sich Ihr Portfolio durch historische Krisen und Aufschwünge entwickelt hätte?",
       ctaButton: "Blick in den Markt",
       contactNow: "Jetzt kontaktieren",
       xAxisLabel: "Jahr",
       yAxisLabel: "Portfolio-Wert (Mio. €)",
-      disclaimer:
-        "Hinweis: Vergangene Wertentwicklungen sind keine Garantie für zukünftige Erträge. Eine Anlage in Wertpapiere ist mit Risiken verbunden.",
+      disclaimer: "Hinweis: Vergangene Wertentwicklungen sind keine Garantie für zukünftige Erträge. Eine Anlage in Wertpapiere ist mit Risiken verbunden.",
     },
     market: {
       title: "Blick in den Markt",
-      subtitle: "Historische Marktdaten und Krisenanalyse", // NEU
-      controlsTitle: "Anlagehorizont (Jahre)", // NEU
-      insightToggle: "Insights:", // NEU
-      indexLabel: "100% Aktienquote (MSCI World)", // NEU
-      viewLabel: "Einblick: ", // NEU
+      subtitle: "Historische Marktdaten und Krisenanalyse",
+      controlsTitle: "Anlagehorizont (Jahre)",
+      insightToggle: "Insights:",
+      indexLabel: "100% Aktienquote (MSCI World)",
+      viewLabel: "Einblick: ",
       historicalView: "Historische Betrachtung",
       years: "Jahre",
       insights: "Insights",
@@ -69,8 +67,7 @@ export const translations = {
     },
     concierge: {
       welcome: "Herzlich willkommen im Marktsimulator",
-      intro:
-        "Ich bin Ihr digitaler Begleiter. Mein Ziel ist es, Ihnen ein Gefühl dafür zu geben, wie sich Vermögen über die Zeit und durch verschiedene Marktphasen entwickelt.",
+      intro: "Ich bin Ihr digitaler Begleiter. Mein Ziel ist es, Ihnen ein Gefühl dafür zu geben, wie sich Vermögen über die Zeit und durch verschiedene Marktphasen entwickelt.",
       guidedOption: "Mich durch die Simulation führen lassen",
       guidedDescription: "Empfohlen, um die Zusammenhänge Schritt für Schritt zu verstehen.",
       selfOption: "Selbstständig erkunden",
@@ -78,26 +75,19 @@ export const translations = {
       helpQuestion: "Wobei darf ich Ihnen behilflich sein?",
       clickElement: "Klicken Sie auf das Element, das ich Ihnen erklären soll.",
       needHelp: "Brauchen Sie Hilfe?",
-      xAxisExplanation:
-        "Die X-Achse zeigt die Zeit in Jahren. Sie sehen hier, wie sich Ihre Anlage über den gewählten Zeitraum entwickelt.",
-      yAxisExplanation:
-        "Die Y-Achse zeigt den Wert Ihres Portfolios in Millionen Euro. Je höher die Linie, desto mehr hat Ihr Portfolio an Wert gewonnen.",
-      crisisClickInfo:
-        "Klicken Sie auf die Krisenpunkte, um mehr über diese historischen Ereignisse und unsere Empfehlungen zu erfahren.",
+      xAxisExplanation: "Die X-Achse zeigt die Zeit in Jahren. Sie sehen hier, wie sich Ihre Anlage über den gewählten Zeitraum entwickelt.",
+      yAxisExplanation: "Die Y-Achse zeigt den Wert Ihres Portfolios in Millionen Euro. Je höher die Linie, desto mehr hat Ihr Portfolio an Wert gewonnen.",
+      crisisClickInfo: "Klicken Sie auf die Krisenpunkte, um mehr über diese historischen Ereignisse und unsere Empfehlungen zu erfahren.",
       callConcierge: "Concierge rufen",
-      
-      // TUTORIAL MODAL TEXTE
       tutorialWelcome: "Willkommen beim Gutmann Concierge",
       tutorialTitle: "Darf ich Sie herumführen?",
       tutorialBody: "Ich bin Ihr persönlicher Concierge. Ich zeige Ihnen gerne die Funktionen unseres Hauses oder lasse Sie sich selbst umsehen.",
       tutorialHint: "Tipp: Falls Sie später Hilfe benötigen, können Sie jederzeit einfach die Glocke im Menü läuten.",
       tutorialStart: "Führung starten",
       tutorialExplore: "Selbst erkunden",
-
-      // TOUR GUIDE TEXTE (ALLE TOUR SCHRITTE) - VERBESSERTE TEXTE OHNE MARKIERUNG
       tour: {
         t1_welcome: "Herzlich willkommen bei der Investment Plattform der Bank Gutmann. Ich bin Ihr persönlicher Concierge. Ich begleite Sie durch die Anwendung und helfe Ihnen, Ihre Anlagestrategie zu visualisieren.",
-        t3_message: "Die Seitenleiste ist Ihr zentrales Navigationsinstrument und ermöglicht den Zugriff auf alle Funktionen.",
+        t3_message: "Die Seitenleiste ist Ihr zentrales Navigationsinstrument und ermöglicht Ihnen den Zugriff auf alle Funktionen.",
         t4_message: "Als Nächstes werfen wir einen Blick auf die Marktanalyse. Diese Funktion liefert Ihnen historische Einblicke, um Ihre Annahmen zu überprüfen.",
         t5_message: "Lassen Sie uns nun in die Vermögenssimulation eintauchen. Sie ist das Herzstück der Plattform, um Ihre individuellen Anlageziele realistisch zu planen.",
         t6_message: "Hier können Sie vier zentrale Regler anpassen: Startkapital, monatliche Sparrate, Ihre gewünschte Aktienquote und den Anlagehorizont in Jahren.",
@@ -105,28 +95,28 @@ export const translations = {
         t8_message: "Die Zusammenfassung zeigt Ihnen auf einen Blick den investierten Gesamtbetrag, den erwarteten Gesamtertrag und den resultierenden Finalwert im realistischen Szenario.",
         t9_message: "Wie hätten sich Ihre aktuellen Einstellungen in der Vergangenheit entwickelt? Im Blick in den Markt simulieren wir Ihr gewähltes Portfolio unter realen historischen Marktphasen - inklusive extremer Krisen. Wir navigieren jetzt zur Marktanalyse.",
         t10_message: "Willkommen bei der Marktanalyse! Hier sehen Sie, wie sich Ihre Strategie über verschiedene Zeiträume tatsächlich entwickelt hat, inklusive aller Höhen und Tiefen.",
-        t11_message: "Wählen Sie hier den Anlagehorizont (z. B. 40 Jahre), um zu sehen, wie sich die historischen Krisen auf eine Langfristanlage ausgewirkt haben.",
+        t11_message: "Wählen Sie hier den Anlagehorizont aus, um zu sehen, wie sich die historischen Krisen auf eine Langfristanlage ausgewirkt haben.",
         t12_message: "Das Diagramm zeigt die historische Entwicklung des simulierten Portfolios im Detail. Konzentrieren Sie sich auf den langfristigen Verlauf; die roten Markierungen kennzeichnen ausgewählte historische Marktkrisen.",
-        t13_message: "Aktivieren Sie die Insights, um die roten Krisenpunkte im Chart sichtbar zu machen. Klicken Sie darauf, um eine detaillierte Fallstudie zur Krise zu erhalten.",
+        t13_message: "Aktivieren Sie die Insights, um die roten Krisenpunkte im Chart sichtbar zu machen.",
+        t13_insights_bubbles: "Durch einen Klick auf die roten Krisenpunkte öffnen sich detaillierte Informationen und Vorschläge, wie Sie sich in solchen Situationen verhalten sollten. Sie werden sehen: Historisch gab es immer eine Erholung – es besteht also kein Grund zur Sorge.",
         t14_message: "Die historische Zusammenfassung berechnet für den gewählten Zeitraum den Durchschnittsertrag, den maximalen Verlust und den maximalen Gewinn.",
-        t15_message: "Über ‚Zurück zur Simulation‘ gelangen Sie erneut zur Simulationsansicht", // Korrigierter Text
-        t16_nav_contact: "Perfekt. Wir fahren mit der Kontaktaufnahme fort, wo Sie Ihre Daten eingeben können.", // NEU: Navigationsschritt zu /contact
+        t15_message: "Über ‚Zurück zur Simulation‘ gelangen Sie erneut zur Simulationsansicht.",
+        t16_nav_contact: "Perfekt. Wir fahren mit der Kontaktaufnahme fort, wo Sie Ihre Daten eingeben können.",
         t17_message: "Die FAQ Seite bietet Ihnen schnelle Antworten auf die wichtigsten Fragen zur App, zur Simulation und zu allgemeinen Investmentthemen.",
         t18_message: "Über die Feedback Seite können Sie uns jederzeit Ihre Meinung zur Plattform mitteilen. Ihre Rückmeldung ist uns wichtig für die stetige Optimierung.",
         t19_message: "In den Einstellungen passen Sie das Erscheinungsbild der App an: von Hell- auf Dunkelmodus, die Schriftgröße und die Anzeigesprache.",
         t20_message: "Die Kontaktseite ist der schnellste Weg, um mit einem Berater der Bank Gutmann in Verbindung zu treten. Wir helfen Ihnen, Ihre individuelle Strategie zu festigen.",
         t21_message: "Das war die erweiterte geführte Tour durch die Gutmann Concierge Plattform. Ich hoffe, Sie haben nun einen klaren Überblick über alle Funktionen. Ich stehe Ihnen weiterhin über die Glocke zur Verfügung!",
-        t22_nav_faq: "Nach der Kontaktaufnahme sehen wir uns die weiteren Seiten an. Weiter geht es zur FAQ-Seite in der Seitenleiste.", // NEU: Navigationsschritt zu /faq
+        t22_nav_faq: "Nach der Kontaktaufnahme sehen wir uns die weiteren Seiten an. Weiter geht es zur FAQ-Seite in der Seitenleiste.",
         t_understood: "Verstanden", 
         t_finish: "Tour beenden", 
         t_step: "Schritt", 
         t_from: "von", 
         t_back: "Zurück", 
-        t_contextual_end: "Das waren die Funktionen für diese Seite. Solltest Du mich auf einer anderen Seite erneut brauchen, zöger nicht die Glocke zu klingeln! Ich bin jederzeit für Dich da.", // Charmante Endnachricht
+        t_contextual_end: "Das waren die Funktionen für diese Seite. Sollten Sie mich auf einer anderen Seite erneut brauchen, zögern Sie nicht die Glocke zu klingeln! Ich bin jederzeit für Sie da.",
       }
     },
-    
-    contact: { // NEU: Texte für die Formular-Buttons/Überschriften
+    contact: {
         title: "Ihre Anlageziele",
         subtitle: "Helfen Sie uns, Sie besser zu verstehen",
         step1: "Ihre Ziele",
@@ -184,14 +174,12 @@ export const translations = {
       small: "Klein",
       medium: "Mittel",
       large: "Groß",
-      // NEUE FÜR FAQ Content
-      faqTitle: "Häufige Fragen",
+      faqTitle: "FAQ",
       faqSubtitle: "Antworten auf die wichtigsten Fragen zur Plattform und Investment-Themen.",
-      settingsSubtitle: "Passen Sie die Darstellung nach Ihren Wünschen an", // NEU
+      settingsSubtitle: "Passen Sie die Darstellung nach Ihren Wünschen an",
     },
   },
   en: {
-    // ... (Englische Übersetzungen, t2_message entfernt, neue Schlüssel hinzugefügt)
     languages: {
         de: "German",
         en: "English",
@@ -209,13 +197,13 @@ export const translations = {
       feedback: "Feedback", 
       settings: "Settings", 
     },
-    landing: { // NEU
+    landing: {
         title: "Gutmann Concierge",
         subtitle: "Experience investing",
     },
     simulation: {
       title: "Wealth Simulation",
-      subtitle: "Test different investment strategies with our Monte Carlo simulation.", // NEU
+      subtitle: "Test different investment strategies with our Monte Carlo simulation.",
       benchmark: "Select Benchmark",
       msciWorld: "MSCI World",
       sp500: "S&P 500",
@@ -237,16 +225,15 @@ export const translations = {
       contactNow: "Contact Now",
       xAxisLabel: "Year",
       yAxisLabel: "Portfolio Value (Mio. €)",
-      disclaimer:
-        "Disclaimer: Past performance is no guarantee of future returns. Investing in securities involves risks.",
+      disclaimer: "Disclaimer: Past performance is no guarantee of future returns. Investing in securities involves risks.",
     },
     market: {
       title: "Market Analysis",
-      subtitle: "Historical market data and crisis analysis", // NEU
-      controlsTitle: "Investment Horizon (Years)", // NEU
-      insightToggle: "Insights:", // NEU
-      indexLabel: "100% Equity Allocation (MSCI World)", // NEU
-      viewLabel: "Insight: ", // NEU
+      subtitle: "Historical market data and crisis analysis",
+      controlsTitle: "Investment Horizon (Years)",
+      insightToggle: "Insights:",
+      indexLabel: "100% Equity Allocation (MSCI World)",
+      viewLabel: "Insight: ",
       historicalView: "Historical View",
       years: "Years",
       insights: "Insights",
@@ -260,8 +247,7 @@ export const translations = {
     },
     concierge: {
       welcome: "Welcome to the Market Simulator",
-      intro:
-        "I am your digital companion. My goal is to give you a sense of how wealth develops over time and through different market phases.",
+      intro: "I am your digital companion. My goal is to give you a sense of how wealth develops over time and through different market phases.",
       guidedOption: "Guide me through the simulation",
       guidedDescription: "Recommended to understand the connections step by step.",
       selfOption: "Explore independently",
@@ -269,23 +255,16 @@ export const translations = {
       helpQuestion: "How may I assist you?",
       clickElement: "Click on the element you would like me to explain.",
       needHelp: "Need help?",
-      xAxisExplanation:
-        "The X-axis shows time in years. You can see how your investment develops over the selected period.",
-      yAxisExplanation:
-        "The Y-axis shows your portfolio value in millions of euros. The higher the line, the more your portfolio has gained in value.",
-      crisisClickInfo:
-        "Click on the crisis points to learn more about these historical events and our recommendations.",
+      xAxisExplanation: "The X-axis shows time in years. You can see how your investment develops over the selected period.",
+      yAxisExplanation: "The Y-axis shows your portfolio value in millions of euros. The higher the line, the more your portfolio has gained in value.",
+      crisisClickInfo: "Click on the crisis points to learn more about these historical events and our recommendations.",
       callConcierge: "Call concierge",
-      
-      // TUTORIAL MODAL TEXTE
       tutorialWelcome: "Welcome to Gutmann Concierge",
       tutorialTitle: "May I show you around?",
       tutorialBody: "I am your personal concierge. I would be happy to show you the functions of our house or let you explore on your own.",
       tutorialHint: "Tip: If you need help later, you can always ring the bell in the menu.",
       tutorialStart: "Start Tour",
       tutorialExplore: "Explore Independently",
-
-      // TOUR GUIDE TEXTE (ALL_TOUR_STEPS)
       tour: {
         t1_welcome: "Welcome! I am your personal concierge. I will guide you through the application and help you visualize your investment strategy.",
         t3_message: "The sidebar is your central navigation instrument, providing access to all functions.",
@@ -296,9 +275,10 @@ export const translations = {
         t8_message: "The summary shows you at a glance the total invested amount, the expected total return, and the resulting final value in the realistic scenario.",
         t9_message: "Are your assumptions realistic? Click on Market Analysis to compare your strategy with the toughest historical market crises. We are now navigating to Market Analysis.",
         t10_message: "Welcome to Market Analysis! Here you see how the global market index (MSCI World) actually performed over various time periods, including all highs and lows.",
-        t11_message: "Select the investment horizon here (e.g., 40 years) to see how historical crises affected a long-term investment.",
+        t11_message: "Select the investment horizon here to see how historical crises affected a long-term investment.",
         t12_message: "The chart shows the index performance in detail. Focus on the long-term development; the small red dots mark historical crises.",
-        t13_message: "Activate the Insights to make the red crisis points visible on the chart. Click on them for a detailed case study on the crisis.",
+        t13_message: "Activate the Insights to make the red crisis points visible on the chart.",
+        t13_insights_bubbles: "Clicking on the red crisis points opens detailed information and suggestions on how you should behave in such situations. You will see: Historically there has always been a recovery – so there is no reason to worry.",
         t14_message: "The historical summary calculates the average return, maximum loss, and maximum gain for the selected period.",
         t15_message: "You have analyzed the market data. You can directly discuss your strategy with one of our advisors using the 'Contact Now' button.",
         t16_nav_contact: "Perfect. We continue with the contact process, where you can enter your details.",
@@ -374,13 +354,11 @@ export const translations = {
       small: "Small",
       medium: "Medium",
       large: "Large",
-      // NEUE FÜR FAQ Content
       faqTitle: "FAQ",
       faqSubtitle: "Answers to the most important questions about the platform and investment topics.",
-      settingsSubtitle: "Customize the display according to your preferences", // NEU
+      settingsSubtitle: "Customize the display according to your preferences",
     },
   },
-// ... (Französisch und Italienisch würden ebenfalls angepasst)
   fr: {
     languages: {
         de: "Allemand",
@@ -399,13 +377,13 @@ export const translations = {
       feedback: "Commentaires", 
       settings: "Paramètres", 
     },
-    landing: { // NEU
+    landing: {
         title: "Gutmann Concierge",
         subtitle: "Découvrez l'investissement",
     },
     simulation: {
       title: "Simulation de patrimoine",
-      subtitle: "Testez différentes stratégies d'investissement avec notre simulation Monte Carlo.", // NEU
+      subtitle: "Testez différentes stratégies d'investissement avec notre simulation Monte Carlo.",
       benchmark: "Sélectionner un indice",
       msciWorld: "MSCI World",
       sp500: "S&P 500",
@@ -422,22 +400,20 @@ export const translations = {
       finalValue: "Valeur finale (Médiane)",
       expectedYield: "Rend. attendu p.a.",
       ctaTitle: "Comment votre investissement se serait-il comporté historiquement?",
-      ctaDescription:
-        "Découvrez comment votre portefeuille aurait évolué à travers les crises et les reprises historiques.",
+      ctaDescription: "Découvrez comment votre portefeuille aurait évolué à travers les crises et les reprises historiques.",
       ctaButton: "Analyse du marché",
       contactNow: "Contactez-nous maintenant",
       xAxisLabel: "Année",
       yAxisLabel: "Valeur du portefeuille (Mio. €)",
-      disclaimer:
-        "Avertissement: Les performances passées ne garantissent pas les rendements futurs. Investir dans des titres comporte des risques.",
+      disclaimer: "Avertissement: Les performances passées ne garantissent pas les rendements futurs. Investir dans des titres comporte des risques.",
     },
     market: {
       title: "Analyse du marché",
-      subtitle: "Données de marché historiques et analyse de crise", // NEU
-      controlsTitle: "Horizon d'investissement (Années)", // NEU
-      insightToggle: "Aperçus:", // NEU
-      indexLabel: "100% Part d'actions (MSCI World)", // NEU
-      viewLabel: "Aperçu: ", // NEU
+      subtitle: "Données de marché historiques et analyse de crise",
+      controlsTitle: "Horizon d'investissement (Années)",
+      insightToggle: "Aperçus:",
+      indexLabel: "100% Part d'actions (MSCI World)",
+      viewLabel: "Aperçu: ",
       historicalView: "Vue historique",
       years: "Années",
       insights: "Aperçus",
@@ -451,8 +427,7 @@ export const translations = {
     },
     concierge: {
       welcome: "Bienvenue dans le simulateur de marché",
-      intro:
-        "Je suis votre compagnon numérique. Mon objectif est de vous donner une idée de la façon dont la richesse évolue au fil du temps et à travers différentes phases de marché.",
+      intro: "Je suis votre compagnon numérique. Mon objectif est de vous donner une idée de la façon dont la richesse évolue au fil du temps et à travers différentes phases de marché.",
       guidedOption: "Me guider à travers la simulation",
       guidedDescription: "Recommandé pour comprendre les liens étape par étape.",
       selfOption: "Explorer de manière indépendante",
@@ -460,23 +435,16 @@ export const translations = {
       helpQuestion: "Comment puis-je vous aider?",
       clickElement: "Cliquez sur l'élément que vous souhaitez que j'explique.",
       needHelp: "Besoin d'aide?",
-      xAxisExplanation:
-        "L'axe X indique le temps en années. Vous pouvez voir comment votre investissement évolue sur la période sélectionnée.",
-      yAxisExplanation:
-        "L'axe Y indique la valeur de votre portefeuille en millions d'euros. Plus la ligne est haute, plus votre portefeuille a gagné en valeur.",
-      crisisClickInfo:
-        "Cliquez sur les points de crise pour en savoir plus sur ces événements historiques et nos recommandations.",
+      xAxisExplanation: "L'axe X indique le temps en années. Vous pouvez voir comment votre investissement évolue sur la période sélectionnée.",
+      yAxisExplanation: "L'axe Y indique la valeur de votre portefeuille en millions d'euros. Plus la ligne est haute, plus votre portefeuille a gagné en valeur.",
+      crisisClickInfo: "Cliquez sur les points de crise pour en savoir plus sur ces événements historiques et nos recommandations.",
       callConcierge: "Appeler le concierge",
-
-      // TUTORIAL MODAL TEXTES
       tutorialWelcome: "Bienvenue chez Gutmann Concierge",
       tutorialTitle: "Puis-je vous faire visiter?",
       tutorialBody: "Je suis votre concierge personnel. Je serais ravi de vous montrer les fonctions de notre maison ou de vous laisser explorer par vous-même.",
       tutorialHint: "Astuce: Si vous avez besoin d'aide plus tard, vous pouvez toujours sonner la cloche dans le menu.",
       tutorialStart: "Démarrer la visite",
       tutorialExplore: "Explorer seul",
-
-      // TOUR GUIDE TEXTES (ALL_TOUR_STEPS)
       tour: {
         t1_welcome: "Bienvenue! Je suis votre concierge personnel. Je vous guiderai à travers l'application et vous aiderai à visualiser votre stratégie d'investissement.",
         t3_message: "La barre latérale est votre instrument de navigation central, donnant accès à toutes les fonctions.",
@@ -487,9 +455,10 @@ export const translations = {
         t8_message: "Le résumé vous montre en un coup d'œil le montant total investi, le rendement total attendu et la valeur finale résultante dans le scénario réaliste.",
         t9_message: "Vos hypothèses sont-elles réalistes ? Cliquez sur Analyse du Marché pour comparer votre stratégie avec les crises de marché historiques les plus rudes. Nous naviguons maintenant vers l'Analyse du Marché.",
         t10_message: "Bienvenue dans l'Analyse du Marché ! Ici, vous voyez comment l'indice du marché mondial (MSCI World) a réellement évolué sur différentes périodes, y compris tous les sommets et les creux.",
-        t11_message: "Sélectionnez l'horizon d'investissement ici (par exemple, 40 ans) pour voir comment les crises historiques ont affecté un investissement à long terme.",
+        t11_message: "Sélectionnez l'horizon d'investissement ici pour voir comment les crises historiques ont affecté un investissement à long terme.",
         t12_message: "Ce graphique montre l'évolution réelle de la valeur de l'indice en détail. Concentrez-vous sur le développement à long terme ; les petits points rouges marquent les crises historiques.",
-        t13_message: "Activez les Aperçus pour rendre les points de crise rouges visibles sur le graphique. Cliquez dessus pour obtenir une étude de cas détaillée sur la crise.",
+        t13_message: "Activez les Aperçus pour rendre les points de crise rouges visibles sur le graphique.",
+        t13_insights_bubbles: "En cliquant sur les points de crise rouges, vous accédez à des informations détaillées et à des suggestions sur la manière dont vous devez vous comporter dans de telles situations. Vous verrez : Historiquement, il y a toujours eu une reprise – il n'y a donc aucune raison de s'inquiéter.",
         t14_message: "Le résumé historique calcule le rendement moyen, la perte maximale et le gain maximal pour la période sélectionnée.",
         t15_message: "Vous avez analysé les données du marché. Vous pouvez discuter directement de votre stratégie avec l'un de nos conseillers en utilisant le bouton 'Contactez-nous maintenant'.",
         t16_nav_contact: "Parfait. Nous continuons avec le processus de contact, où vous pouvez saisir vos coordonnées.",
@@ -565,10 +534,9 @@ export const translations = {
       small: "Petite",
       medium: "Moyenne",
       large: "Grande",
-      // NEUE FÜR FAQ Content
       faqTitle: "FAQ",
       faqSubtitle: "Réponses aux questions les plus importantes sur la plateforme et les thèmes d'investissement.",
-      settingsSubtitle: "Personnalisez l'affichage selon vos préférences", // NEU
+      settingsSubtitle: "Personnalisez l'affichage selon vos préférences",
     },
   },
   it: {
@@ -589,13 +557,13 @@ export const translations = {
       feedback: "Feedback", 
       settings: "Impostazioni", 
     },
-    landing: { // NEU
+    landing: {
         title: "Gutmann Concierge",
         subtitle: "Esperienza di investimento",
     },
     simulation: {
       title: "Simulazione patrimoniale",
-      subtitle: "Testa diverse strategie di investimento con la nostra simulazione Monte Carlo.", // NEU
+      subtitle: "Testa diverse strategie di investimento con la nostra simulazione Monte Carlo.",
       benchmark: "Seleziona benchmark",
       msciWorld: "MSCI World",
       sp500: "S&P 500",
@@ -617,16 +585,15 @@ export const translations = {
       contactNow: "Contattaci ora",
       xAxisLabel: "Anno",
       yAxisLabel: "Valore del portafoglio (Mio. €)",
-      disclaimer:
-        "Avvertenza: Le performance passate non garantiscono rendimenti futuri. Investire in titoli comporta rischi.",
+      disclaimer: "Avvertenza: Le performance passate non garantiscono rendimenti futuri. Investire in titoli comporta rischi.",
     },
     market: {
       title: "Analisi di mercato",
-      subtitle: "Dati storici del mercato e analisi delle crisi", // NEU
-      controlsTitle: "Orizzonte di investimento (Anni)", // NEU
-      insightToggle: "Approfondimenti:", // NEU
-      indexLabel: "100% Quota azionaria (MSCI World)", // NEU
-      viewLabel: "Approfondimento: ", // NEU
+      subtitle: "Dati storici del mercato e analisi delle crisi",
+      controlsTitle: "Orizzonte di investimento (Anni)",
+      insightToggle: "Approfondimenti:",
+      indexLabel: "100% Quota azionaria (MSCI World)",
+      viewLabel: "Approfondimento: ",
       historicalView: "Vista storica",
       years: "Anni",
       insights: "Approfondimenti",
@@ -640,8 +607,7 @@ export const translations = {
     },
     concierge: {
       welcome: "Benvenuto nel simulatore di mercato",
-      intro:
-        "Sono il tuo compagno digitale. Il mio obiettivo è darti un'idea di come la ricchezza si sviluppa nel tempo e attraverso diverse fasi di mercato.",
+      intro: "Sono il tuo compagno digitale. Il mio obiettivo è darti un'idea di come la ricchezza si sviluppa nel tempo e attraverso diverse fasi di mercato.",
       guidedOption: "Guidami attraverso la simulazione",
       guidedDescription: "Consigliato per comprendere i collegamenti passo dopo passo.",
       selfOption: "Esplora in modo indipendente",
@@ -649,36 +615,30 @@ export const translations = {
       helpQuestion: "Come posso aiutarti?",
       clickElement: "Fai clic sull'elemento che vorresti che spiegassi.",
       needHelp: "Hai bisogno di aiuto?",
-      xAxisExplanation:
-        "L'asse X mostra il tempo in anni. Puoi vedere come il tuo investimento si sviluppa nel periodo selezionato.",
-      yAxisExplanation:
-        "L'asse Y mostra il valore del tuo portafoglio in milioni di euro. Più alta è la linea, più il tuo portafoglio ha guadagnato valore.",
-      crisisClickInfo:
-        "Fai clic sui punti di crisi per saperne di più su questi eventi storici e le nostre raccomandazioni.",
+      xAxisExplanation: "L'asse X mostra il tempo in anni. Puoi vedere come il tuo investimento si sviluppa nel periodo selezionato.",
+      yAxisExplanation: "L'asse Y mostra il valore del tuo portafoglio in milioni di euro. Più alta è la linea, più il tuo portafoglio ha guadagnato valore.",
+      crisisClickInfo: "Fai clic sui punti di crisi per saperne di più su questi eventi storici e le nostre raccomandazioni.",
       callConcierge: "Chiamare il concierge",
-      
-      // TUTORIAL MODAL TEXTE
       tutorialWelcome: "Benvenuto in Gutmann Concierge",
       tutorialTitle: "Posso mostrarti in giro?",
       tutorialBody: "Sono il tuo concierge personale. Sarei lieto di mostrarti le funzioni della nostra casa o di farti esplorare da solo.",
       tutorialHint: "Suggerimento: Se hai bisogno di aiuto più tardi, puoi sempre suonare il campanello nel menu.",
       tutorialStart: "Inizia il tour",
       tutorialExplore: "Esplora autonomamente",
-
-      // TOUR GUIDE TEXTE (ALL_TOUR_STEPS)
       tour: {
         t1_welcome: "Benvenuto! Sono il tuo concierge personale. Ti guiderò attraverso l'applicazione e ti aiuterò a visualizzare la tua strategia di investimento.",
         t3_message: "La barra laterale è il tuo strumento di navigazione centrale, che fornisce accesso a tutte le funzioni.",
         t4_message: "Successivamente, daremo un'occhiata all'Analisi di Mercato. Questa funzione fornisce approfondimenti storici per rivedere le tue ipotesi.",
         t5_message: "Immergiamoci ora nella Simulazione Patrimoniale. È il cuore della piattaforma per pianificare realisticamente i tuoi obiettivi di investimento individuali.",
         t6_message: "Qui puoi regolare quattro parametri centrali: investimento iniziale, contributo mensile, la tua quota azionaria desiderata e l'orizzonte di investimento in anni.",
-        t7_message: "Questo grafico visualizza lo sviluppo atteso del tuo portafoglio come un intervallo su tre scenari: ottimistico (alto), realistico (medio) e cauto (basso).",
+        t7_message: "Questo grafico visualizza lo sviluppo atteso del tuo portafoglio como un intervallo su tre scenari: ottimistico (alto), realistico (medio) e cauto (basso).",
         t8_message: "Il riepilogo ti mostra a colpo d'occhio l'importo totale investito, il rendimento totale atteso e il valore finale risultante nello scenario realistico.",
         t9_message: "Le tue ipotesi sono realistiche? Clicca su Analisi di Mercato per confrontare la tua strategia con le crisi di mercato storiche più difficili. Stiamo navigando ora verso l'Analisi di Mercato.",
         t10_message: "Benvenuto nell'Analisi di Mercato! Qui vedi come l'indice del mercato globale (MSCI World) si è effettivamente comportato in vari periodi di tempo, inclusi tutti i massimi e minimi.",
-        t11_message: "Seleziona l'orizzonte di investimento qui (ad esempio, 40 anni) per vedere come le crisi storiche hanno influenzato un investimento a lungo termine.",
-        t12_message: "Questo grafico mostra lo sviluppo effettivo del valore dell'indice in dettaglio. Concentrati sullo sviluppo a lungo termine; i piccoli punti rossi segnano le crisi storiche.",
-        t13_message: "Attiva gli Approfondimenti per rendere visibili i punti di crisi rossi sul grafico. Clicca su di essi per ottenere uno studio di caso dettagliato sulla crisi.",
+        t11_message: "Seleziona l'orizzonte di investimento qui per vedere come le crisi storiche hanno influenzato un investimento a lungo termine.",
+        t12_message: "Questo grafico mostra lo sviluppo effettivo del valore dell'indice in dettaglio. Concentrati sullo sviluppo a lungo termine ; i piccoli punti rossi segnano le crisi storiche.",
+        t13_message: "Attiva gli Approfondimenti per rendere visibili i punti di crisi rossi sul grafico.",
+        t13_insights_bubbles: "Cliccando sui punti rossi della crisi si aprono informazioni dettagliate e suggerimenti su come comportarsi in tali situazioni. Vedrete : Storicamente c'è sempre stata una ripresa – quindi non c'è motivo di preoccuparsi.",
         t14_message: "Il riepilogo storico calcola il rendimento medio, la perdita massima e il guadagno massimo per il periodo selezionato.",
         t15_message: "Hai analizzato i dati di mercato. Puoi discutere direttamente la tua strategia con uno dei nostri consulenti utilizzando il pulsante 'Contattaci ora'.",
         t16_nav_contact: "Perfetto. Continuiamo con il processo di contatto, dove puoi inserire i tuoi dettagli.",
@@ -754,13 +714,12 @@ export const translations = {
       small: "Piccolo",
       medium: "Medio",
       large: "Grande",
-      // NEUE FÜR FAQ Content
       faqTitle: "FAQ",
       faqSubtitle: "Risposte alle domande più importanti sulla piattaforma e sugli argomenti di investimento.",
-      settingsSubtitle: "Personalizza la visualizzazione in base alle tue preferenze", // NEU
+      settingsSubtitle: "Personalizza la visualizzazione in base alle tue preferenze",
     },
   },
-}; 
+}
 
 export function useTranslation(language: Language) {
   return translations[language]

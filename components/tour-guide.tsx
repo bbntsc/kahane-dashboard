@@ -14,7 +14,6 @@ interface TourStep {
   path?: string 
 }
 
-// Alle globalen Schritte der Hausführung
 const ALL_TOUR_STEPS: TourStep[] = [
   { target: "page", messageKey: "t1_welcome", path: "/" },
   { target: "quick-actions", messageKey: "t3_message", path: "/" },
@@ -27,6 +26,7 @@ const ALL_TOUR_STEPS: TourStep[] = [
   { target: "market-horizon", messageKey: "t11_message", path: "/market" },
   { target: "market-chart", messageKey: "t12_message", path: "/market" },
   { target: "market-insights", messageKey: "t13_message", path: "/market" },
+  { target: "market-chart", messageKey: "t13_insights_bubbles", path: "/market" },
   { target: "market-summary", messageKey: "t14_message", path: "/market" },
   { target: "market-contact-cta", messageKey: "t15_message", path: "/market" },
   { target: "page", messageKey: "t16_nav_contact", path: "/contact" },
@@ -74,11 +74,7 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
     
     let stepsForContext = ALL_TOUR_STEPS.filter(step => {
         const key = step.messageKey as string;
-        // Entfernt Willkommensnachrichten, Navigations-Schritte (_nav_) und die lange Endnachricht (t21)
-        if (key === "t1_welcome" || 
-            key === "t3_message" || 
-            key === "t21_message" || 
-            key.includes("_nav_")) {
+        if (key === "t1_welcome" || key === "t3_message" || key === "t21_message" || key.includes("_nav_")) {
             return false;
         }
 
@@ -92,7 +88,6 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
         fullIndex: ALL_TOUR_STEPS.findIndex(s => s.messageKey === step.messageKey && s.path === step.path)
     }));
     
-    // Fallback falls eine Seite keine eigenen Schritte hat
     if (stepsForContext.length === 0) {
         const firstStep = ALL_TOUR_STEPS.find(step => 
             pathname.startsWith(step.path || "/") && 
@@ -107,7 +102,6 @@ export function TourGuide({ isActive, onComplete, initialStep = 0, isContextual 
         }
     }
     
-    // Hänge die höfliche Endnachricht im Sie-Stil an
     stepsForContext.push({
       target: "page",
       messageKey: "t_contextual_end" as any, 
