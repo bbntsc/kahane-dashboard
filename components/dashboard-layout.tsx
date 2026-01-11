@@ -1,12 +1,11 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import type React from "react" 
 import { Sidebar } from "@/components/base/sidebar"
 import { ConciergeController } from "@/components/concierge-guide" 
 import { BankGutmannHeader } from "@/components/base/bank-gutmann-header"
 import { Menu, X } from "lucide-react"
-
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -14,8 +13,20 @@ interface DashboardLayoutProps {
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  // State für die gelbe Umrandung
+  const [isSidebarHighlighted, setIsSidebarHighlighted] = useState(false)
 
-  // Diese Logik liegt hier genau richtig
+  // Effekt, um auf Highlights aus der Simulation/Tour zu reagieren
+  useEffect(() => {
+    const handleHighlight = (event: any) => {
+      // Wenn das Event 'true' sendet, leuchtet die Sidebar
+      setIsSidebarHighlighted(!!event.detail?.active);
+    };
+
+    window.addEventListener('highlightSidebar', handleHighlight);
+    return () => window.removeEventListener('highlightSidebar', handleHighlight);
+  }, []);
+
   const openConciergeIntro = () => {
     setSidebarOpen(false); 
     if (typeof window !== 'undefined') {
@@ -48,21 +59,27 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               >
                 <X className="h-6 w-6" />
               </button>
-              <Sidebar onConciergeClick={openConciergeHelp} /> 
+              {/* Mobile Sidebar mit Highlight-Support */}
+              <Sidebar 
+                onConciergeClick={openConciergeHelp} 
+                isHighlighted={isSidebarHighlighted}
+              /> 
            </div>
         </div>
       </div>
 
       {/* DESKTOP SIDEBAR */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
-        <Sidebar onConciergeClick={openConciergeHelp} /> 
+        {/* Hier wird die Prop isHighlighted übergeben */}
+        <Sidebar 
+          onConciergeClick={openConciergeHelp} 
+          isHighlighted={isSidebarHighlighted}
+        /> 
       </div>
 
       {/* MAIN CONTENT WRAPPER */}
       <div className="lg:pl-64 flex flex-col min-h-screen">
         
-        {/* HIER WAR DER FEHLER: Consumer entfernt */}
-        {/* Wir nutzen einfach die lokale Funktion openConciergeIntro */}
         <BankGutmannHeader 
             className="z-10" 
             onLogoClick={openConciergeIntro} 
