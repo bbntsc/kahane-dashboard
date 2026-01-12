@@ -20,6 +20,9 @@ export function InvestmentSimulation() {
     }).format(value)
   }
 
+  // Berechnung des absoluten Gewinns
+  const totalProfit = results.summary.finalValue - results.summary.totalInvestment
+
   return (
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-12" data-tour="page">
       
@@ -62,7 +65,39 @@ export function InvestmentSimulation() {
       </div>
 
       {/* --- RECHTE SPALTE: CHART & SUMMARY --- */}
-      <div className="lg:col-span-8">
+      <div className="lg:col-span-8 flex flex-col h-full">
+        
+        {/* NEU: ZUSAMMENFASSUNG (BIG NUMBER) ÜBER DEM GRAPHEN */}
+        <div className="mb-8 mt-2" data-tour="summary">
+            <h3 className="text-sm font-medium text-gray-500 mb-1">
+                {t.simulation.finalValue}
+            </h3>
+            
+            {/* Der große Betrag - Serif Font für den edlen Look */}
+            <div className="text-5xl md:text-6xl font-serif text-[#1b251d] dark:text-gray-100 tracking-tight font-medium">
+                {formatCurrency(results.summary.finalValue)}
+            </div>
+
+            {/* Die grüne Unterzeile: Gewinn & Rendite */}
+            <div className="flex items-center gap-2 mt-3 text-lg flex-wrap">
+                <span className="text-[#15803d] font-bold bg-green-50 dark:bg-green-900/30 px-2 py-0.5 rounded-md flex items-center gap-1">
+                    {/* Absoluter Gewinn */}
+                    <span>+{formatCurrency(totalProfit)}</span>
+                    
+                    {/* Prozentuale Rendite (p.a.) */}
+                    <span className="ml-1">
+                        ({results.summary.yield.toFixed(2)}%)
+                    </span>
+                </span>
+                
+                <span className="text-gray-400 mx-1 hidden sm:inline">•</span>
+                
+                <span className="text-[#1b251d] dark:text-gray-300 font-serif text-base">
+                    Rendite p.a.
+                </span>
+            </div>
+        </div>
+
         {/* Legend */}
         <div className="mb-4 flex items-center justify-between" data-tour="chart">
           <div className="flex items-center gap-6">
@@ -74,14 +109,6 @@ export function InvestmentSimulation() {
 
         {/* Chart */}
         <SimulationChart data={results.chartData} isClient={isClient} />
-
-        {/* Summary Grid */}
-        <div className="grid grid-cols-4 gap-4" data-tour="summary">
-          <SummaryCard label={t.simulation.totalInvestment} value={formatCurrency(results.summary.totalInvestment)} />
-          <SummaryCard label={t.simulation.totalReturn} value={formatCurrency(results.summary.totalReturn)} />
-          <SummaryCard label={t.simulation.finalValue} value={formatCurrency(results.summary.finalValue)} />
-          <SummaryCard label={t.simulation.expectedYield} value={`${results.summary.yield.toFixed(2)}%`} light />
-        </div>
 
         {/* CTA */}
         <div className="mt-8 bg-white dark:bg-gray-800 border border-[#ede9e1] dark:border-gray-600 rounded-lg p-8 shadow-sm" data-tour="cta-simulation-link">
@@ -107,15 +134,6 @@ function LegendItem({ color, label }: { color: string, label: string }) {
         <div className="flex items-center gap-2">
             <div className={`h-3 w-3 rounded-full ${color}`}></div>
             <span className="text-sm text-gray-700 dark:text-gray-100">{label}</span>
-        </div>
-    )
-}
-
-function SummaryCard({ label, value, light = false }: { label: string, value: string, light?: boolean }) {
-    return (
-        <div className={`${light ? 'bg-gray-200 dark:bg-gray-700 text-[#1b251d] dark:text-gray-100' : 'bg-[#1b251d] dark:bg-gray-600 text-white'} rounded-lg p-4`}>
-            <div className="text-xs mb-1 opacity-80">{label}</div>
-            <div className="text-xl font-medium">{value}</div>
         </div>
     )
 }

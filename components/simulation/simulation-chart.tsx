@@ -170,7 +170,7 @@ export function SimulationChart({ data, isClient }: SimulationChartProps) {
   }, [data, theme, t, isClient, language])
 
   return (
-    <div className="h-[300px] bg-white dark:bg-gray-800 rounded-lg p-4 mb-6" data-tour="chart-container">
+    <div className="h-[374px] bg-white dark:bg-gray-800 rounded-lg p-4 mb-6" data-tour="chart-container">
       <canvas ref={chartRef} />
     </div>
   )
