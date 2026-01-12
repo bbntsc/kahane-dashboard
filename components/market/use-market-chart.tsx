@@ -57,23 +57,21 @@ function drawCrisisMarkers(chart: Chart, filteredCrises: Crisis[], years: number
     
     // Einstellungen für den Text
     ctx.font = '10px sans-serif'; 
-    const text = crisis.name.toUpperCase(); // Text in Großbuchstaben (wie im Bild)
+    const text = crisis.name.toUpperCase(); // Text in Großbuchstaben
     const textMetrics = ctx.measureText(text);
     const textWidth = textMetrics.width;
     const padding = 8;
     const boxWidth = textWidth + padding * 2;
-    const boxHeight = 20; // Etwas höher für besseren Look
+    const boxHeight = 20; 
     
     // Position der Box
     const boxX = xPos - boxWidth / 2;
-    // Box 15px über dem Punkt positionieren
     const boxY = yPos - 15 - boxHeight; 
     const boxRadius = 4;
 
     // Box zeichnen
-    ctx.fillStyle = '#FAF0E6'; // Hintergrundfarbe in einem hellen Beige-Ton
+    ctx.fillStyle = '#FAF0E6'; 
     
-    // Funktion, um Rechteck mit abgerundeten Ecken zu zeichnen
     ctx.beginPath();
     ctx.moveTo(boxX + boxRadius, boxY);
     ctx.lineTo(boxX + boxWidth - boxRadius, boxY);
@@ -88,12 +86,12 @@ function drawCrisisMarkers(chart: Chart, filteredCrises: Crisis[], years: number
     ctx.fill();
     
     // Text zeichnen
-    ctx.fillStyle = '#1b251d'; // Dunkler Text
+    ctx.fillStyle = '#1b251d'; 
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(text, xPos, boxY + boxHeight / 2);
     
-    // Optional: Kleiner Pfeil nach unten zur Bubble
+    // Kleiner Pfeil nach unten zur Bubble
     ctx.fillStyle = '#FAF0C4';
     ctx.beginPath();
     ctx.moveTo(xPos - 4, boxY + boxHeight);
@@ -105,7 +103,6 @@ function drawCrisisMarkers(chart: Chart, filteredCrises: Crisis[], years: number
     ctx.restore();
   })
 }
-
 
 export function useMarketChart(
   chartRef: React.RefObject<HTMLCanvasElement | null>,
@@ -128,19 +125,19 @@ export function useMarketChart(
   const textColor = isDark ? "#f5f5f5" : "#374151"
   const gridColor = isDark ? "#4b5563" : "#e5e7eb"
 
-  // Währungsformatierer für Ticks (mit EUR, ohne Dezimalstellen)
+  // KORREKTUR: Nutzt 'en-US' für Punkt statt Komma und Notation 'standard' für ausgeschriebene Werte
   const formatCurrencyForTicks = (val: number) => {
-    return new Intl.NumberFormat(language === 'de' ? 'de-DE' : 'en-US', {
+    return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'EUR',
-      notation: val > 1000000 ? "compact" : "standard",
+      notation: "standard",
       maximumFractionDigits: 0 
     }).format(val)
   }
 
-  // Währungsformatierer für Tooltip (mit EUR, mit Dezimalstellen)
+  // Für das Tooltip nutzen wir ebenfalls 'en-US' für den Dezimalpunkt
   const formatCurrencyForTooltip = (val: number) => {
-    return new Intl.NumberFormat(language === 'de' ? 'de-DE' : 'en-US', {
+    return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'EUR',
       notation: "standard", 
@@ -158,16 +155,11 @@ export function useMarketChart(
     const ctx = chartRef.current.getContext("2d")
     if (!ctx) return
 
-    // 1. Zeitraum definieren
     const currentYear = 2025
     const horizon = investmentHorizon || 40 
     const startYear = currentYear - horizon
-    
-    // NEU: Berechne die Anzahl der Jahre, um die Ticks besser zu steuern
     const numberOfYears = currentYear - startYear + 1;
 
-
-    // 2. Daten berechnen
     const portfolioData = calculatePortfolioHistory(
       initialInvestment,
       monthlyInvestment,
@@ -179,12 +171,10 @@ export function useMarketChart(
     const years = portfolioData.map((d) => d.year)
     const values = portfolioData.map((d) => d.value) 
 
-    // 3. Krisen filtern
     const filteredCrises = crises.filter((crisis) => {
       return crisis.year >= startYear && crisis.year <= currentYear
     })
 
-    // 4. Chart erstellen
     chartInstance.current = new Chart(ctx, {
       type: "line",
       data: {
@@ -230,7 +220,6 @@ export function useMarketChart(
           if (!showInsights) return 
           
           const clickX = event.x;
-          const meta = chart.getDatasetMeta(0);
           const xScale = chart.scales.x;
           
           const index = xScale.getValueForPixel(clickX);
@@ -245,27 +234,18 @@ export function useMarketChart(
         scales: {
           x: {
             grid: { display: false, color: gridColor }, 
-            type: 'category', // Sicherstellen, dass die Achse mit Labels arbeitet
-            
+            type: 'category', 
             ticks: {
               font: { size: 11 },
               color: textColor,
               maxRotation: 0,
-              
-              // *** NEU: Dynamische Tick-Kontrolle ***
-              // Löscht die alte callback-Logik
-              source: 'labels', // Ticks basieren auf den Labels (Jahren)
-              autoSkip: true, // Erlaubt Chart.js, Ticks zu überspringen, um Überlappung zu vermeiden
-              
-              // Steuert die maximale Anzahl an Ticks, um bei kurzen Zeiträumen jährlich zu bleiben,
-              // und bei langen Zeiträumen automatisch auf 5- oder 10-Jahresschritte zu wechseln.
-              // MaxTicksLimit von 15-20 funktioniert gut für die Darstellung von 40 Jahren in 5er-Schritten.
+              source: 'labels', 
+              autoSkip: true, 
               maxTicksLimit: Math.min(20, Math.ceil(numberOfYears / 5) * 2), 
             },
             title: {
-              // *** HINZUGEFÜGT: Titel "Jahre" ***
               display: true, 
-              text: "Jahr", 
+              text: t.simulation.xAxisLabel, 
               color: textColor,
               font: { size: 12, weight: 'bold' },
               padding: { top: 8, bottom: 0 }
@@ -276,11 +256,7 @@ export function useMarketChart(
             ticks: { 
                 font: { size: 11 }, 
                 color: textColor,
-                // *** BEIBEHALTEN: EUR ohne Dezimalstellen ***
                 callback: (value) => formatCurrencyForTicks(Number(value)) 
-            },
-            title: {
-              display: false, 
             },
           },
         },
@@ -297,7 +273,7 @@ export function useMarketChart(
             padding: 10,
             callbacks: {
               label: (context) => `Portfolio: ${formatCurrencyForTooltip(context.parsed.y)}`, 
-              title: (items) => `Jahr ${items[0].label}`
+              title: (items) => `${t.simulation.xAxisLabel} ${items[0].label}`
             },
           },
         },
@@ -319,5 +295,5 @@ export function useMarketChart(
         chartInstance.current.destroy()
       }
     }
-  }, [chartRef, initialInvestment, monthlyInvestment, stockPercentage, investmentHorizon, showInsights, onCrisisClick, language, theme, isDark, textColor, gridColor]) 
+  }, [chartRef, initialInvestment, monthlyInvestment, stockPercentage, investmentHorizon, showInsights, onCrisisClick, language, theme, isDark, textColor, gridColor, t.simulation.xAxisLabel]) 
 }
