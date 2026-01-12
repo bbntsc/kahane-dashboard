@@ -44,13 +44,6 @@ function SimulationApp() {
                     <h1 className="text-3xl font-serif font-bold text-[#1b251d] dark:text-[#f8f3ef]">{t.simulation.title}</h1>
                     <p className="mt-2 text-[#6b7280] dark:text-[#9ca3af]">{t.simulation.subtitle}</p> 
                 </div>
-
-                {/* Button oben rechts */}
-                <Link href="/contact">
-                    <button className="px-10 py-3 bg-[#ebf151] text-[#1b251d] rounded-full hover:bg-[#d9df47] transition-colors text-sm font-medium shadow-md whitespace-nowrap">
-                        {t.simulation.contactNow}
-                    </button>
-                </Link>
             </div>
             
             <InvestmentSimulation /> 

@@ -59,13 +59,6 @@ export function MarketApp() {
                     <h1 className="text-3xl font-serif font-bold text-[#1b251d] dark:text-[#f8f3ef]">{t.market.title}</h1>
                     <p className="mt-2 text-[#6b7280] dark:text-[#9ca3af]">{t.market.subtitle}</p>
                 </div>
-
-                {/* Button oben rechts positioniert */}
-                <Link href="/contact">
-                    <button className="px-10 py-3 bg-[#ebf151] text-[#1b251d] rounded-full hover:bg-[#d9df47] transition-colors text-sm font-medium shadow-md whitespace-nowrap">
-                        {t.simulation.contactNow}
-                    </button>
-                </Link>
             </div>
             
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
