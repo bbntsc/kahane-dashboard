@@ -69,6 +69,97 @@ export const translations = {
       yearsRecovery: "Jahre",
       ctaTitle: "Bereit, Ihre Anlagestrategie zu besprechen?",
       ctaDescription: "Unsere Experten helfen Ihnen, eine maßgeschneiderte Strategie zu entwickeln.",
+      recoveryTimeLabel: "Dauer bis zur vollständigen Erholung:",
+      backButton: "← Zurück",
+      learningTitle: "Aus Krisen lernen",
+      learningSubtitle: "Erkenntnisse für Ihre Anlagestrategie",
+      whatHappened: "Was ist passiert?",
+      crisisProgression: "Verlauf der Krise",
+      whatWorked: "Was sich bewährt hat",
+      whatToAvoid: "Was vermieden werden sollte",
+    },
+    crises: {
+      "black-monday": {
+        name: "Schwarzer Montag",
+        description: "Am 19. Oktober 1987 stürzte der Dow Jones um 22,6% ab - der größte Tagesverlust in der Geschichte. Computergestützter Handel und geopolitische Spannungen führten zu einem Dominoeffekt.",
+        impact: ["MSCI World: ca. -30% in wenigen Wochen", "Globale Marktpanik", "Einführung von 'Circuit Breakers'"],
+        recovery: ["Break-Even: Mitte 1989", "Schnelle Erholung durch Zentralbankmaßnahmen"],
+        recoveryTime: "ca. 2 Jahre",
+        dos: ["Qualitätsaktien halten", "Antizyklisch handeln", "Diversifikation wahren"],
+        donts: ["Panikverkäufe", "Market Timing versuchen", "Zu hoher Hebel/Fremdkapital"]
+      },
+      "financial": {
+        name: "Finanzkrise",
+        description: "Ausgelöst durch den US-Hypothekenmarkt (Subprime). Lehman Brothers kollabierte, das Vertrauen im Interbankenmarkt schwand weltweit.",
+        impact: ["MSCI World: ca. -53%", "Zusammenbruch großer Institute", "Weltweite Rezession"],
+        recovery: ["Break-Even: Ende 2012", "Beginn des längsten Bullenmarktes"],
+        recoveryTime: "ca. 5 Jahre",
+        dos: ["Langfristig bleiben", "Rebalancing nutzen", "Risikoprofil treu bleiben"],
+        donts: ["Panikverkäufe am Tiefpunkt", "Blinder Vertrauensverlust", "Überreaktion auf Medien"]
+      },
+      "covid": {
+        name: "COVID-Crash",
+        description: "Plötzlicher Markteinbruch durch die globale Pandemie und weltweite Lockdowns.",
+        impact: ["MSCI World: ca. -34%", "Extrem hohe Volatilität", "Massive Staatshilfen"],
+        recovery: ["Break-Even: Ende 2020", "Schnellste Erholung der Geschichte"],
+        recoveryTime: "ca. 6 Monate",
+        dos: ["Ruhe bewahren", "Antizyklisch handeln", "Qualitätsunternehmen bevorzugen"],
+        donts: ["Kurzfristige Prognosen", "Markttiming", "Panikverkäufe"]
+      },
+      "dotcom": {
+        name: "Dotcom-Blase",
+        description: "Platze der Spekulationsblase bei Internetunternehmen. Firmen ohne Gewinne verloren massiv an Wert.",
+        impact: ["Nasdaq verlor über 75%", "MSCI World: ca. -49%"],
+        recovery: ["Break-Even: Ende 2006", "Fokus verschob sich auf Profitabilität"],
+        recoveryTime: "ca. 7 Jahre",
+        dos: ["Fundamentalanalyse", "Auf Cashflow achten", "Sektoren-Diversifikation"],
+        donts: ["FOMO (Hypes folgen)", "Investments ohne Geschäftsmodell"]
+      },
+      "japan-bubble": {
+        name: "Japan-Blase",
+        description: "Kollaps der extrem überbewerteten Aktien- und Immobilienpreise in Japan.",
+        impact: ["Nikkei verlor 60% in 3 Jahren", "Langanhaltende Deflation"],
+        recovery: ["Sehr langsame Erholung", "Globales Portfolio war der Schutz"],
+        recoveryTime: "über 20 Jahre",
+        dos: ["Global diversifizieren", "Auf Bewertungen achten"],
+        donts: ["Home Bias (nur lokaler Markt)", "Überbewertung ignorieren"]
+      },
+      "euro-crisis": {
+        name: "Euro-Krise",
+        description: "Staatsschuldenkrise in der Eurozone (Griechenland, etc.) und Zweifel am Euro-Fortbestand.",
+        impact: ["Hohe Volatilität in Europa", "Angst vor Staatspleiten"],
+        recovery: ["Stabilisierung durch EZB ('Whatever it takes')", "Erholung ab 2012"],
+        recoveryTime: "ca. 3 Jahre",
+        dos: ["Währungsräume streuen", "Qualitätstitel bevorzugen"],
+        donts: ["Politische Börsen überbewerten", "Wetten gegen den Euro"]
+      },
+      "china-crash": {
+        name: "China-Crash",
+        description: "Turbulenzen am chinesischen Markt durch Spekulation und Wachstumsorgen.",
+        impact: ["Shanghai Composite verlor 45%", "Kurzzeitige globale Schocks"],
+        recovery: ["Schnelle Stabilisierung", "Fokus auf Binnenkonsum"],
+        recoveryTime: "ca. 1 Jahr",
+        dos: ["China als Portfolio-Beimischung", "Volatilität akzeptieren"],
+        donts: ["Margin-Trading", "Überreaktion auf Fernost-News"]
+      },
+      "inflation": {
+        name: "Inflationskrise",
+        description: "Hohe Inflation und rapide Zinserhöhungen belasteten Aktien und Anleihen.",
+        impact: ["MSCI World: -20% in 2022", "Größter Anleihen-Crash"],
+        recovery: ["Erholung durch KI-Boom 2023", "Zinsplateau erreicht"],
+        recoveryTime: "ca. 2 Jahre",
+        dos: ["Sachwerte bevorzugen", "Preissetzungsmacht suchen"],
+        donts: ["Zinsrisiko unterschätzen", "Nur auf Tech-Werte setzen"]
+      },
+      "trump": {
+        name: "Trump-Unsicherheit",
+        description: "Unerwarteter Wahlsieg 2016 und Handelskonflikte führten zu Marktunruhe.",
+        impact: ["Sektor-Rotationen", "Zoll-Androhungen sorgten für Volatilität"],
+        recovery: ["Märkte stiegen durch Steuersenkungen schnell"],
+        recoveryTime: "wenige Monate",
+        dos: ["Strategie treu bleiben", "Politischen Lärm ignorieren"],
+        donts: ["Wetten auf Wahlausgänge", "Hektische Umschichtungen"]
+      }
     },
     concierge: {
       welcome: "Herzlich willkommen im Marktsimulator",
@@ -192,7 +283,6 @@ export const translations = {
       it: "Italian",
     },
     nav: {
-      about: "About us",
       contact: "Contact",
       overview: "Overview",
       faq: "FAQ",
@@ -209,7 +299,6 @@ export const translations = {
     simulation: {
       title: "Wealth Simulation",
       subtitle: "Test different investment strategies with our Monte Carlo simulation.",
-      benchmark: "Select Benchmark",
       msciWorld: "MSCI World",
       initialInvestment: "Initial Investment",
       monthlyInvestment: "Monthly Investment",
@@ -254,6 +343,97 @@ export const translations = {
       yearsRecovery: "Years",
       ctaTitle: "Ready to discuss your investment strategy?",
       ctaDescription: "Our experts help you develop a tailored strategy.",
+      recoveryTimeLabel: "Time to full recovery:",
+      backButton: "← Back",
+      learningTitle: "Learning from Crises",
+      learningSubtitle: "Insights for your investment strategy",
+      whatHappened: "What happened?",
+      crisisProgression: "Progression of the crisis",
+      whatWorked: "What worked well",
+      whatToAvoid: "What should be avoided",
+    },
+    crises: {
+      "black-monday": {
+        name: "Black Monday",
+        description: "On Oct 19, 1987, the Dow Jones plunged 22.6% - the largest single-day loss in history. Computerized trading and geopolitical tensions triggered a domino effect.",
+        impact: ["MSCI World: approx. -30% in weeks", "Global market panic", "Introduction of 'Circuit Breakers'"],
+        recovery: ["Break-even: Mid-1989", "Rapid recovery through central bank action"],
+        recoveryTime: "approx. 2 years",
+        dos: ["Hold quality stocks", "Act anti-cyclically", "Maintain diversification"],
+        donts: ["Panic selling", "Market timing", "Excessive leverage"]
+      },
+      "financial": {
+        name: "Financial Crisis",
+        description: "Triggered by the US subprime mortgage market. Lehman Brothers collapsed, and global trust vanished.",
+        impact: ["MSCI World: approx. -53%", "Major institutions collapsed", "Global recession"],
+        recovery: ["Break-even: Late 2012", "Longest bull market started"],
+        recoveryTime: "approx. 5 years",
+        dos: ["Stay long-term", "Use rebalancing", "Stick to risk profile"],
+        donts: ["Panic selling at the bottom", "Blind loss of trust", "Overreacting to media"]
+      },
+      "covid": {
+        name: "COVID-Crash",
+        description: "Sudden market collapse due to the global pandemic and worldwide lockdowns.",
+        impact: ["MSCI World: approx. -34%", "Extremely high volatility", "Massive state aid stimulus"],
+        recovery: ["Break-even: Late 2020", "Fastest recovery in history"],
+        recoveryTime: "approx. 6 months",
+        dos: ["Keep calm", "Act anti-cyclically", "Prefer quality companies"],
+        donts: ["Short-term forecasts", "Market timing", "Panic selling"]
+      },
+      "dotcom": {
+        name: "Dotcom Bubble",
+        description: "Bursting of the speculative bubble in internet companies. Unprofitable firms lost massive value.",
+        impact: ["Nasdaq lost 75%", "MSCI World: approx. -49%"],
+        recovery: ["Break-even: Late 2006", "Shift towards profitability"],
+        recoveryTime: "approx. 7 years",
+        dos: ["Fundamental analysis", "Focus on cash flow", "Sector diversification"],
+        donts: ["FOMO (following hypes)", "Investments without a business model"]
+      },
+      "japan-bubble": {
+        name: "Japan Bubble",
+        description: "Collapse of extreme overvaluation in Japanese stocks and real estate.",
+        impact: ["Nikkei lost 60% in 3 years", "Long-term deflation"],
+        recovery: ["Very slow recovery", "Global portfolios provided protection"],
+        recoveryTime: "over 20 years",
+        dos: ["Global diversification", "Monitor valuations"],
+        donts: ["Home bias", "Ignoring overvaluation"]
+      },
+      "euro-crisis": {
+        name: "Euro Crisis",
+        description: "Sovereign debt crisis in the Eurozone and doubts about the Euro's future.",
+        impact: ["High volatility in Europe", "Fear of sovereign defaults"],
+        recovery: ["Stabilization via ECB ('Whatever it takes')", "Recovery from 2012"],
+        recoveryTime: "approx. 3 years",
+        dos: ["Diversify currencies", "Prefer quality stocks"],
+        donts: ["Overvaluing political news", "Betting against the Euro"]
+      },
+      "china-crash": {
+        name: "China Crash",
+        description: "Turbulence in Chinese markets due to speculation and growth fears.",
+        impact: ["Shanghai Composite lost 45%", "Short-term global shocks"],
+        recovery: ["Rapid stabilization", "Focus on domestic consumption"],
+        recoveryTime: "approx. 1 year",
+        dos: ["China as a portfolio addition", "Accept volatility"],
+        donts: ["Margin trading", "Overreacting to news from Asia"]
+      },
+      "inflation": {
+        name: "Inflation Crisis",
+        description: "High inflation and rapid interest rate hikes hit stocks and bonds.",
+        impact: ["MSCI World: -20% in 2022", "Major bond market crash"],
+        recovery: ["Recovery driven by AI boom 2023", "Rate plateau reached"],
+        recoveryTime: "approx. 2 years",
+        dos: ["Prefer real assets", "Seek pricing power"],
+        donts: ["Underestimate rate risk", "Focusing only on tech"]
+      },
+      "trump": {
+        name: "Trump Uncertainty",
+        description: "Unexpected 2016 election victory and trade conflicts led to market unrest.",
+        impact: ["Sector rotations", "Tariff threats caused volatility"],
+        recovery: ["Markets rose quickly due to tax cuts"],
+        recoveryTime: "few months",
+        dos: ["Stick to strategy", "Ignore political noise"],
+        donts: ["Betting on election outcomes", "Hectic portfolio shifts"]
+      }
     },
     concierge: {
       welcome: "Welcome to the Market Simulator",
@@ -377,7 +557,6 @@ export const translations = {
       it: "Italien",
     },
     nav: {
-      about: "À propos",
       contact: "Contact",
       overview: "Aperçu",
       faq: "FAQ",
@@ -394,7 +573,6 @@ export const translations = {
     simulation: {
       title: "Simulation de Patrimoine",
       subtitle: "Testez différentes stratégies d'investissement avec notre simulation Monte Carlo.",
-      benchmark: "Sélectionner un indice",
       msciWorld: "MSCI World",
       initialInvestment: "Investissement Initial",
       monthlyInvestment: "Investissement Mensuel",
@@ -439,6 +617,97 @@ export const translations = {
       yearsRecovery: "Années",
       ctaTitle: "Prêt à discuter de votre stratégie d'investissement ?",
       ctaDescription: "Nos experts vous aident à développer une stratégie sur mesure.",
+      recoveryTimeLabel: "Délai de récupération complète :",
+      backButton: "← Retour",
+      learningTitle: "Apprendre des crises",
+      learningSubtitle: "Perspectives pour votre stratégie d'investissement",
+      whatHappened: "Que s'est-il passé ?",
+      crisisProgression: "Déroulement de la crise",
+      whatWorked: "Ce qui a bien fonctionné",
+      whatToAvoid: "Ce qu'il faut éviter",
+    },
+    crises: {
+      "black-monday": {
+        name: "Lundi Noir",
+        description: "Le 19 octobre 1987, le Dow Jones a chuté de 22,6 %, la plus forte perte journalière de l'histoire. Le trading informatique et les tensions géopolitiques ont provoqué un effet domino mondial.",
+        impact: ["MSCI World : env. -30% en quelques semaines", "Panique mondiale et crise de liquidité", "Introduction des coupe-circuits en bourse"],
+        recovery: ["Point mort : mi-1989", "Reprise rapide grâce à l'action des banques centrales"],
+        recoveryTime: "env. 2 ans",
+        dos: ["Garder des actions de qualité", "Agir à contre-courant", "Diversification"],
+        donts: ["Ventes de panique", "Market timing", "Levier excessif"]
+      },
+      "financial": {
+        name: "Crise Financière",
+        description: "Déclenchée par le marché hypothécaire américain (Subprime). Lehman Brothers s'est effondré, entraînant une crise de confiance mondiale.",
+        impact: ["MSCI World : -53% d'octobre 2007 à mars 2009", "Récession mondiale et chômage élevé"],
+        recovery: ["Point mort atteint fin 2012", "Marché haussier le plus long"],
+        recoveryTime: "env. 5 ans",
+        dos: ["Rester investi à long terme", "Rééquilibrage du portefeuille", "Suivre son profil de risque"],
+        donts: ["Vendre au plus bas", "Perdre confiance dans le marché", "Surréagir aux médias"]
+      },
+      "covid": {
+        name: "Crash COVID",
+        description: "Effondrement soudain dû à la pandémie mondiale. Les confinements ont provoqué le crash le plus rapide de l'histoire.",
+        impact: ["MSCI World : -34% en un mois", "Volatilité extrême", "Stimulus étatiques massifs"],
+        recovery: ["Point mort : déjà atteint fin 2020", "Marché baissier le plus court de l'histoire"],
+        recoveryTime: "env. 6 mois",
+        dos: ["Rester calme : crash rapide = reprise rapide", "Agir à contre-courant", "Préférer les sociétés de qualité"],
+        donts: ["Croire aux prévisions court terme", "Market timing", "Ventes de panique"]
+      },
+      "dotcom": {
+        name: "Bulle Dotcom",
+        description: "Éclatement de la bulle spéculative des sociétés Internet sans profit.",
+        impact: ["Nasdaq : -75%", "MSCI World : env. -49%"],
+        recovery: ["Point mort : fin 2006", "Retour à la profitabilité réelle"],
+        recoveryTime: "env. 7 ans",
+        dos: ["Analyse fondamentale", "Focus sur le flux de trésorerie", "Diversification sectorielle"],
+        donts: ["Suivre les hypes (FOMO)", "Investir sans modèle d'affaires"]
+      },
+      "japan-bubble": {
+        name: "Bulle Japonaise",
+        description: "Effondrement de la surévaluation extrême des actions et de l'immobilier au Japon.",
+        impact: ["Nikkei : -60% en 3 ans", "Déflation de longue durée"],
+        recovery: ["Reprise très lente", "Portefeuilles mondiaux préservés"],
+        recoveryTime: "plus de 20 ans",
+        dos: ["Diversification mondiale", "Surveiller les évaluations"],
+        donts: ["Biais domestique (un seul marché)", "Ignorer la surévaluation"]
+      },
+      "euro-crisis": {
+        name: "Crise de l'Euro",
+        description: "Crise de la dette souveraine dans la zone euro et doutes sur l'avenir de la monnaie.",
+        impact: ["Forte volatilité en Europe", "Peur des défauts souverains"],
+        recovery: ["Stabilisation par la BCE ('Whatever it takes')", "Reprise dès 2012"],
+        recoveryTime: "env. 3 ans",
+        dos: ["Diversifier les devises", "Préférer les actions de qualité"],
+        donts: ["Surestimer les nouvelles politiques", "Parier contre l'Euro"]
+      },
+      "china-crash": {
+        name: "Crash Chinois",
+        description: "Turbulences sur les marchés chinois dues à la spéculation et aux craintes de croissance.",
+        impact: ["Shanghai Composite : -45%", "Chocs mondiaux à court terme"],
+        recovery: ["Stabilisation rapide", "Focus sur la consommation intérieure"],
+        recoveryTime: "env. 1 an",
+        dos: ["Chine comme complément de portefeuille", "Accepter la volatilité"],
+        donts: ["Trading sur marge", "Surréaction aux nouvelles d'Asie"]
+      },
+      "inflation": {
+        name: "Crise de l'Inflation",
+        description: "Inflation élevée et hausses rapides des taux pesant sur actions et obligations.",
+        impact: ["MSCI World : -20% en 2022", "Krach obligataire majeur"],
+        recovery: ["Reprise par le boom de l'IA en 2023", "Plateau des taux atteint"],
+        recoveryTime: "env. 2 ans",
+        dos: ["Préférer les actifs réels", "Chercher le pouvoir de fixation des prix"],
+        donts: ["Sous-estimer le risque de taux", "Focus unique sur la technologie"]
+      },
+      "trump": {
+        name: "Incertitude Trump",
+        description: "Victoire électorale inattendue en 2016 et conflits commerciaux créant l'agitation.",
+        impact: ["Rotations sectorielles", "Menaces tarifaires créant de la volatilité"],
+        recovery: ["Hausse rapide via les baisses d'impôts"],
+        recoveryTime: "quelques mois",
+        dos: ["Rester fidèle à la stratégie", "Ignorer le bruit politique"],
+        donts: ["Parier sur les élections", "Réallocations frénétiques"]
+      }
     },
     concierge: {
       welcome: "Bienvenue dans le Simulateur de Marché",
@@ -480,7 +749,7 @@ export const translations = {
         t17_message: "La page FAQ offre des réponses rapides aux questions les plus importantes concernant l'application, la simulation et les sujets d'investissement généraux.",
         t18_message: "Vous pouvez partager votre opinion sur la plateforme avec nous à tout moment via la page Commentaires. Vos commentaires sont importants pour notre optimisation continue.",
         t19_message: "Dans les Paramètres, vous pouvez personnaliser l'apparence de l'application : du mode clair au mode sombre, la taille de la police et la langue d'affichage.",
-        t20_message: "La page Contact est le moyen le plus rapide d'entrer en contact direct avec un conseiller de la Bank Gutmann. Nous vous aidons à consolider votre stratégie individuelle.",
+        t20_message: "La page Contact est le moyen le plus rapide d'entrer en contact direct avec un conseiller de la Bank Gutmann. Nous vous aiderons à consolider votre stratégie individuelle.",
         t21_message: "C'était la visite guidée étendue de la plateforme Gutmann Concierge. J'espère que vous avez maintenant un aperçu clair de toutes les fonctions. Je reste à votre disposition via la cloche !",
         t22_nav_faq: "Après nous avoir contactés, nous allons examiner les autres pages. L'étape suivante est la page FAQ dans la barre latérale.",
         t_understood: "Compris",
@@ -509,7 +778,7 @@ export const translations = {
       thankYouTitle: "Merci pour votre demande !",
       thankYouBody: "Un conseiller de la Bank Gutmann vous contactera sous peu.",
       backToSim: "Retour à la Simulation",
-      placeholderAmount: "e.g. 500,000 EUR",
+      placeholderAmount: "ex. 500,000 EUR",
       placeholderName: "Votre nom complet",
       placeholderEmail: "votre.email@exemple.fr",
       placeholderPhone: "+43 ...",
@@ -562,7 +831,6 @@ export const translations = {
       it: "Italiano",
     },
     nav: {
-      about: "Chi Siamo",
       contact: "Contatto",
       overview: "Panoramica",
       faq: "FAQ",
@@ -579,7 +847,6 @@ export const translations = {
     simulation: {
       title: "Simulazione Patrimoniale",
       subtitle: "Testi diverse strategie di investimento con la nostra simulazione Monte Carlo.",
-      benchmark: "Seleziona Benchmark",
       msciWorld: "MSCI World",
       initialInvestment: "Investimento Iniziale",
       monthlyInvestment: "Investimento Mensile",
@@ -604,7 +871,7 @@ export const translations = {
       ctaButton: "Analisi di Mercato",
       contactNow: "Contatti Ora",
       xAxisLabel: "Anno",
-      yAxisLabel: "Valore del Portafoglio (Mio. è)",
+      yAxisLabel: "Valore del Portafoglio (Mio. €)",
       disclaimer: "Avvertenza: Le performance passate non garantiscono rendimenti futuri. Investire in titoli comporta rischi.",
     },
     market: {
@@ -624,6 +891,97 @@ export const translations = {
       yearsRecovery: "Anni",
       ctaTitle: "Pronto a discutere la Sua strategia di investimento?",
       ctaDescription: "I nostri esperti La aiutano a sviluppare una strategia su misura.",
+      recoveryTimeLabel: "Tempo per il recupero completo:",
+      backButton: "← Indietro",
+      learningTitle: "Imparare dalle crisi",
+      learningSubtitle: "Approfondimenti per la tua strategia di investimento",
+      whatHappened: "Cosa è successo?",
+      crisisProgression: "Progressione della crisi",
+      whatWorked: "Cosa ha funzionato bene",
+      whatToAvoid: "Cosa evitare",
+    },
+    crises: {
+      "black-monday": {
+        name: "Lunedì Nero",
+        description: "Il 19 ottobre 1987, il Dow Jones è crollato del 22,6%, la più grande perdita giornaliera della storia. Il trading automatizzato e le tensioni geopolitiche hanno innescato un effetto domino globale.",
+        impact: ["MSCI World: ca. -30% in poche settimane", "Panico globale e crisi di liquidità", "Introduzione dei 'Circuit Breakers'"],
+        recovery: ["Pareggio: metà 1989", "Rapida ripresa grazie agli interventi delle banche centrali"],
+        recoveryTime: "ca. 2 anni",
+        dos: ["Mantenere titoli di qualità", "Agire in modo anticiclico", "Diversificare"],
+        donts: ["Vendite dettate dal panico", "Market timing", "Leva finanziaria eccessiva"]
+      },
+      "financial": {
+        name: "Crisi Finanziaria",
+        description: "Innescata dal mercato dei mutui subprime USA. Lehman Brothers è crollata, portando a una crisi di fiducia globale.",
+        impact: ["MSCI World: -53% da ott. 2007 a mar. 2009", "Recessione globale e disoccupazione elevata"],
+        recovery: ["Pareggio raggiunto a fine 2012", "Inizio del mercato rialzista più lungo"],
+        recoveryTime: "ca. 5 anni",
+        dos: ["Rimanere investiti a lungo termine", "Ribilanciamento del portafoglio", "Seguire il proprio profilo di rischio"],
+        donts: ["Vendere ai minimi", "Perdere fiducia nel mercato", "Sovrareagire ai media"]
+      },
+      "covid": {
+        name: "Crash COVID",
+        description: "Crollo improvviso dovuto alla pandemia globale. I lockdown hanno causato il crash più veloce della storia.",
+        impact: ["MSCI World: -34% in un mese", "Volatilità estrema", "Massicci stimoli statali"],
+        recovery: ["Pareggio: già raggiunto a fine 2020", "Mercato ribassista più breve della storia"],
+        recoveryTime: "ca. 6 mesi",
+        dos: ["Mantenere la calma: crash rapido = ripresa rapida", "Agire in modo anticiclico", "Preferire società di qualità"],
+        donts: ["Credere alle previsioni a breve termine", "Market timing", "Vendite dettate dal panico"]
+      },
+      "dotcom": {
+        name: "Bolla Dotcom",
+        description: "Scoppio della bolla speculativa sulle società Internet senza profitti.",
+        impact: ["Nasdaq: -75%", "MSCI World: ca. -49%"],
+        recovery: ["Pareggio: fine 2006", "Ritorno alla redditività reale"],
+        recoveryTime: "ca. 7 anni",
+        dos: ["Analisi fondamentale", "Focus sul flusso di cassa", "Diversificazione settoriale"],
+        donts: ["Seguire gli hype (FOMO)", "Investire senza modello di business"]
+      },
+      "japan-bubble": {
+        name: "Bolla Giapponese",
+        description: "Crollo della valutazione estrema di azioni e immobili in Giappone nel 1990.",
+        impact: ["Nikkei: -60% in 3 anni", "Deflazione di lunga durata"],
+        recovery: ["Ripresa molto lenta", "Portafogli globali preservati"],
+        recoveryTime: "oltre 20 anni",
+        dos: ["Diversificazione globale", "Monitorare le valutazioni"],
+        donts: ["Home bias (solo mercato locale)", "Ignorare la sopravvalutazione"]
+      },
+      "euro-crisis": {
+        name: "Crisi dell'Euro",
+        description: "Crisi del debito sovrano nella zona euro e dubbi sul futuro della moneta.",
+        impact: ["Alta volatilità in Europa", "Paura di default sovrani"],
+        recovery: ["Stabilizzazione BCE ('Whatever it takes')", "Ripresa dal 2012"],
+        recoveryTime: "ca. 3 anni",
+        dos: ["Diversificare le valute", "Preferire azioni di qualità"],
+        donts: ["Sottovalutare news politiche", "Scommettere contro l'Euro"]
+      },
+      "china-crash": {
+        name: "Crash Cinese",
+        description: "Turbolenze sui mercati cinesi per speculazione e timori sulla crescita.",
+        impact: ["Shanghai Composite: -45%", "Shock globali a breve termine"],
+        recovery: ["Stabilizzazione rapida", "Focus sui consumi interni"],
+        recoveryTime: "ca. 1 anno",
+        dos: ["Cina come aggiunta al portafoglio", "Accettare la volatilità"],
+        donts: ["Trading a margine", "Sovrareagire a news dall'Asia"]
+      },
+      "inflation": {
+        name: "Crisi dell'Inflazione",
+        description: "Inflazione alta e rapidi rialzi dei tassi pesano su azioni e obbligazioni.",
+        impact: ["MSCI World: -20% nel 2022", "Grande crash obbligazionario"],
+        recovery: ["Ripresa guidata dall'IA nel 2023", "Raggiunto il plateau dei tassi"],
+        recoveryTime: "ca. 2 anni",
+        dos: ["Preferire asset reali", "Cercare potere di fissazione prezzi"],
+        donts: ["Sottovalutare rischio tassi", "Focus solo sulla tecnologia"]
+      },
+      "trump": {
+        name: "Incertezza Trump",
+        description: "Vittoria elettorale inaspettata nel 2016 e conflitti commerciali creano agitazione.",
+        impact: ["Rotazioni settoriali", "Minacce tariffarie creano volatilità"],
+        recovery: ["Rialzo rapido grazie ai tagli fiscali"],
+        recoveryTime: "pochi mesi",
+        dos: ["Rimanere fedeli alla strategia", "Ignorare il rumore politico"],
+        donts: ["Scommettere sulle elezioni", "Riapplicazioni frenetiche"]
+      }
     },
     concierge: {
       welcome: "Benvenuto nel Simulatore di Mercato",
@@ -713,7 +1071,7 @@ export const translations = {
     },
     feedback: {
       title: "Il Suo Feedback",
-      question: "Come Le è piaciuta la simulazione ?",
+      question: "Ti è piaciuta la simulazione ?",
       comments: "I Suoi commenti (opzionale)",
       cancel: "Annulla",
       send: "Invia",
