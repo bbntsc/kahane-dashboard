@@ -14,10 +14,13 @@ interface TourStep {
   path?: string 
 }
 
+// kahane-dashboard-concierge_unite 10/components/tour-guide.tsx (Ausschnitt der ALL_TOUR_STEPS)
+
 const ALL_TOUR_STEPS: TourStep[] = [
   { target: "page", messageKey: "t1_welcome", path: "/" },
   { target: "quick-actions", messageKey: "t3_message", path: "/" },
-  { target: "page", messageKey: "t5_message", path: "/simulation" },
+  // ÄNDERUNG: target von "page" auf "simulation-page" gesetzt
+  { target: "simulation-page", messageKey: "t5_message", path: "/simulation" }, 
   { target: "sliders", messageKey: "t6_message", path: "/simulation" },
   { target: "chart-container", messageKey: "t7_message", path: "/simulation" },
   { target: "summary", messageKey: "t8_message", path: "/simulation" },

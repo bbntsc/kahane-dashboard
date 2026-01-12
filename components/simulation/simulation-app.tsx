@@ -1,3 +1,5 @@
+// kahane-dashboard-concierge_unite 10/components/simulation/simulation-app.tsx
+
 "use client"
 
 import * as React from "react" 
@@ -33,9 +35,10 @@ function SimulationApp() {
   return (
     <SimulationContext.Provider value={contextValue}>
         
-        <main className="mx-auto max-w-7xl px-4 py-8"> {/* Padding angepasst an Market App */}
+        {/* HIER: data-tour="simulation-page" hinzugefügt, um die gesamte Seite einzuschließen */}
+        <main className="mx-auto max-w-7xl px-4 py-8" data-tour="simulation-page">
             
-            {/* NEUER HEADER MIT BUTTON */}
+            {/* HEADER MIT BUTTON - Jetzt im Highlight enthalten */}
             <div className="mb-8 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-serif font-bold text-[#1b251d] dark:text-[#f8f3ef]">{t.simulation.title}</h1>
